@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import BusSearchAutocomplete from '@/components/BusSearchAutocomplete';
 
-type TabType = 'flights' | 'hotels' | 'bus' | 'holidays' | 'umrah' | 'visa' | 'insurance' | 'medical';
+type TabType = 'flights' | 'hotels' | 'train' | 'bus' | 'holidays' | 'umrah' | 'visa' | 'insurance' | 'medical';
 
 const AIRPORT_INFO: Record<string, { city: string; desc: string }> = {
   BOM: { city: 'Mumbai', desc: 'BOM, Chhatrapati Shivaji International' },
@@ -42,6 +42,19 @@ const AIRPORT_INFO: Record<string, { city: string; desc: string }> = {
   PNQ: { city: 'Pune', desc: 'PNQ, Pune International Airport' },
   GOI: { city: 'Goa', desc: 'GOI, Dabolim International Airport' },
   BLR: { city: 'Bengaluru', desc: 'BLR, Kempegowda International' },
+};
+
+const TRAIN_STATION_INFO: Record<string, { name: string; desc: string }> = {
+  CSMT: { name: 'Mumbai CSMT', desc: 'Chhatrapati Shivaji Maharaj Terminus' },
+  NDLS: { name: 'New Delhi (NDLS)', desc: 'New Delhi Railway Station' },
+  PUNE: { name: 'Pune Jn (PUNE)', desc: 'Pune Junction' },
+  HWH: { name: 'Kolkata Howrah', desc: 'Howrah Railway Station' },
+  SBC: { name: 'Bengaluru (SBC)', desc: 'KSR Bengaluru Station' },
+  MAS: { name: 'Chennai Central', desc: 'Puratchi Thalaivar Dr. MGR Central' },
+  ADI: { name: 'Ahmedabad Jn', desc: 'Ahmedabad Junction' },
+  MAO: { name: 'Goa Madgaon', desc: 'Madgaon Junction' },
+  BSB: { name: 'Varanasi Jn', desc: 'Varanasi Junction' },
+  JP: { name: 'Jaipur Jn', desc: 'Jaipur Junction' },
 };
 
 export default function HeroSearch() {
@@ -64,6 +77,13 @@ export default function HeroSearch() {
   const [studentFare, setStudentFare] = useState(false);
   const [seniorFare, setSeniorFare] = useState(false);
 
+  // Train search states (IRCTC Integration)
+  const [trainOrigin, setTrainOrigin] = useState('CSMT');
+  const [trainDestination, setTrainDestination] = useState('NDLS');
+  const [trainDate, setTrainDate] = useState('2026-09-15');
+  const [trainClass, setTrainClass] = useState('ALL');
+  const [trainQuota, setTrainQuota] = useState('GN');
+
   // Hotel search states
   const [hotelCity, setHotelCity] = useState('Dubai');
   const [hotelCheckIn, setHotelCheckIn] = useState('2026-09-15');
@@ -81,9 +101,20 @@ export default function HeroSearch() {
     setDestination(temp);
   };
 
+  const handleTrainSwap = () => {
+    const temp = trainOrigin;
+    setTrainOrigin(trainDestination);
+    setTrainDestination(temp);
+  };
+
   const handleFlightSearch = (e: React.FormEvent) => {
     e.preventDefault();
     router.push(`/flights?origin=${origin}&destination=${destination}&cabin=${cabinClass}&passengers=${passengers}&tripType=${tripType}`);
+  };
+
+  const handleTrainSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push(`/utilities?type=trains&from=${trainOrigin}&to=${trainDestination}&date=${trainDate}&class=${trainClass}&quota=${trainQuota}`);
   };
 
   const handleHotelSearch = (e: React.FormEvent) => {
@@ -99,6 +130,7 @@ export default function HeroSearch() {
   const tabs = [
     { id: 'flights', label: 'Flights', icon: Plane },
     { id: 'hotels', label: 'Hotel', icon: Building2, badge: 'Flat 25% Off', badgeColor: 'bg-[#eb2026] text-white' },
+    { id: 'train', label: 'Trains', icon: Train, badge: 'IRCTC', badgeColor: 'bg-emerald-600 text-white' },
     { id: 'visa', label: 'Visa', icon: FileCheck2 },
     { id: 'holidays', label: 'Holidays', icon: Palmtree },
     { id: 'bus', label: 'Bus', icon: Bus, badge: 'New', badgeColor: 'bg-purple-600 text-white' },
@@ -133,27 +165,79 @@ export default function HeroSearch() {
           backgroundImage: "linear-gradient(to bottom, rgba(10, 35, 70, 0.42), rgba(7, 20, 38, 0.65)), url('/travel_mountain_hero.jpg')"
         }}
       >
-        <div className="max-w-6xl mx-auto relative z-10 space-y-4">
+        <div className="max-w-7xl mx-auto relative z-10 space-y-4">
           
           {/* Top Title Strip inside Hero */}
           <div className="flex items-center justify-between text-white pb-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase font-black tracking-widest text-sky-300 bg-sky-950/60 px-3 py-1 rounded-full border border-sky-400/30">
+              <span className="text-xs uppercase font-black tracking-widest text-sky-300 bg-sky-950/60 px-3.5 py-1 rounded-full border border-sky-400/30">
                 Official Travel Partner
               </span>
             </div>
 
             <h2 className="text-lg sm:text-xl font-black text-white flex items-center gap-2 drop-shadow-md">
-              <Plane className="w-5 h-5 text-sky-400 rotate-45" />
-              <span>Book Flight Tickets</span>
+              {activeTab === 'flights' && (
+                <>
+                  <Plane className="w-5 h-5 text-sky-400 rotate-45" />
+                  <span>Book Flight Tickets</span>
+                </>
+              )}
+              {activeTab === 'hotels' && (
+                <>
+                  <Building2 className="w-5 h-5 text-amber-400" />
+                  <span>Book Hotels &amp; Luxury Stays</span>
+                </>
+              )}
+              {activeTab === 'train' && (
+                <>
+                  <Train className="w-5 h-5 text-emerald-400" />
+                  <span>Book IRCTC Train Tickets</span>
+                </>
+              )}
+              {activeTab === 'bus' && (
+                <>
+                  <Bus className="w-5 h-5 text-purple-400" />
+                  <span>Book Intercity Bus Tickets</span>
+                </>
+              )}
+              {activeTab === 'visa' && (
+                <>
+                  <FileCheck2 className="w-5 h-5 text-cyan-400" />
+                  <span>Apply Global e-Visa</span>
+                </>
+              )}
+              {activeTab === 'holidays' && (
+                <>
+                  <Palmtree className="w-5 h-5 text-emerald-400" />
+                  <span>Explore Holiday Tours</span>
+                </>
+              )}
+              {activeTab === 'umrah' && (
+                <>
+                  <Sparkles className="w-5 h-5 text-amber-400" />
+                  <span>VIP Umrah Packages</span>
+                </>
+              )}
+              {activeTab === 'insurance' && (
+                <>
+                  <ShieldCheck className="w-5 h-5 text-sky-400" />
+                  <span>International Travel Insurance</span>
+                </>
+              )}
+              {activeTab === 'medical' && (
+                <>
+                  <HeartPulse className="w-5 h-5 text-rose-400" />
+                  <span>Medical Tourism Concierge</span>
+                </>
+              )}
             </h2>
           </div>
 
-          {/* MAIN WHITE SEARCH CARD (Akbar Travels Signature Search Box) */}
-          <div className="bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200/90 p-5 sm:p-6 lg:p-7 relative">
+          {/* MAIN WHITE SEARCH CARD (Akbar Travels Signature Search Box - Taking Full Place) */}
+          <div className="bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200/90 p-5 sm:p-7 relative">
             
-            {/* Top Row: Navigation Category Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-4 border-b border-slate-100 no-scrollbar">
+            {/* Top Row: Navigation Category Tabs (with generous top padding so floating badges never get cut off) */}
+            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pt-4 pb-3 mb-5 border-b border-slate-100 no-scrollbar">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -161,18 +245,18 @@ export default function HeroSearch() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as TabType)}
-                    className={`relative flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-180 cursor-pointer ${
+                    className={`relative flex items-center gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl text-sm sm:text-[15px] font-extrabold whitespace-nowrap transition-all duration-180 cursor-pointer ${
                       isActive
-                        ? 'text-sky-600 bg-sky-50/80 border-b-2 border-sky-600'
+                        ? 'text-[#0284c7] bg-sky-50/90 border-b-2 border-[#0284c7] shadow-2xs'
                         : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
                     }`}
                   >
                     {tab.badge && (
-                      <span className={`absolute -top-2 right-1 text-[9px] font-black px-1.5 py-0.2 rounded-full shadow-2xs ${tab.badgeColor}`}>
+                      <span className={`absolute -top-3 right-1 text-[9.5px] font-black px-2 py-0.5 rounded-full shadow-xs pointer-events-none z-10 leading-none whitespace-nowrap ${tab.badgeColor}`}>
                         {tab.badge}
                       </span>
                     )}
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-sky-600' : 'text-slate-400'}`} />
+                    <Icon className={`w-4.5 h-4.5 ${isActive ? 'text-[#0284c7] stroke-[2.4]' : 'text-slate-400 stroke-[2]'}`} />
                     <span>{tab.label}</span>
                   </button>
                 );
@@ -488,6 +572,150 @@ export default function HeroSearch() {
               </form>
             )}
 
+            {/* TRAINS TAB (IRCTC Booking) */}
+            {activeTab === 'train' && (
+              <form onSubmit={handleTrainSearch} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-2 lg:gap-0 lg:divide-x lg:divide-slate-200 border border-slate-200 rounded-xl overflow-hidden bg-white shadow-xs">
+                  
+                  {/* FROM STATION */}
+                  <div className="md:col-span-3 p-3.5 sm:p-4 hover:bg-slate-50 transition relative group cursor-pointer">
+                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                      FROM STATION ▾
+                    </span>
+                    <select
+                      value={trainOrigin}
+                      onChange={(e) => setTrainOrigin(e.target.value)}
+                      className="w-full bg-transparent text-xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                    >
+                      <option value="CSMT">Mumbai CSMT</option>
+                      <option value="NDLS">New Delhi (NDLS)</option>
+                      <option value="PUNE">Pune Jn (PUNE)</option>
+                      <option value="HWH">Kolkata Howrah (HWH)</option>
+                      <option value="SBC">Bengaluru City (SBC)</option>
+                      <option value="MAS">Chennai Central (MAS)</option>
+                      <option value="ADI">Ahmedabad Jn (ADI)</option>
+                      <option value="BSB">Varanasi Jn (BSB)</option>
+                      <option value="JP">Jaipur Jn (JP)</option>
+                    </select>
+                    <span className="text-[11px] text-slate-500 truncate block font-medium mt-0.5">
+                      {TRAIN_STATION_INFO[trainOrigin]?.desc || 'Indian Railways Station'}
+                    </span>
+
+                    {/* Swap Button */}
+                    <button
+                      type="button"
+                      onClick={handleTrainSwap}
+                      className="hidden lg:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-full shadow-md items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+                      title="Swap Stations"
+                    >
+                      <ArrowRightLeft className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* TO STATION */}
+                  <div className="md:col-span-3 p-3.5 sm:p-4 hover:bg-slate-50 transition cursor-pointer">
+                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                      TO STATION ▾
+                    </span>
+                    <select
+                      value={trainDestination}
+                      onChange={(e) => setTrainDestination(e.target.value)}
+                      className="w-full bg-transparent text-xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                    >
+                      <option value="NDLS">New Delhi (NDLS)</option>
+                      <option value="CSMT">Mumbai CSMT</option>
+                      <option value="MAO">Goa Madgaon (MAO)</option>
+                      <option value="BSB">Varanasi Jn (BSB)</option>
+                      <option value="JP">Jaipur Jn (JP)</option>
+                      <option value="PUNE">Pune Jn (PUNE)</option>
+                      <option value="HWH">Kolkata Howrah (HWH)</option>
+                      <option value="SBC">Bengaluru City (SBC)</option>
+                    </select>
+                    <span className="text-[11px] text-slate-500 truncate block font-medium mt-0.5">
+                      {TRAIN_STATION_INFO[trainDestination]?.desc || 'Indian Railways Station'}
+                    </span>
+                  </div>
+
+                  {/* JOURNEY DATE */}
+                  <div className="md:col-span-2 p-3.5 sm:p-4 hover:bg-slate-50 transition cursor-pointer relative">
+                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                      JOURNEY DATE ▾
+                    </span>
+                    <div className="flex items-baseline gap-1 mt-0.5">
+                      <span className="text-2xl font-black text-slate-900">{formatDateDisplay(trainDate).day}</span>
+                      <span className="text-sm font-bold text-slate-800">{formatDateDisplay(trainDate).monthYear}</span>
+                    </div>
+                    <span className="text-[11px] text-slate-500 font-medium block mt-0.5">{formatDateDisplay(trainDate).weekday}</span>
+                    <input
+                      type="date"
+                      value={trainDate}
+                      onChange={(e) => setTrainDate(e.target.value)}
+                      className="opacity-0 absolute inset-0 cursor-pointer w-full"
+                    />
+                  </div>
+
+                  {/* CLASS */}
+                  <div className="md:col-span-2 p-3.5 sm:p-4 hover:bg-slate-50 transition cursor-pointer">
+                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                      CLASS ▾
+                    </span>
+                    <select
+                      value={trainClass}
+                      onChange={(e) => setTrainClass(e.target.value)}
+                      className="w-full bg-transparent text-lg font-black text-slate-900 outline-none cursor-pointer"
+                    >
+                      <option value="ALL">All Classes</option>
+                      <option value="1A">AC First (1A)</option>
+                      <option value="2A">AC 2 Tier (2A)</option>
+                      <option value="3A">AC 3 Tier (3A)</option>
+                      <option value="3E">AC 3 Economy</option>
+                      <option value="SL">Sleeper (SL)</option>
+                      <option value="CC">Chair Car (CC)</option>
+                    </select>
+                    <span className="text-[11px] text-slate-500 font-medium block mt-0.5">Free Cancellation</span>
+                  </div>
+
+                  {/* QUOTA */}
+                  <div className="md:col-span-2 p-3.5 sm:p-4 hover:bg-slate-50 transition cursor-pointer">
+                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                      QUOTA ▾
+                    </span>
+                    <select
+                      value={trainQuota}
+                      onChange={(e) => setTrainQuota(e.target.value)}
+                      className="w-full bg-transparent text-lg font-black text-slate-900 outline-none cursor-pointer"
+                    >
+                      <option value="GN">General</option>
+                      <option value="TQ">Tatkal</option>
+                      <option value="LD">Ladies</option>
+                      <option value="SS">Senior Citizen</option>
+                    </select>
+                    <span className="text-[11px] text-emerald-600 font-bold block mt-0.5">IRCTC Authorized</span>
+                  </div>
+
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
+                    <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                      ✓ ₹0 Gateway Fee on UPI
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-sky-700 bg-sky-50 px-2.5 py-1 rounded-md border border-sky-200">
+                      ✓ Instant IRCTC Confirmation
+                    </span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="bg-[#eb2026] hover:bg-[#d0181d] text-white font-black text-base px-10 py-3.5 rounded-xl shadow-lg shadow-red-600/30 transition transform hover:-translate-y-0.5 active:scale-98 cursor-pointer flex items-center justify-center gap-2 uppercase tracking-wide"
+                  >
+                    <span>SEARCH TRAINS</span>
+                    <Search className="w-4 h-4 stroke-[3]" />
+                  </button>
+                </div>
+              </form>
+            )}
+
             {/* BUSES TAB */}
             {activeTab === 'bus' && (
               <form onSubmit={handleBusSearch} className="space-y-4">
@@ -541,7 +769,7 @@ export default function HeroSearch() {
       </div>
 
       {/* 2. FLOATING SERVICES RIBBON BAR (Akbar Travels Signature Ribbon) */}
-      <div className="max-w-6xl mx-auto px-4 -mt-7 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 -mt-7 relative z-20">
         <div className="bg-white rounded-full shadow-[0_10px_35px_rgba(15,23,42,0.12)] border border-slate-200/90 py-3 px-6 sm:px-8 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           {[
             { label: 'Academy', icon: GraduationCap, href: '/utilities' },

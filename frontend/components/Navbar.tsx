@@ -25,7 +25,8 @@ import {
   CheckCircle2,
   Tag,
   Ship,
-  Car
+  Car,
+  Train
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
@@ -66,6 +67,7 @@ export default function Navbar() {
   const navLinks = [
     { label: 'Flights', href: '/flights', icon: Plane },
     { label: 'Hotel', href: '/hotels', icon: Building2, badge: 'Flat 25% Off', badgeColor: 'bg-[#eb2026] text-white' },
+    { label: 'Trains', href: '/utilities?type=trains', icon: Train, badge: 'IRCTC', badgeColor: 'bg-emerald-600 text-white' },
     { label: 'Visa', href: '/visa', icon: FileCheck2 },
     { label: 'Holidays', href: '/holidays', icon: Palmtree },
     { label: 'Bus', href: '/bus', icon: Bus, badge: 'New', badgeColor: 'bg-purple-600 text-white' },
@@ -154,47 +156,47 @@ export default function Navbar() {
           transition-all duration-300
         `}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className={`flex items-center justify-between ${scrolled ? 'h-16' : 'h-19'} transition-all duration-300`}>
+            <div className={`flex items-center justify-between ${scrolled ? 'h-18' : 'h-22'} transition-all duration-300`}>
              
-              {/* Brand Logo */}
-              <Link href="/" className="flex items-center gap-2.5 group">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 via-sky-500 to-cyan-400 flex items-center justify-center text-white shadow-sm shadow-cyan-500/25 group-hover:scale-105 transition-transform duration-200">
-                  <Compass className="w-5 h-5" />
+              {/* Brand Logo (Bigger, Prestigious) */}
+              <Link href="/" className="flex items-center gap-3 group shrink-0 mr-2">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-sky-600 via-sky-500 to-cyan-400 flex items-center justify-center text-white shadow-md shadow-sky-500/25 group-hover:scale-105 transition-transform duration-200">
+                  <Compass className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl font-black tracking-tight text-[#071426] leading-none">
+                  <span className="text-2xl sm:text-[27px] font-black tracking-tight text-[#071426] leading-none">
                     ORBINEX<span className="text-[#0284c7]">GLOBAL</span>
                   </span>
-                  <span className="text-[9.5px] font-semibold tracking-wider text-slate-400 uppercase mt-0.5">
+                  <span className="text-[10px] sm:text-[11px] font-extrabold tracking-widest text-slate-500 uppercase mt-1">
                     Luxury Travel &amp; Concierge
                   </span>
                 </div>
               </Link>
 
-              {/* Desktop Navigation Links */}
-              <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5">
-                {navLinks.slice(0, 8).map((link) => {
+              {/* Desktop Navigation Links (Bigger, Clear, with Trains) */}
+              <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+                {navLinks.slice(0, 6).map((link) => {
                   const Icon = link.icon;
                   const isActive = pathname === link.href;
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-all duration-180 ${
+                      className={`relative flex items-center gap-1.5 px-3 xl:px-3.5 py-2 rounded-xl text-[14.5px] xl:text-[15.5px] font-extrabold transition-all duration-180 ${
                         isActive
-                          ? 'text-[#0284c7] font-semibold bg-sky-50'
-                          : 'text-slate-600 hover:text-[#0284c7] hover:bg-slate-50/80'
+                          ? 'text-[#0284c7] font-black bg-sky-50'
+                          : 'text-slate-700 hover:text-[#0284c7] hover:bg-slate-50'
                       }`}
                     >
                       {link.badge && (
-                        <span className={`absolute -top-2.5 right-1 text-[9px] font-black px-1.5 py-0.2 rounded-full shadow-2xs ${link.badgeColor || 'bg-red-500 text-white'}`}>
+                        <span className={`absolute -top-2.5 right-0.5 text-[9.5px] font-black px-1.5 py-0.2 rounded-full shadow-2xs whitespace-nowrap ${link.badgeColor || 'bg-red-500 text-white'}`}>
                           {link.badge}
                         </span>
                       )}
-                      <Icon className={`w-3.5 h-3.5 transition-colors ${isActive ? 'text-[#0284c7]' : 'text-slate-400'}`} />
+                      <Icon className={`w-4 h-4 xl:w-4.5 xl:h-4.5 transition-colors ${isActive ? 'text-[#0284c7] stroke-[2.5]' : 'text-slate-500 stroke-[2]'}`} />
                       <span>{link.label}</span>
                       {isActive && (
-                        <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#0284c7] rounded-full" />
+                        <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#0284c7] rounded-full" />
                       )}
                     </Link>
                   );
@@ -202,19 +204,19 @@ export default function Navbar() {
 
                 {/* More Dropdown */}
                 <div className="relative group">
-                  <button className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-[13px] font-medium text-slate-600 hover:text-[#0284c7] hover:bg-slate-50/80 transition cursor-pointer">
+                  <button className="flex items-center gap-1 px-3 py-2 rounded-xl text-[14.5px] xl:text-[15.5px] font-extrabold text-slate-700 hover:text-[#0284c7] hover:bg-slate-50 transition cursor-pointer">
                     <span>More</span>
-                    <ChevronDown className="w-3 h-3 text-slate-400 group-hover:text-[#0284c7] transition" />
+                    <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-[#0284c7] transition" />
                   </button>
                   <div className="absolute right-0 top-full pt-1.5 hidden group-hover:block z-50">
-                    <div className="w-52 bg-white border border-slate-200/90 rounded-2xl shadow-xl py-2 overflow-hidden animate-fade-in-up-sm">
-                      {navLinks.slice(8).map((link) => {
+                    <div className="w-56 bg-white border border-slate-200/90 rounded-2xl shadow-xl py-2 overflow-hidden animate-fade-in-up-sm">
+                      {navLinks.slice(6).map((link) => {
                         const Icon = link.icon;
                         return (
                           <Link
                             key={link.href}
                             href={link.href}
-                            className="flex items-center gap-2.5 px-4 py-2 text-[13px] font-medium text-slate-700 hover:bg-sky-50/60 hover:text-[#0284c7] transition"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-sky-50/60 hover:text-[#0284c7] transition"
                           >
                             <Icon className="w-4 h-4 text-cyan-500" />
                             {link.label}
