@@ -42,7 +42,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [couponMessage, setCouponMessage] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [currency, setCurrency] = useState<CurrencyCode>('USD');
+  const [currency, setCurrency] = useState<CurrencyCode>('INR');
 
   // Load cart from localStorage
   useEffect(() => {

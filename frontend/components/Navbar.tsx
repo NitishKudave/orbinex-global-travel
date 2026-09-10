@@ -23,7 +23,9 @@ import {
   PhoneCall,
   Search,
   CheckCircle2,
-  Tag
+  Tag,
+  Ship,
+  Car
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
@@ -33,11 +35,11 @@ import VisaTrackerModal from './VisaTrackerModal';
 import ApiSettingsModal from './ApiSettingsModal';
 
 const CURRENCIES: { code: CurrencyCode; label: string; flag: string }[] = [
+  { code: 'INR', label: 'IND | INR', flag: '🇮🇳' },
   { code: 'USD', label: 'USD ($)', flag: '🇺🇸' },
   { code: 'EUR', label: 'EUR (€)', flag: '🇪🇺' },
   { code: 'GBP', label: 'GBP (£)', flag: '🇬🇧' },
   { code: 'AED', label: 'AED (د.إ)', flag: '🇦🇪' },
-  { code: 'INR', label: 'INR (₹)', flag: '🇮🇳' },
   { code: 'SAR', label: 'SAR (﷼)', flag: '🇸🇦' },
 ];
 
@@ -63,11 +65,13 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Flights', href: '/flights', icon: Plane },
-    { label: 'Hotels', href: '/hotels', icon: Building2 },
-    { label: 'Buses', href: '/bus', icon: Bus },
-    { label: 'Holidays', href: '/holidays', icon: Palmtree },
-    { label: 'Umrah', href: '/umrah', icon: Sparkles },
+    { label: 'Hotel', href: '/hotels', icon: Building2, badge: 'Flat 25% Off', badgeColor: 'bg-[#eb2026] text-white' },
     { label: 'Visa', href: '/visa', icon: FileCheck2 },
+    { label: 'Holidays', href: '/holidays', icon: Palmtree },
+    { label: 'Bus', href: '/bus', icon: Bus, badge: 'New', badgeColor: 'bg-purple-600 text-white' },
+    { label: 'Cruise', href: '/holidays', icon: Ship },
+    { label: 'Cabs', href: '/utilities', icon: Car },
+    { label: 'Umrah', href: '/umrah', icon: Sparkles },
     { label: 'Insurance', href: '/insurance', icon: ShieldCheck },
     { label: 'Medical', href: '/medical-tourism', icon: HeartPulse },
     { label: 'Europamundo', href: '/europamundo', icon: Compass },
@@ -182,6 +186,11 @@ export default function Navbar() {
                           : 'text-slate-600 hover:text-[#0284c7] hover:bg-slate-50/80'
                       }`}
                     >
+                      {link.badge && (
+                        <span className={`absolute -top-2.5 right-1 text-[9px] font-black px-1.5 py-0.2 rounded-full shadow-2xs ${link.badgeColor || 'bg-red-500 text-white'}`}>
+                          {link.badge}
+                        </span>
+                      )}
                       <Icon className={`w-3.5 h-3.5 transition-colors ${isActive ? 'text-[#0284c7]' : 'text-slate-400'}`} />
                       <span>{link.label}</span>
                       {isActive && (
@@ -245,6 +254,38 @@ export default function Navbar() {
                   )}
                 </button>
 
+                {/* Currency Selector (Akbar Travels Style: IND | INR) */}
+                <div className="relative hidden md:block">
+                  <button
+                    onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
+                    className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-800 px-3 py-2 rounded-lg text-xs font-bold transition border border-slate-200 cursor-pointer"
+                  >
+                    <span>{CURRENCIES.find((c) => c.code === currency)?.flag}</span>
+                    <span>{CURRENCIES.find((c) => c.code === currency)?.label || currency}</span>
+                    <ChevronDown className="w-3 h-3 text-slate-400" />
+                  </button>
+
+                  {isCurrencyOpen && (
+                    <div className="absolute right-0 mt-1 w-38 bg-white border border-slate-200 rounded-xl shadow-2xl py-1 z-50 overflow-hidden">
+                      {CURRENCIES.map((c) => (
+                        <button
+                          key={c.code}
+                          onClick={() => {
+                            setCurrency(c.code);
+                            setIsCurrencyOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-sky-50 transition cursor-pointer ${
+                            currency === c.code ? 'text-[#0284c7] font-bold bg-sky-50/60' : 'text-slate-700'
+                          }`}
+                        >
+                          <span className="flex items-center gap-1.5">{c.flag} {c.label}</span>
+                          {currency === c.code && <CheckCircle2 className="w-3 h-3 text-[#0284c7]" />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
                 {/* User / Auth Menu */}
                 {isAuthenticated && user ? (
                   <div className="relative">
@@ -301,10 +342,10 @@ export default function Navbar() {
                 ) : (
                   <button
                     onClick={() => setIsAuthOpen(true)}
-                    className="flex items-center gap-1.5 bg-[#0284c7] hover:bg-[#0369a1] text-white px-4 py-2 rounded-xl text-[13px] font-semibold shadow-sm shadow-sky-600/25 transition transform hover:-translate-y-0.5 active:scale-98 cursor-pointer"
+                    className="flex items-center gap-1.5 bg-[#eb2026] hover:bg-[#d0181d] text-white px-3.5 sm:px-4 py-2 rounded-lg text-xs font-bold uppercase shadow-sm shadow-red-600/20 transition transform hover:-translate-y-0.5 active:scale-98 cursor-pointer"
                   >
-                    <User className="w-4 h-4" />
-                    <span>Sign In</span>
+                    <User className="w-3.5 h-3.5" />
+                    <span>LOGIN / REGISTER</span>
                   </button>
                 )}
 

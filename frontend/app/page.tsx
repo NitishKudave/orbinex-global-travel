@@ -22,7 +22,9 @@ import {
   Tag,
   ShieldAlert,
   Percent,
-  Flame
+  Flame,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import HeroSearch from '@/components/HeroSearch';
 import AllServicesGrid from '@/components/AllServicesGrid';
@@ -32,6 +34,7 @@ import { useCart } from '@/context/CartContext';
 export default function HomePage() {
   const { formatPrice, addItem } = useCart();
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [dealTab, setDealTab] = useState<'HOT DEALS' | 'FLIGHT' | 'HOTEL' | 'HOLIDAYS' | 'VISA'>('FLIGHT');
 
   const copyCoupon = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -118,83 +121,250 @@ export default function HomePage() {
       {/* 1. Hero Dynamic Search Widget */}
       <HeroSearch />
 
-      {/* 2. All Services Signature 12-Icon Grid */}
-      <FadeInUp delay={0.1}>
-        <AllServicesGrid />
-      </FadeInUp>
-
-      {/* 3. Live Promotional Coupons & Bank Deals Strip */}
-      <AnimatedSection className="py-14 bg-[#071426] text-white relative overflow-hidden border-y border-[#162a45]" delay={0.15} staggerChildren={0.07}>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/8 rounded-full blur-3xl pointer-events-none animate-float" aria-hidden="true" />
-        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-sky-500/5 rounded-full blur-[100px] pointer-events-none" aria-hidden="true" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
-                <Flame className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-xl font-extrabold text-white tracking-tight">Exclusive Travel Offers &amp; Promotions</h3>
-                <p className="text-xs text-slate-300 mt-0.5">Apply coupon code at checkout for instant cash discounts on flights, hotels &amp; tours</p>
+      {/* 2. Exclusive Deals Section (Akbar Travels Signature Style) */}
+      <section className="pt-12 pb-8 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
+              <h2 className="text-2xl sm:text-[26px] font-black text-slate-900 tracking-tight">
+                Exclusive Deals
+              </h2>
+              {/* Category Filter Tabs */}
+              <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar">
+                {(['HOT DEALS', 'FLIGHT', 'HOTEL', 'HOLIDAYS', 'VISA'] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setDealTab(tab)}
+                    className={`text-xs sm:text-[13px] font-extrabold uppercase tracking-wider px-2 py-1.5 transition-all cursor-pointer relative ${
+                      dealTab === tab
+                        ? 'text-[#0284c7]'
+                        : 'text-slate-600 hover:text-slate-950'
+                    }`}
+                  >
+                    <span>{tab}</span>
+                    {dealTab === tab && (
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0284c7] rounded-full" />
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
+
+            {/* Carousel Arrows + View All */}
+            <div className="flex items-center gap-3 self-end sm:self-center">
+              <div className="flex items-center gap-1.5">
+                <button
+                  className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                  aria-label="Previous Deal"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  className="w-7 h-7 rounded-full bg-[#0284c7] hover:bg-sky-700 text-white flex items-center justify-center transition cursor-pointer"
+                  aria-label="Next Deal"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+              <Link
+                href="/offers"
+                className="text-xs sm:text-sm font-bold text-[#0284c7] hover:underline"
+              >
+                View All
+              </Link>
+            </div>
+          </div>
+
+          {/* 4 Wide Deal Cards Side-by-Side (Akbar Travels Exact Match) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {[
+              {
+                id: 'deal-1',
+                image: '/deals/deal_macbook.jpg',
+                title: 'BOOK & WIN MacBook Neo',
+                code: 'WINMAC',
+                href: '/flights',
+              },
+              {
+                id: 'deal-2',
+                image: '/deals/deal_british_airways.jpg',
+                title: 'Exclusive Discount on British Airways',
+                code: 'FLYBA',
+                href: '/flights?destination=LHR',
+              },
+              {
+                id: 'deal-3',
+                image: '/deals/deal_business_class.jpg',
+                title: 'Special Discount on Business Class Flights - Up to ₹10,000 OFF',
+                code: 'ATFLY',
+                href: '/flights?cabin=business',
+              },
+              {
+                id: 'deal-4',
+                image: '/deals/deal_payday.jpg',
+                title: "Jazeera Airways It's PAYDAY - Up To 30% OFF",
+                code: 'PAYDAY',
+                href: '/flights?destination=DXB',
+              },
+            ].map((deal) => (
+              <Link
+                key={deal.id}
+                href={deal.href}
+                className="group block relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-200/90 transition-all duration-300 hover:-translate-y-1 cursor-pointer bg-slate-900"
+              >
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <img
+                    src={deal.image}
+                    alt={deal.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Trending Routes With Cheap Fares (Akbar Travels Signature Route Cards) */}
+      <section className="py-10 bg-slate-50/70 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-6 gap-3">
+            <div>
+              <h2 className="text-2xl sm:text-[26px] font-black text-slate-900 tracking-tight">
+                Trending Routes With Cheap Fares
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                Book flight tickets at guaranteed best prices on popular domestic and international routes
+              </p>
+            </div>
             <Link
-              href="/offers"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition shrink-0"
+              href="/flights"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#0284c7] hover:underline"
             >
-              <span>View All Offers</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>View All Routes</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {sampleDeals.map((deal) => (
-              <motion.div
-                key={deal.code}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.2 }}
-                className="group"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {[
+              {
+                from: 'Mumbai',
+                fromCode: 'BOM',
+                to: 'New Delhi',
+                toCode: 'DEL',
+                price: '₹4,990',
+                airline: 'Air India / IndiGo',
+                duration: '2h 10m',
+                type: 'Direct'
+              },
+              {
+                from: 'Mumbai',
+                fromCode: 'BOM',
+                to: 'Dubai',
+                toCode: 'DXB',
+                price: '₹8,499',
+                airline: 'Emirates / flydubai',
+                duration: '3h 30m',
+                type: 'Direct'
+              },
+              {
+                from: 'New Delhi',
+                fromCode: 'DEL',
+                to: 'London',
+                toCode: 'LHR',
+                price: '₹24,999',
+                airline: 'British Airways / Virgin',
+                duration: '9h 15m',
+                type: 'Direct'
+              },
+              {
+                from: 'Bengaluru',
+                fromCode: 'BLR',
+                to: 'Singapore',
+                toCode: 'SIN',
+                price: '₹11,200',
+                airline: 'Singapore Airlines',
+                duration: '4h 35m',
+                type: 'Direct'
+              },
+              {
+                from: 'Mumbai',
+                fromCode: 'BOM',
+                to: 'Goa',
+                toCode: 'GOI',
+                price: '₹2,899',
+                airline: 'IndiGo / Akasa Air',
+                duration: '1h 15m',
+                type: 'Direct'
+              },
+              {
+                from: 'Dubai',
+                fromCode: 'DXB',
+                to: 'Jeddah',
+                toCode: 'JED',
+                price: '₹6,499',
+                airline: 'Saudia / flynas',
+                duration: '2h 55m',
+                type: 'Direct'
+              },
+            ].map((route, idx) => (
+              <Link
+                key={idx}
+                href={`/flights?origin=${route.fromCode}&destination=${route.toCode}&tripType=oneway`}
+                className="group bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-[#0284c7] hover:shadow-lg transition-all duration-200 flex flex-col justify-between hover:-translate-y-1"
               >
-                <div className="h-full bg-[#0b1d35] border border-[#1e3a5f] hover:border-cyan-400/50 rounded-2xl p-5 flex flex-col justify-between shadow-[0_4px_16px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_30px_rgba(2,132,199,0.15)] transition-all duration-200">
-                  <div>
-                    <span className="inline-block text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-400/25">
-                      {deal.badge}
-                    </span>
-                    <h4 className="text-lg font-extrabold text-white mt-2.5 tracking-tight">{deal.title}</h4>
-                    <p className="text-xs text-slate-300 mt-1 line-clamp-2 leading-relaxed">{deal.subtitle}</p>
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-sky-50 text-[#0284c7] flex items-center justify-center font-black text-xs">
+                      <Plane className="w-4 h-4 rotate-45" />
+                    </div>
+                    <span className="text-xs font-bold text-slate-600">{route.airline}</span>
                   </div>
+                  <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                    {route.type} • {route.duration}
+                  </span>
+                </div>
 
-                  <div className="mt-5 pt-3.5 border-t border-[#1e3a5f]/80 flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold text-amber-300 tracking-wider bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                      {deal.code}
-                    </span>
-                    <button
-                      onClick={() => copyCoupon(deal.code)}
-                      className="inline-flex items-center gap-1.5 bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-400/30 text-xs font-semibold px-3 py-1.5 rounded-lg transition cursor-pointer active:scale-95"
-                      title="Copy Coupon Code"
-                    >
-                      {copiedCode === deal.code ? (
-                        <>
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                          <span className="text-emerald-300 font-bold">Copied!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
+                <div className="py-4 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-slate-400 block">{route.fromCode}</span>
+                    <span className="text-base font-black text-slate-900">{route.from}</span>
+                  </div>
+                  <div className="flex flex-col items-center px-2">
+                    <span className="text-[10px] text-slate-400 font-semibold">To</span>
+                    <div className="w-12 h-0.5 bg-slate-200 relative my-1">
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#0284c7] rounded-full"></div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-bold text-slate-400 block">{route.toCode}</span>
+                    <span className="text-base font-black text-slate-900">{route.to}</span>
                   </div>
                 </div>
-              </motion.div>
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] text-slate-400 font-semibold block uppercase">Starts from</span>
+                    <span className="text-lg font-black text-[#eb2026]">{route.price}</span>
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-[#0284c7] group-hover:translate-x-0.5 transition">
+                    <span>Book Now</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
-
         </div>
-      </AnimatedSection>
+      </section>
+
+      {/* 4. All Services Signature Grid */}
+      <FadeInUp delay={0.1}>
+        <AllServicesGrid />
+      </FadeInUp>
 
       {/* 4. Trending Holiday Packages & Luxury Stays */}
       <AnimatedSection className="py-14 bg-white" delay={0.2} staggerChildren={0.12}>
