@@ -1,0 +1,4398 @@
+openapi: 3.0.3
+info:
+  title: OrbinexGlobal Travel API
+  version: 1.0.0
+  description: Enterprise travel booking API covering Flights, Hotels, Buses, Visa,
+    Insurance, Holidays, Umrah, Medical Tourism, Europamundo, Utilities, Unified Checkout
+    & Dashboard.
+paths:
+  /api/v1/auth/login/:
+    post:
+      operationId: auth_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+        required: true
+      responses:
+        '200':
+          description: No response body
+  /api/v1/auth/profile/:
+    get:
+      operationId: auth_profile_retrieve
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: auth_profile_update
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: auth_profile_partial_update
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v1/auth/register/:
+    post:
+      operationId: auth_register_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+  /api/v1/auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/auth/travelers/:
+    get:
+      operationId: auth_travelers_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSavedTravelerList'
+          description: ''
+    post:
+      operationId: auth_travelers_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedTravelerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SavedTravelerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SavedTravelerRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedTraveler'
+          description: ''
+  /api/v1/auth/travelers/{id}/:
+    get:
+      operationId: auth_travelers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedTraveler'
+          description: ''
+    put:
+      operationId: auth_travelers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedTravelerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SavedTravelerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SavedTravelerRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedTraveler'
+          description: ''
+    patch:
+      operationId: auth_travelers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSavedTravelerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSavedTravelerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSavedTravelerRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedTraveler'
+          description: ''
+    delete:
+      operationId: auth_travelers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/bookings/{booking_reference}/:
+    get:
+      operationId: bookings_retrieve
+      summary: Get booking details by reference
+      parameters:
+      - in: path
+        name: booking_reference
+        schema:
+          type: string
+        required: true
+      tags:
+      - bookings
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+          description: ''
+  /api/v1/bookings/checkout/:
+    post:
+      operationId: bookings_checkout_create
+      description: Process payment & instant booking creation for a unified cart containing
+        one or multiple travel items (flights, hotels, insurance, utilities, etc.).
+      summary: Unified multi-item checkout
+      tags:
+      - bookings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedCheckoutRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UnifiedCheckoutRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UnifiedCheckoutRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+          description: ''
+  /api/v1/bookings/my-bookings/:
+    get:
+      operationId: bookings_my_bookings_list
+      description: Retrieve all unified bookings of the authenticated user with optional
+        filtering by module type or status.
+      summary: List customer bookings
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: status
+        schema:
+          type: string
+        description: 'Filter by status: confirmed, pending, completed, etc.'
+      - in: query
+        name: timeframe
+        schema:
+          type: string
+        description: 'Filter by timeframe: upcoming or past'
+      - in: query
+        name: type
+        schema:
+          type: string
+        description: 'Filter by booking type: flight, hotel, bus, visa, etc.'
+      tags:
+      - bookings
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookingList'
+          description: ''
+  /api/v1/bookings/stats/:
+    get:
+      operationId: bookings_stats_retrieve
+      summary: Customer dashboard statistics
+      tags:
+      - bookings
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/buses/{id}/:
+    get:
+      operationId: buses_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - buses
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusTrip'
+          description: ''
+  /api/v1/buses/book/:
+    post:
+      operationId: buses_book_create
+      summary: Book bus seats and generate m-ticket
+      tags:
+      - buses
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusBooking'
+          description: ''
+  /api/v1/buses/search/:
+    get:
+      operationId: buses_search_list
+      summary: Search bus trips by origin and destination
+      parameters:
+      - in: query
+        name: bus_type
+        schema:
+          type: string
+        description: Bus type filter
+      - in: query
+        name: destination
+        schema:
+          type: string
+        description: Destination city
+      - in: query
+        name: origin
+        schema:
+          type: string
+        description: Origin city
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - buses
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBusTripList'
+          description: ''
+  /api/v1/europamundo/book/:
+    post:
+      operationId: europamundo_book_create
+      summary: Book a Europamundo circuit tour
+      tags:
+      - europamundo
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EuropamundoTourDetail'
+          description: ''
+  /api/v1/europamundo/tours/:
+    get:
+      operationId: europamundo_tours_list
+      summary: List Europamundo guided tours
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+        description: Country filter
+      - in: query
+        name: max_price
+        schema:
+          type: number
+          format: float
+        description: Maximum price USD
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - europamundo
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEuropamundoTourListList'
+          description: ''
+  /api/v1/europamundo/tours/{id}/:
+    get:
+      operationId: europamundo_tours_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - europamundo
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EuropamundoTourDetail'
+          description: ''
+  /api/v1/flights/airports/:
+    get:
+      operationId: flights_airports_list
+      summary: List / Search airports for autocomplete
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - flights
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAirportList'
+          description: ''
+  /api/v1/flights/book/:
+    post:
+      operationId: flights_book_create
+      summary: Book a flight directly
+      tags:
+      - flights
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightBooking'
+          description: ''
+  /api/v1/flights/schedules/{id}/:
+    get:
+      operationId: flights_schedules_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - flights
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightSchedule'
+          description: ''
+  /api/v1/flights/search/:
+    get:
+      operationId: flights_search_list
+      summary: Search flights with filters
+      parameters:
+      - in: query
+        name: airline
+        schema:
+          type: string
+        description: Airline IATA code (e.g. EK)
+      - in: query
+        name: destination
+        schema:
+          type: string
+        description: Destination airport IATA code (e.g. LHR)
+      - in: query
+        name: max_price
+        schema:
+          type: number
+          format: float
+        description: Max price ceiling
+      - in: query
+        name: origin
+        schema:
+          type: string
+        description: Origin airport IATA code (e.g. DXB)
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: stops
+        schema:
+          type: integer
+        description: 0 for non-stop, 1, 2
+      tags:
+      - flights
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFlightScheduleList'
+          description: ''
+  /api/v1/holidays/book/:
+    post:
+      operationId: holidays_book_create
+      summary: Book a holiday package tour
+      tags:
+      - holidays
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HolidayBooking'
+          description: ''
+  /api/v1/holidays/destinations/:
+    get:
+      operationId: holidays_destinations_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - holidays
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHolidayDestinationList'
+          description: ''
+  /api/v1/holidays/packages/:
+    get:
+      operationId: holidays_packages_list
+      summary: Search holiday tour packages
+      parameters:
+      - in: query
+        name: destination
+        schema:
+          type: string
+        description: Destination name or country
+      - in: query
+        name: duration
+        schema:
+          type: integer
+        description: Duration in days
+      - in: query
+        name: max_price
+        schema:
+          type: number
+          format: float
+        description: Maximum price per person
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: trending
+        schema:
+          type: boolean
+        description: Trending packages only
+      tags:
+      - holidays
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHolidayPackageListList'
+          description: ''
+  /api/v1/holidays/packages/{id}/:
+    get:
+      operationId: holidays_packages_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - holidays
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HolidayPackageDetail'
+          description: ''
+  /api/v1/hotels/{id}/:
+    get:
+      operationId: hotels_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - hotels
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HotelDetail'
+          description: ''
+  /api/v1/hotels/book/:
+    post:
+      operationId: hotels_book_create
+      summary: Book a hotel room directly
+      tags:
+      - hotels
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HotelBooking'
+          description: ''
+  /api/v1/hotels/search/:
+    get:
+      operationId: hotels_search_list
+      summary: Search hotels by city, rating, and amenities
+      parameters:
+      - in: query
+        name: breakfast_included
+        schema:
+          type: boolean
+        description: Breakfast included filter
+      - in: query
+        name: city
+        schema:
+          type: string
+        description: City name or destination
+      - in: query
+        name: free_cancellation
+        schema:
+          type: boolean
+        description: Free cancellation filter
+      - in: query
+        name: max_price
+        schema:
+          type: number
+          format: float
+        description: Maximum price per night
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: star_rating
+        schema:
+          type: integer
+        description: Minimum star rating (1-5)
+      tags:
+      - hotels
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHotelListList'
+          description: ''
+  /api/v1/insurance/plans/:
+    get:
+      operationId: insurance_plans_list
+      summary: List insurance plans with region filter
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: region
+        schema:
+          type: string
+        description: worldwide, worldwide_ex_us, schengen, asia
+      tags:
+      - insurance
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedInsurancePlanList'
+          description: ''
+  /api/v1/insurance/plans/{id}/:
+    get:
+      operationId: insurance_plans_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - insurance
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsurancePlan'
+          description: ''
+  /api/v1/insurance/purchase/:
+    post:
+      operationId: insurance_purchase_create
+      summary: Purchase travel insurance policy and generate certificate
+      tags:
+      - insurance
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsurancePolicy'
+          description: ''
+  /api/v1/medical/enquire/:
+    post:
+      operationId: medical_enquire_create
+      summary: Submit a medical tourism enquiry with report uploads
+      tags:
+      - medical
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalEnquiry'
+          description: ''
+  /api/v1/medical/hospitals/:
+    get:
+      operationId: medical_hospitals_list
+      summary: List hospitals with country filter
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+        description: Country filter (e.g. India, Thailand, Turkey)
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - medical
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMedicalHospitalList'
+          description: ''
+  /api/v1/medical/packages/:
+    get:
+      operationId: medical_packages_list
+      summary: List treatment packages
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+        description: Hospital country
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: specialty
+        schema:
+          type: integer
+        description: Specialty ID
+      tags:
+      - medical
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMedicalPackageList'
+          description: ''
+  /api/v1/medical/specialties/:
+    get:
+      operationId: medical_specialties_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - medical
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMedicalSpecialtyList'
+          description: ''
+  /api/v1/newsletter/campaigns/:
+    get:
+      operationId: newsletter_campaigns_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - newsletter
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNewsletterCampaignList'
+          description: ''
+  /api/v1/newsletter/subscribe/:
+    post:
+      operationId: newsletter_subscribe_create
+      summary: Subscribe to newsletter and VIP deal alerts
+      tags:
+      - newsletter
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/offers/:
+    get:
+      operationId: offers_list
+      summary: List promotional deals and bank offers
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+        description: flight, hotel, holiday, bank
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - offers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPromotionalDealList'
+          description: ''
+  /api/v1/offers/validate/:
+    post:
+      operationId: offers_validate_create
+      summary: Validate coupon code and calculate discount amount
+      tags:
+      - offers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/create-intent/:
+    post:
+      operationId: payments_create_intent_create
+      summary: Create payment gateway intent (Stripe / Razorpay)
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/verify/:
+    post:
+      operationId: payments_verify_create
+      summary: Verify payment transaction webhook
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/umrah/book/:
+    post:
+      operationId: umrah_book_create
+      summary: Book an Umrah pilgrimage package
+      tags:
+      - umrah
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UmrahBooking'
+          description: ''
+  /api/v1/umrah/packages/:
+    get:
+      operationId: umrah_packages_list
+      summary: List Umrah pilgrimage packages
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: tier
+        schema:
+          type: string
+        description: vip_luxury, classic_premium, economy_saver, ramadan_special
+      tags:
+      - umrah
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUmrahPackageList'
+          description: ''
+  /api/v1/umrah/packages/{id}/:
+    get:
+      operationId: umrah_packages_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - umrah
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UmrahPackage'
+          description: ''
+  /api/v1/utilities/book/:
+    post:
+      operationId: utilities_book_create
+      summary: Book travel utility (eSIM, Forex Card, Lounge Pass)
+      tags:
+      - utilities
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/utilities/esim/:
+    get:
+      operationId: utilities_esim_list
+      summary: List eSIM data packages
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+        description: Country or region name
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - utilities
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEsimPackageList'
+          description: ''
+  /api/v1/utilities/forex/:
+    get:
+      operationId: utilities_forex_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - utilities
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedForexRateList'
+          description: ''
+  /api/v1/utilities/lounges/:
+    get:
+      operationId: utilities_lounges_list
+      summary: List airport lounges
+      parameters:
+      - in: query
+        name: airport
+        schema:
+          type: string
+        description: Airport IATA code (e.g. DXB, LHR, JFK)
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - utilities
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAirportLoungeList'
+          description: ''
+  /api/v1/visa/apply/:
+    post:
+      operationId: visa_apply_create
+      summary: Submit a visa application with documents
+      tags:
+      - visa
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisaApplication'
+          description: ''
+  /api/v1/visa/countries/:
+    get:
+      operationId: visa_countries_list
+      summary: List all supported visa countries
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - visa
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVisaCountryList'
+          description: ''
+  /api/v1/visa/countries/{country_code}/:
+    get:
+      operationId: visa_countries_retrieve
+      parameters:
+      - in: path
+        name: country_code
+        schema:
+          type: string
+        required: true
+      tags:
+      - visa
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisaCountry'
+          description: ''
+  /api/v1/visa/track/{reference}/:
+    get:
+      operationId: visa_track_retrieve
+      summary: Track status of a visa application by reference ID
+      parameters:
+      - in: path
+        name: reference
+        schema:
+          type: string
+        required: true
+      tags:
+      - visa
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisaApplication'
+          description: ''
+components:
+  schemas:
+    Airline:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iata_code:
+          type: string
+          maxLength: 5
+        logo_url:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - iata_code
+      - id
+      - name
+    Airport:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        city:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        iata_code:
+          type: string
+          maxLength: 5
+      required:
+      - city
+      - country
+      - iata_code
+      - id
+      - name
+    AirportLounge:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        airport_code:
+          type: string
+          maxLength: 5
+        airport_name:
+          type: string
+          maxLength: 150
+        terminal:
+          type: string
+          maxLength: 50
+        lounge_name:
+          type: string
+          maxLength: 150
+        operating_hours:
+          type: string
+          maxLength: 100
+        price_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        amenities: {}
+        image_url:
+          type: string
+          nullable: true
+          maxLength: 500
+      required:
+      - airport_code
+      - airport_name
+      - id
+      - lounge_name
+    ApplicableModuleEnum:
+      enum:
+      - all
+      - flight
+      - hotel
+      - holiday
+      - visa
+      - insurance
+      type: string
+      description: |-
+        * `all` - All Travel Modules
+        * `flight` - Flights Only
+        * `hotel` - Hotels Only
+        * `holiday` - Holiday Packages Only
+        * `visa` - Visa Only
+        * `insurance` - Insurance Only
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        booking_reference:
+          type: string
+          readOnly: true
+        booking_type:
+          $ref: '#/components/schemas/BookingTypeEnum'
+        status:
+          $ref: '#/components/schemas/BookingStatusEnum'
+        payment_status:
+          $ref: '#/components/schemas/PaymentStatusEnum'
+        currency:
+          type: string
+          maxLength: 5
+        total_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        discount_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        final_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        coupon_code:
+          type: string
+          nullable: true
+          maxLength: 50
+        contact_name:
+          type: string
+          maxLength: 150
+        contact_email:
+          type: string
+          format: email
+          maxLength: 254
+        contact_phone:
+          type: string
+          maxLength: 30
+        title:
+          type: string
+          maxLength: 255
+        summary:
+          type: string
+          nullable: true
+        details_json: {}
+        travel_date:
+          type: string
+          format: date
+          nullable: true
+        return_date:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          type: integer
+          nullable: true
+      required:
+      - booking_reference
+      - booking_type
+      - contact_email
+      - contact_name
+      - contact_phone
+      - created_at
+      - final_amount
+      - id
+      - total_amount
+      - updated_at
+      - username
+    BookingStatusEnum:
+      enum:
+      - pending
+      - confirmed
+      - processing
+      - completed
+      - cancelled
+      - refunded
+      type: string
+      description: |-
+        * `pending` - Pending
+        * `confirmed` - Confirmed
+        * `processing` - Processing / Under Review
+        * `completed` - Completed
+        * `cancelled` - Cancelled
+        * `refunded` - Refunded
+    BookingTypeEnum:
+      enum:
+      - flight
+      - hotel
+      - bus
+      - visa
+      - insurance
+      - holiday
+      - umrah
+      - medical_tourism
+      - europamundo
+      - utility
+      - mixed
+      type: string
+      description: |-
+        * `flight` - Flight Booking
+        * `hotel` - Hotel Booking
+        * `bus` - Bus Booking
+        * `visa` - Visa Application
+        * `insurance` - Travel Insurance Policy
+        * `holiday` - Holiday Package Tour
+        * `umrah` - Umrah Pilgrimage Package
+        * `medical_tourism` - Medical Tourism Package
+        * `europamundo` - Europamundo Tour Circuit
+        * `utility` - Travel Utility (eSIM/Forex/Lounge)
+        * `mixed` - Unified Multi-Item Booking
+    BusBooking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        trip:
+          allOf:
+          - $ref: '#/components/schemas/BusTrip'
+          readOnly: true
+        selected_seats: {}
+        passengers: {}
+        boarding_point:
+          type: string
+          maxLength: 255
+        dropping_point:
+          type: string
+          maxLength: 255
+        m_ticket_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        booking:
+          type: integer
+      required:
+      - boarding_point
+      - booking
+      - dropping_point
+      - id
+      - trip
+    BusOperator:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        logo_url:
+          type: string
+          nullable: true
+          maxLength: 255
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,1})?$
+        total_reviews:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+      required:
+      - id
+      - name
+    BusSeat:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        seat_number:
+          type: string
+          maxLength: 10
+        deck:
+          $ref: '#/components/schemas/DeckEnum'
+        seat_type:
+          $ref: '#/components/schemas/SeatTypeEnum'
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        is_available:
+          type: boolean
+        is_ladies_only:
+          type: boolean
+        is_booked:
+          type: boolean
+        trip:
+          type: integer
+      required:
+      - id
+      - seat_number
+      - trip
+    BusTrip:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        operator:
+          allOf:
+          - $ref: '#/components/schemas/BusOperator'
+          readOnly: true
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusSeat'
+          readOnly: true
+        bus_type:
+          $ref: '#/components/schemas/BusTypeEnum'
+        bus_name:
+          type: string
+          maxLength: 150
+        origin:
+          type: string
+          maxLength: 100
+        destination:
+          type: string
+          maxLength: 100
+        departure_time:
+          type: string
+          description: e.g. 09:00 PM
+          maxLength: 10
+        arrival_time:
+          type: string
+          description: e.g. 06:30 AM
+          maxLength: 10
+        duration:
+          type: string
+          description: e.g. 9h 30m
+          maxLength: 50
+        fare_seater:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        fare_sleeper:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        boarding_points: {}
+        dropping_points: {}
+        total_seats:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        available_seats_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        amenities: {}
+      required:
+      - arrival_time
+      - departure_time
+      - destination
+      - duration
+      - id
+      - operator
+      - origin
+      - seats
+    BusTypeEnum:
+      enum:
+      - ac_sleeper
+      - volvo_multi_axle
+      - scania_ac
+      - non_ac_sleeper
+      type: string
+      description: |-
+        * `ac_sleeper` - AC Sleeper (2+1)
+        * `volvo_multi_axle` - Volvo Multi-Axle AC Semi-Sleeper (2+2)
+        * `scania_ac` - Scania AC Executive (2+2)
+        * `non_ac_sleeper` - Non-AC Sleeper (2+1)
+    CityEnum:
+      enum:
+      - makkah
+      - madinah
+      type: string
+      description: |-
+        * `makkah` - Makkah
+        * `madinah` - Madinah
+    CouponCode:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        discount_type:
+          $ref: '#/components/schemas/DiscountTypeEnum'
+        discount_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        max_discount_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        min_booking_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        applicable_module:
+          $ref: '#/components/schemas/ApplicableModuleEnum'
+        bank_partner:
+          type: string
+          nullable: true
+          description: e.g. HDFC, Chase, Amex, Citi
+          maxLength: 100
+        badge_text:
+          type: string
+          maxLength: 50
+        is_active:
+          type: boolean
+        expires_at:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - code
+      - description
+      - id
+      - title
+    CustomTokenObtainPairRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - password
+      - username
+    DeckEnum:
+      enum:
+      - lower
+      - upper
+      type: string
+      description: |-
+        * `lower` - Lower Deck
+        * `upper` - Upper Deck
+    DiscountTypeEnum:
+      enum:
+      - percentage
+      - flat
+      type: string
+      description: |-
+        * `percentage` - Percentage Off (%)
+        * `flat` - Flat Amount Off ($)
+    EsimPackage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        country_or_region:
+          type: string
+          maxLength: 100
+        country_code:
+          type: string
+          maxLength: 10
+        data_allowance:
+          type: string
+          maxLength: 50
+        validity_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        network_speed:
+          type: string
+          maxLength: 50
+        hotspot_tethering:
+          type: boolean
+        instant_qr_delivery:
+          type: boolean
+      required:
+      - country_or_region
+      - data_allowance
+      - id
+    EuropamundoTourDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/TourStop'
+          readOnly: true
+        departures:
+          type: array
+          items:
+            $ref: '#/components/schemas/TourDeparture'
+          readOnly: true
+        tour_code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 200
+        countries_covered: {}
+        cities_visited:
+          type: string
+          maxLength: 255
+        duration_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        duration_nights:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_eur:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        bus_type:
+          type: string
+          maxLength: 100
+        hotel_category:
+          type: string
+          maxLength: 50
+        audio_languages: {}
+        guaranteed_departures:
+          type: boolean
+        main_image:
+          type: string
+          maxLength: 500
+        gallery_images: {}
+        overview:
+          type: string
+        inclusions: {}
+        featured:
+          type: boolean
+      required:
+      - departures
+      - id
+      - main_image
+      - overview
+      - stops
+      - title
+      - tour_code
+    EuropamundoTourList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tour_code:
+          type: string
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 200
+        countries_covered: {}
+        cities_visited:
+          type: string
+          maxLength: 255
+        duration_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        duration_nights:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_eur:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        bus_type:
+          type: string
+          maxLength: 100
+        hotel_category:
+          type: string
+          maxLength: 50
+        audio_languages: {}
+        guaranteed_departures:
+          type: boolean
+        main_image:
+          type: string
+          maxLength: 500
+        gallery_images: {}
+        overview:
+          type: string
+        inclusions: {}
+        featured:
+          type: boolean
+      required:
+      - id
+      - main_image
+      - overview
+      - title
+      - tour_code
+    FlightBooking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        flight_schedule:
+          allOf:
+          - $ref: '#/components/schemas/FlightSchedule'
+          readOnly: true
+        cabin_class:
+          type: string
+          maxLength: 30
+        passengers_json: {}
+        selected_seats:
+          type: string
+          nullable: true
+          maxLength: 100
+        e_ticket_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        meal_preference:
+          type: string
+          maxLength: 100
+        booking:
+          type: integer
+      required:
+      - booking
+      - flight_schedule
+      - id
+    FlightSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        airline:
+          allOf:
+          - $ref: '#/components/schemas/Airline'
+          readOnly: true
+        origin:
+          allOf:
+          - $ref: '#/components/schemas/Airport'
+          readOnly: true
+        destination:
+          allOf:
+          - $ref: '#/components/schemas/Airport'
+          readOnly: true
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlightSeat'
+          readOnly: true
+        flight_number:
+          type: string
+          maxLength: 20
+        departure_time:
+          type: string
+          description: e.g. 08:30 AM
+          maxLength: 10
+        arrival_time:
+          type: string
+          description: e.g. 02:45 PM
+          maxLength: 10
+        duration:
+          type: string
+          description: e.g. 6h 15m
+          maxLength: 50
+        stops:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: 0 for Direct/Non-stop, 1, 2
+        stop_details:
+          type: string
+          nullable: true
+          description: e.g. 1h 45m in Doha (DOH)
+          maxLength: 255
+        price_economy:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_premium:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_business:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_first:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        baggage_checkin:
+          type: string
+          maxLength: 50
+        baggage_cabin:
+          type: string
+          maxLength: 50
+        refundable:
+          type: boolean
+        aircraft_type:
+          type: string
+          maxLength: 100
+      required:
+      - airline
+      - arrival_time
+      - departure_time
+      - destination
+      - duration
+      - flight_number
+      - id
+      - origin
+      - seats
+    FlightSeat:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        seat_number:
+          type: string
+          maxLength: 10
+        seat_class:
+          $ref: '#/components/schemas/SeatClassEnum'
+        extra_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        is_available:
+          type: boolean
+        is_window:
+          type: boolean
+        is_aisle:
+          type: boolean
+        flight_schedule:
+          type: integer
+      required:
+      - flight_schedule
+      - id
+      - seat_number
+    ForexRate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        currency_code:
+          type: string
+          maxLength: 5
+        currency_name:
+          type: string
+          maxLength: 100
+        flag_emoji:
+          type: string
+          maxLength: 10
+        buy_rate_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,4})?$
+        sell_rate_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,4})?$
+        forex_card_available:
+          type: boolean
+        currency_notes_available:
+          type: boolean
+      required:
+      - buy_rate_usd
+      - currency_code
+      - currency_name
+      - id
+      - sell_rate_usd
+    GenderEnum:
+      enum:
+      - male
+      - female
+      - other
+      type: string
+      description: |-
+        * `male` - Male
+        * `female` - Female
+        * `other` - Other
+    HolidayBooking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        package:
+          allOf:
+          - $ref: '#/components/schemas/HolidayPackageList'
+          readOnly: true
+        travel_date:
+          type: string
+          format: date
+        travelers_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        room_sharing:
+          type: string
+          maxLength: 50
+        custom_requests:
+          type: string
+          nullable: true
+        booking:
+          type: integer
+      required:
+      - booking
+      - id
+      - package
+      - travel_date
+    HolidayDestination:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        region:
+          type: string
+          maxLength: 100
+        image_url:
+          type: string
+          maxLength: 500
+        tagline:
+          type: string
+          maxLength: 200
+      required:
+      - id
+      - image_url
+      - name
+    HolidayPackageDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        destination:
+          allOf:
+          - $ref: '#/components/schemas/HolidayDestination'
+          readOnly: true
+        itinerary_days:
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageItineraryDay'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        duration_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        duration_nights:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_per_person:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        original_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        main_image:
+          type: string
+          maxLength: 500
+        gallery_images: {}
+        overview:
+          type: string
+        inclusions: {}
+        exclusions: {}
+        hotel_rating:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        meals_included:
+          type: string
+          maxLength: 100
+        flights_included:
+          type: boolean
+        is_trending:
+          type: boolean
+      required:
+      - destination
+      - id
+      - itinerary_days
+      - main_image
+      - overview
+      - title
+    HolidayPackageList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        destination:
+          allOf:
+          - $ref: '#/components/schemas/HolidayDestination'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        duration_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        duration_nights:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_per_person:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        original_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        main_image:
+          type: string
+          maxLength: 500
+        gallery_images: {}
+        overview:
+          type: string
+        inclusions: {}
+        exclusions: {}
+        hotel_rating:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        meals_included:
+          type: string
+          maxLength: 100
+        flights_included:
+          type: boolean
+        is_trending:
+          type: boolean
+      required:
+      - destination
+      - id
+      - main_image
+      - overview
+      - title
+    HotelAmenity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        icon_name:
+          type: string
+          maxLength: 50
+      required:
+      - id
+      - name
+    HotelBooking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        hotel:
+          allOf:
+          - $ref: '#/components/schemas/HotelList'
+          readOnly: true
+        room:
+          allOf:
+          - $ref: '#/components/schemas/HotelRoom'
+          readOnly: true
+        check_in_date:
+          type: string
+          format: date
+        check_out_date:
+          type: string
+          format: date
+        nights:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        rooms_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        guests_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        guest_names: {}
+        special_requests:
+          type: string
+          nullable: true
+        voucher_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        booking:
+          type: integer
+      required:
+      - booking
+      - check_in_date
+      - check_out_date
+      - hotel
+      - id
+      - room
+    HotelDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        amenities:
+          type: array
+          items:
+            $ref: '#/components/schemas/HotelAmenity'
+          readOnly: true
+        rooms:
+          type: array
+          items:
+            $ref: '#/components/schemas/HotelRoom'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        city:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+          maxLength: 255
+        star_rating:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        guest_rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,1})?$
+        reviews_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_per_night_start:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        main_image:
+          type: string
+          nullable: true
+          maxLength: 500
+        images_gallery: {}
+        description:
+          type: string
+        free_cancellation:
+          type: boolean
+        breakfast_included:
+          type: boolean
+        featured:
+          type: boolean
+      required:
+      - address
+      - amenities
+      - city
+      - country
+      - description
+      - id
+      - name
+      - rooms
+    HotelList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        amenities:
+          type: array
+          items:
+            $ref: '#/components/schemas/HotelAmenity'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        city:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+          maxLength: 255
+        star_rating:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        guest_rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,1})?$
+        reviews_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_per_night_start:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        main_image:
+          type: string
+          nullable: true
+          maxLength: 500
+        images_gallery: {}
+        description:
+          type: string
+        free_cancellation:
+          type: boolean
+        breakfast_included:
+          type: boolean
+        featured:
+          type: boolean
+      required:
+      - address
+      - amenities
+      - city
+      - country
+      - description
+      - id
+      - name
+    HotelRoom:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        room_name:
+          type: string
+          maxLength: 150
+        bed_type:
+          type: string
+          maxLength: 100
+        max_guests:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        room_size_sqm:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_per_night:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        image_url:
+          type: string
+          nullable: true
+          maxLength: 500
+        features_json: {}
+        available_units:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        hotel:
+          type: integer
+      required:
+      - hotel
+      - id
+      - room_name
+    InsurancePlan:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        provider:
+          allOf:
+          - $ref: '#/components/schemas/InsuranceProvider'
+          readOnly: true
+        plan_name:
+          type: string
+          maxLength: 150
+        region:
+          $ref: '#/components/schemas/RegionEnum'
+        medical_coverage_amount:
+          type: string
+          maxLength: 50
+        trip_cancellation_amount:
+          type: string
+          maxLength: 50
+        baggage_loss_amount:
+          type: string
+          maxLength: 50
+        flight_delay_amount:
+          type: string
+          maxLength: 50
+        covid19_covered:
+          type: boolean
+        cashless_hospitalization:
+          type: boolean
+        price_per_day:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        flat_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        benefits_list: {}
+        policy_wording_url:
+          type: string
+          nullable: true
+          maxLength: 500
+        is_bestseller:
+          type: boolean
+      required:
+      - id
+      - plan_name
+      - provider
+    InsurancePolicy:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        plan:
+          allOf:
+          - $ref: '#/components/schemas/InsurancePlan'
+          readOnly: true
+        policy_number:
+          type: string
+          maxLength: 50
+        insured_persons: {}
+        destination_country:
+          type: string
+          maxLength: 100
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        duration_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        policy_pdf_url:
+          type: string
+          nullable: true
+          maxLength: 500
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        booking:
+          type: integer
+      required:
+      - booking
+      - created_at
+      - end_date
+      - id
+      - plan
+      - policy_number
+      - start_date
+    InsuranceProvider:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        logo_url:
+          type: string
+          nullable: true
+          maxLength: 255
+        claim_settlement_ratio:
+          type: string
+          maxLength: 20
+        emergency_assistance_phone:
+          type: string
+          maxLength: 50
+      required:
+      - id
+      - name
+    MedicalEnquiry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        hospital:
+          allOf:
+          - $ref: '#/components/schemas/MedicalHospital'
+          readOnly: true
+        enquiry_reference:
+          type: string
+          maxLength: 50
+        treatment_name:
+          type: string
+          maxLength: 200
+        country_preference:
+          type: string
+          maxLength: 100
+        patient_name:
+          type: string
+          maxLength: 150
+        patient_age:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        patient_gender:
+          type: string
+          maxLength: 10
+        contact_email:
+          type: string
+          format: email
+          maxLength: 254
+        contact_phone:
+          type: string
+          maxLength: 30
+        medical_condition_summary:
+          type: string
+        medical_reports_json: {}
+        status:
+          $ref: '#/components/schemas/MedicalEnquiryStatusEnum'
+        doctor_opinion_notes:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        booking:
+          type: integer
+          nullable: true
+      required:
+      - contact_email
+      - contact_phone
+      - created_at
+      - enquiry_reference
+      - hospital
+      - id
+      - medical_condition_summary
+      - patient_name
+      - treatment_name
+    MedicalEnquiryStatusEnum:
+      enum:
+      - enquiry_received
+      - doctor_reviewing
+      - quote_issued
+      - consultation_scheduled
+      - visa_travel_arranged
+      type: string
+      description: |-
+        * `enquiry_received` - Enquiry Received
+        * `doctor_reviewing` - Doctor Reviewing Medical Records
+        * `quote_issued` - Treatment Plan & Quote Issued
+        * `consultation_scheduled` - Video Consultation Scheduled
+        * `visa_travel_arranged` - Medical Visa & Travel Arranged
+    MedicalHospital:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        specialties:
+          type: array
+          items:
+            $ref: '#/components/schemas/MedicalSpecialty'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        city:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        accreditations: {}
+        established_year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        beds_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        image_url:
+          type: string
+          maxLength: 500
+        overview:
+          type: string
+        featured:
+          type: boolean
+      required:
+      - city
+      - country
+      - id
+      - image_url
+      - name
+      - overview
+      - specialties
+    MedicalPackage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        hospital:
+          allOf:
+          - $ref: '#/components/schemas/MedicalHospital'
+          readOnly: true
+        specialty:
+          allOf:
+          - $ref: '#/components/schemas/MedicalSpecialty'
+          readOnly: true
+        treatment_name:
+          type: string
+          maxLength: 200
+        estimated_cost_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        us_benchmark_cost_usd:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        hospital_stay_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        total_stay_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        success_rate:
+          type: string
+          maxLength: 20
+        inclusions: {}
+        overview:
+          type: string
+      required:
+      - hospital
+      - id
+      - overview
+      - specialty
+      - treatment_name
+    MedicalSpecialty:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        icon_name:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          nullable: true
+      required:
+      - id
+      - name
+    NewsletterCampaign:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        subject:
+          type: string
+          maxLength: 200
+        preview_text:
+          type: string
+          maxLength: 255
+        content_html:
+          type: string
+        sent_to_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        sent_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_published:
+          type: boolean
+      required:
+      - content_html
+      - id
+      - sent_at
+      - subject
+    PackageItineraryDay:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        day_number:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        meals_today:
+          type: string
+          maxLength: 100
+        activities: {}
+        package:
+          type: integer
+      required:
+      - description
+      - id
+      - package
+      - title
+    PaginatedAirportList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Airport'
+    PaginatedAirportLoungeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AirportLounge'
+    PaginatedBookingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+    PaginatedBusTripList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusTrip'
+    PaginatedEsimPackageList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EsimPackage'
+    PaginatedEuropamundoTourListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EuropamundoTourList'
+    PaginatedFlightScheduleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlightSchedule'
+    PaginatedForexRateList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ForexRate'
+    PaginatedHolidayDestinationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HolidayDestination'
+    PaginatedHolidayPackageListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HolidayPackageList'
+    PaginatedHotelListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HotelList'
+    PaginatedInsurancePlanList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InsurancePlan'
+    PaginatedMedicalHospitalList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MedicalHospital'
+    PaginatedMedicalPackageList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MedicalPackage'
+    PaginatedMedicalSpecialtyList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MedicalSpecialty'
+    PaginatedNewsletterCampaignList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsletterCampaign'
+    PaginatedPromotionalDealList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromotionalDeal'
+    PaginatedSavedTravelerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SavedTraveler'
+    PaginatedUmrahPackageList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UmrahPackage'
+    PaginatedVisaCountryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VisaCountry'
+    PatchedSavedTravelerRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 10
+        first_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        last_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        traveler_type:
+          $ref: '#/components/schemas/TravelerTypeEnum'
+        passport_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        passport_expiry:
+          type: string
+          format: date
+          nullable: true
+        passport_country:
+          type: string
+          nullable: true
+          maxLength: 100
+        email:
+          nullable: true
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        frequent_flyer_number:
+          type: string
+          nullable: true
+          maxLength: 50
+    PatchedUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Email address
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        avatar:
+          type: string
+          format: binary
+          nullable: true
+        passport_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        passport_expiry:
+          type: string
+          format: date
+          nullable: true
+        nationality:
+          type: string
+          nullable: true
+          maxLength: 100
+        preferred_currency:
+          type: string
+          minLength: 1
+          maxLength: 5
+    PaymentStatusEnum:
+      enum:
+      - unpaid
+      - paid
+      - failed
+      - refunded
+      type: string
+      description: |-
+        * `unpaid` - Unpaid
+        * `paid` - Paid
+        * `failed` - Failed
+        * `refunded` - Refunded
+    PromotionalDeal:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        coupon_code:
+          allOf:
+          - $ref: '#/components/schemas/CouponCode'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        subtitle:
+          type: string
+          maxLength: 255
+        category:
+          type: string
+          maxLength: 50
+        image_url:
+          type: string
+          maxLength: 500
+        cta_link:
+          type: string
+          maxLength: 100
+        is_featured:
+          type: boolean
+      required:
+      - coupon_code
+      - id
+      - image_url
+      - subtitle
+      - title
+    RegionEnum:
+      enum:
+      - worldwide
+      - worldwide_ex_us
+      - schengen
+      - asia
+      type: string
+      description: |-
+        * `worldwide` - Worldwide (Including USA & Canada)
+        * `worldwide_ex_us` - Worldwide (Excluding USA & Canada)
+        * `schengen` - Schengen Countries Only
+        * `asia` - Asia Pacific
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Email address
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - username
+    RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Email address
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        password:
+          type: string
+          writeOnly: true
+          minLength: 6
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - password
+      - username
+    SavedTraveler:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 10
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        traveler_type:
+          $ref: '#/components/schemas/TravelerTypeEnum'
+        passport_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        passport_expiry:
+          type: string
+          format: date
+          nullable: true
+        passport_country:
+          type: string
+          nullable: true
+          maxLength: 100
+        email:
+          nullable: true
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        frequent_flyer_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - first_name
+      - id
+      - last_name
+      - user
+    SavedTravelerRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 10
+        first_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        last_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        traveler_type:
+          $ref: '#/components/schemas/TravelerTypeEnum'
+        passport_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        passport_expiry:
+          type: string
+          format: date
+          nullable: true
+        passport_country:
+          type: string
+          nullable: true
+          maxLength: 100
+        email:
+          nullable: true
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        frequent_flyer_number:
+          type: string
+          nullable: true
+          maxLength: 50
+      required:
+      - first_name
+      - last_name
+    SeatClassEnum:
+      enum:
+      - economy
+      - extra_legroom
+      - business
+      type: string
+      description: |-
+        * `economy` - Economy
+        * `extra_legroom` - Extra Legroom
+        * `business` - Business
+    SeatTypeEnum:
+      enum:
+      - seater
+      - sleeper
+      type: string
+      description: |-
+        * `seater` - Seater
+        * `sleeper` - Sleeper Bed
+    TierEnum:
+      enum:
+      - vip_luxury
+      - classic_premium
+      - economy_saver
+      - ramadan_special
+      type: string
+      description: |-
+        * `vip_luxury` - VIP 5-Star Luxury (Haram Front)
+        * `classic_premium` - Classic 4-Star Premium
+        * `economy_saver` - Economy Saver
+        * `ramadan_special` - Ramadan Special Package
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
+    TourDeparture:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        departure_date:
+          type: string
+          format: date
+        available_seats:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        status:
+          type: string
+          maxLength: 50
+        tour:
+          type: integer
+      required:
+      - departure_date
+      - id
+      - tour
+    TourStop:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        day_number:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        city_name:
+          type: string
+          maxLength: 100
+        country_name:
+          type: string
+          maxLength: 100
+        highlight_title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        km_distance:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        tour:
+          type: integer
+      required:
+      - city_name
+      - country_name
+      - description
+      - highlight_title
+      - id
+      - tour
+    TravelerTypeEnum:
+      enum:
+      - adult
+      - child
+      - infant
+      type: string
+      description: |-
+        * `adult` - Adult (12+ yrs)
+        * `child` - Child (2-11 yrs)
+        * `infant` - Infant (under 2 yrs)
+    UmrahBooking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        package:
+          allOf:
+          - $ref: '#/components/schemas/UmrahPackage'
+          readOnly: true
+        departure_date:
+          type: string
+          format: date
+        pilgrims_count:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        room_type:
+          type: string
+          maxLength: 50
+        need_visa_assistance:
+          type: boolean
+        special_requirements:
+          type: string
+          nullable: true
+        booking:
+          type: integer
+      required:
+      - booking
+      - departure_date
+      - id
+      - package
+    UmrahHotel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        city:
+          $ref: '#/components/schemas/CityEnum'
+        star_rating:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        distance_from_haram:
+          type: string
+          maxLength: 100
+        image_url:
+          type: string
+          nullable: true
+          maxLength: 500
+      required:
+      - city
+      - id
+      - name
+    UmrahPackage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        makkah_hotel:
+          allOf:
+          - $ref: '#/components/schemas/UmrahHotel'
+          readOnly: true
+        madinah_hotel:
+          allOf:
+          - $ref: '#/components/schemas/UmrahHotel'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        tier:
+          $ref: '#/components/schemas/TierEnum'
+        duration_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        makkah_nights:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        madinah_nights:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        price_quad:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_triple:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_double:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        main_image:
+          type: string
+          maxLength: 500
+        gallery_images: {}
+        overview:
+          type: string
+        visa_included:
+          type: boolean
+        flights_included:
+          type: boolean
+        transfers_included:
+          type: boolean
+        ziyarat_included:
+          type: boolean
+        inclusions: {}
+        exclusions: {}
+        itinerary_summary: {}
+        featured:
+          type: boolean
+      required:
+      - id
+      - madinah_hotel
+      - main_image
+      - makkah_hotel
+      - overview
+      - title
+    UnifiedCheckoutItemRequest:
+      type: object
+      properties:
+        booking_type:
+          $ref: '#/components/schemas/BookingTypeEnum'
+        title:
+          type: string
+          minLength: 1
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        details:
+          type: object
+          additionalProperties: {}
+        travel_date:
+          type: string
+          format: date
+          nullable: true
+        return_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - amount
+      - booking_type
+      - title
+    UnifiedCheckoutRequestRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnifiedCheckoutItemRequest'
+          minItems: 1
+        contact_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        contact_email:
+          type: string
+          format: email
+          minLength: 1
+        contact_phone:
+          type: string
+          minLength: 1
+          maxLength: 30
+        currency:
+          type: string
+          minLength: 1
+          default: USD
+        coupon_code:
+          type: string
+          nullable: true
+        discount_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          default: '0.00'
+        payment_method:
+          type: string
+          minLength: 1
+          default: credit_card
+        payment_token:
+          type: string
+          default: simulated_success
+      required:
+      - contact_email
+      - contact_name
+      - contact_phone
+      - items
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Email address
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        passport_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        passport_expiry:
+          type: string
+          format: date
+          nullable: true
+        nationality:
+          type: string
+          nullable: true
+          maxLength: 100
+        preferred_currency:
+          type: string
+          maxLength: 5
+        is_staff:
+          type: boolean
+          readOnly: true
+          title: Staff status
+          description: Designates whether the user can log into this admin site.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - is_staff
+      - username
+    UserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Email address
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        avatar:
+          type: string
+          format: binary
+          nullable: true
+        passport_number:
+          type: string
+          nullable: true
+          maxLength: 50
+        passport_expiry:
+          type: string
+          format: date
+          nullable: true
+        nationality:
+          type: string
+          nullable: true
+          maxLength: 100
+        preferred_currency:
+          type: string
+          minLength: 1
+          maxLength: 5
+      required:
+      - username
+    VisaApplication:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        visa_country:
+          allOf:
+          - $ref: '#/components/schemas/VisaCountry'
+          readOnly: true
+        visa_type:
+          allOf:
+          - $ref: '#/components/schemas/VisaType'
+          readOnly: true
+        application_reference:
+          type: string
+          maxLength: 50
+        status:
+          $ref: '#/components/schemas/VisaApplicationStatusEnum'
+        applicant_full_name:
+          type: string
+          maxLength: 150
+        passport_number:
+          type: string
+          maxLength: 50
+        passport_expiry:
+          type: string
+          format: date
+          nullable: true
+        nationality:
+          type: string
+          maxLength: 100
+        travel_date:
+          type: string
+          format: date
+          nullable: true
+        passport_copy_url:
+          type: string
+          nullable: true
+          maxLength: 500
+        photo_url:
+          type: string
+          nullable: true
+          maxLength: 500
+        supporting_docs_json: {}
+        embassy_remarks:
+          type: string
+          nullable: true
+        issued_visa_doc_url:
+          type: string
+          nullable: true
+          maxLength: 500
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        booking:
+          type: integer
+      required:
+      - applicant_full_name
+      - application_reference
+      - booking
+      - created_at
+      - id
+      - passport_number
+      - updated_at
+      - visa_country
+      - visa_type
+    VisaApplicationStatusEnum:
+      enum:
+      - submitted
+      - documents_verified
+      - embassy_processing
+      - approved
+      - rejected
+      type: string
+      description: |-
+        * `submitted` - Application Submitted
+        * `documents_verified` - Documents Verified
+        * `embassy_processing` - Under Processing at Embassy
+        * `approved` - Visa Approved / Issued
+        * `rejected` - Action Required / Rejected
+    VisaCountry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        visa_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/VisaType'
+          readOnly: true
+        country_name:
+          type: string
+          maxLength: 100
+        country_code:
+          type: string
+          maxLength: 5
+        flag_emoji:
+          type: string
+          maxLength: 10
+        processing_time_days:
+          type: string
+          maxLength: 50
+        starting_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        image_url:
+          type: string
+          nullable: true
+          maxLength: 500
+        description:
+          type: string
+          nullable: true
+        requirements_checklist: {}
+        is_popular:
+          type: boolean
+      required:
+      - country_code
+      - country_name
+      - id
+      - visa_types
+    VisaType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 150
+        validity_duration:
+          type: string
+          maxLength: 50
+        stay_duration:
+          type: string
+          maxLength: 50
+        entry_type:
+          type: string
+          maxLength: 50
+        government_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        service_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        total_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        express_available:
+          type: boolean
+        country:
+          type: integer
+      required:
+      - country
+      - id
+      - title
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
