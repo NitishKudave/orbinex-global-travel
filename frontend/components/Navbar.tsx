@@ -306,9 +306,9 @@ export default function Navbar() {
                 ) : (
                   <button
                     onClick={() => setIsAuthOpen(true)}
-                    className="flex items-center gap-1.5 bg-[#eb2026] hover:bg-[#d0181d] text-white px-3.5 sm:px-4 py-2 rounded-lg text-xs font-bold uppercase shadow-sm shadow-red-600/20 transition transform hover:-translate-y-0.5 active:scale-98 cursor-pointer"
+                    className="flex items-center gap-2 bg-gradient-to-r from-[#0284c7] via-sky-600 to-blue-700 hover:from-sky-600 hover:to-blue-800 text-white px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider shadow-md shadow-sky-600/25 transition transform hover:-translate-y-0.5 active:scale-98 cursor-pointer"
                   >
-                    <User className="w-3.5 h-3.5" />
+                    <User className="w-3.5 h-3.5 stroke-[2.5]" />
                     <span>LOGIN / REGISTER</span>
                   </button>
                 )}
