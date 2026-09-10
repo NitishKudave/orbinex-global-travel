@@ -206,11 +206,11 @@ export default function HeroSearch() {
   return (
     <div className="relative">
       
-      {/* 1. CINEMATIC MAKEMYTRIP-STYLE CANYON & DUSK HERO CANVAS */}
+      {/* 1. FRESH, VIBRANT & ATTRACTIVE TRAVEL SKY HERO CANVAS */}
       <div
-        className="relative min-h-[580px] sm:min-h-[620px] pt-6 pb-24 px-3 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden transition-all duration-500"
+        className="relative min-h-[580px] sm:min-h-[620px] pt-6 pb-24 px-3 sm:px-6 lg:px-8 bg-cover bg-top overflow-hidden transition-all duration-500"
         style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(12, 24, 44, 0.48), rgba(7, 18, 36, 0.74)), url('/makemytrip_luxury_canyon_hero.jpg')"
+          backgroundImage: "linear-gradient(to bottom, rgba(12, 38, 72, 0.18), rgba(8, 25, 48, 0.38)), url('/fresh_travel_sky_hero.jpg')"
         }}
       >
         <div className="max-w-7xl mx-auto relative z-10 space-y-4">
