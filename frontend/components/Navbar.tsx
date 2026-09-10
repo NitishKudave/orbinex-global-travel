@@ -83,70 +83,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top Notification / Utility Bar */}
-      <div className="bg-[#071426] text-slate-300 text-xs py-2 px-4 border-b border-[#162a45]">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-amber-300 font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              Special Promo: Use code <strong className="text-white bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30 tracking-wide font-mono">ORBINEX100</strong> for $100 OFF
-            </span>
-            <button 
-              onClick={() => setIsVisaTrackOpen(true)} 
-              className="text-cyan-400 hover:text-cyan-300 font-medium transition cursor-pointer hover:underline"
-            >
-              Track Visa Status
-            </button>
-            <button
-              onClick={() => setIsApiModalOpen(true)}
-              className="hidden lg:flex items-center gap-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-cyan-400/25 transition cursor-pointer"
-            >
-              <Sparkles className="w-3 h-3 text-cyan-400" />
-              <span>Live APIs & Integration</span>
-            </button>
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="tel:+18005550199" className="flex items-center gap-1.5 text-slate-300 hover:text-white transition">
-              <PhoneCall className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="hidden md:inline text-slate-400">24/7 Global Concierge:</span>
-              <span className="font-medium">+1 (800) 555-0199</span>
-            </a>
-            
-            {/* Currency Selector */}
-            <div className="relative">
-              <button
-                onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
-                className="flex items-center gap-1.5 bg-[#0b1d35] hover:bg-[#162a45] text-white px-2.5 py-1 rounded-lg text-xs font-medium transition border border-[#1e3a5f] cursor-pointer"
-              >
-                <span>{CURRENCIES.find((c) => c.code === currency)?.flag}</span>
-                <span className="font-semibold">{currency}</span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
-              </button>
-
-              {isCurrencyOpen && (
-                <div className="absolute right-0 mt-1 w-38 bg-[#0b1d35] border border-[#1e3a5f] rounded-xl shadow-2xl py-1 z-50 overflow-hidden">
-                  {CURRENCIES.map((c) => (
-                    <button
-                      key={c.code}
-                      onClick={() => {
-                        setCurrency(c.code);
-                        setIsCurrencyOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-cyan-500/15 transition cursor-pointer ${
-                        currency === c.code ? 'text-cyan-400 font-semibold bg-cyan-500/10' : 'text-slate-200'
-                      }`}
-                    >
-                      <span className="flex items-center gap-1.5">{c.flag} {c.label}</span>
-                      {currency === c.code && <CheckCircle2 className="w-3 h-3 text-cyan-400" />}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Sticky Navbar */}
       <header
         className="sticky top-0 z-40 transition-all duration-300"
@@ -224,14 +160,28 @@ export default function Navbar() {
                         );
                       })}
                       <div className="border-t border-slate-100 my-1.5"></div>
+                      <button
+                        onClick={() => setIsVisaTrackOpen(true)}
+                        className="w-full text-left flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-sky-50/70 hover:text-[#0284c7] transition cursor-pointer"
+                      >
+                        <FileCheck2 className="w-4 h-4 text-sky-500" />
+                        <span>Track Visa Application</span>
+                      </button>
+                      <button
+                        onClick={() => setIsApiModalOpen(true)}
+                        className="w-full text-left flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-sky-50/70 hover:text-[#0284c7] transition cursor-pointer"
+                      >
+                        <Sparkles className="w-4 h-4 text-amber-500" />
+                        <span>Live APIs &amp; Integration</span>
+                      </button>
                       <a
                         href="http://127.0.0.1:8000/api/v1/schema/swagger-ui/"
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-purple-600 hover:bg-purple-50/70 transition"
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-purple-600 hover:bg-purple-50/70 transition"
                       >
-                        <Sparkles className="w-3.5 h-3.5 text-purple-500" />
-                        Swagger API Docs
+                        <Sparkles className="w-4 h-4 text-purple-500" />
+                        <span>Swagger API Docs</span>
                       </a>
                     </div>
                   </div>
@@ -239,36 +189,45 @@ export default function Navbar() {
               </nav>
 
               {/* Right Action Buttons */}
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2 sm:gap-2.5">
                 
                 {/* Unified Cart Button */}
                 <button
                   onClick={() => setIsDrawerOpen(true)}
-                  className="relative flex items-center gap-1.5 bg-slate-100/90 hover:bg-slate-200/80 text-slate-800 px-3.5 py-2 rounded-xl text-[13px] font-semibold transition cursor-pointer"
+                  className="relative flex items-center gap-1.5 bg-slate-100/90 hover:bg-slate-200/80 text-slate-800 px-3.5 py-2.5 rounded-xl text-[13px] font-bold transition cursor-pointer"
                   title="View Unified Booking Cart"
                 >
                   <ShoppingBag className="w-4 h-4 text-slate-700" />
                   <span className="hidden sm:inline">Cart</span>
                   {totalItems > 0 && (
-                    <span className="bg-[#0284c7] text-white text-[11px] font-bold px-1.5 py-0.5 rounded-full min-w-5 text-center shadow-xs">
+                    <span className="bg-[#0284c7] text-white text-[11px] font-black px-1.5 py-0.5 rounded-full min-w-5 text-center shadow-xs">
                       {totalItems}
                     </span>
                   )}
                 </button>
 
-                {/* Currency Selector (Akbar Travels Style: IND | INR) */}
-                <div className="relative hidden md:block">
+                {/* Currency Selector (Corner Placement: 🇮🇳 IND | INR) */}
+                <div className="relative">
                   <button
                     onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
-                    className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-800 px-3 py-2 rounded-lg text-xs font-bold transition border border-slate-200 cursor-pointer"
+                    className="flex items-center gap-1.5 sm:gap-2 bg-slate-50 hover:bg-slate-100 text-slate-800 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold transition border border-slate-200/90 shadow-2xs cursor-pointer"
+                    title="Select Currency"
                   >
-                    <span>{CURRENCIES.find((c) => c.code === currency)?.flag}</span>
-                    <span>{CURRENCIES.find((c) => c.code === currency)?.label || currency}</span>
-                    <ChevronDown className="w-3 h-3 text-slate-400" />
+                    <span className="text-base sm:text-lg leading-none">{CURRENCIES.find((c) => c.code === currency)?.flag || '🇮🇳'}</span>
+                    <div className="flex flex-col text-left leading-tight">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                        {currency === 'INR' ? 'IND' : currency}
+                      </span>
+                      <span className="text-[11.5px] font-black text-slate-900">{currency}</span>
+                    </div>
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 ml-0.5" />
                   </button>
 
                   {isCurrencyOpen && (
-                    <div className="absolute right-0 mt-1 w-38 bg-white border border-slate-200 rounded-xl shadow-2xl py-1 z-50 overflow-hidden">
+                    <div className="absolute right-0 mt-1.5 w-44 bg-white border border-slate-200 rounded-2xl shadow-2xl py-1.5 z-50 overflow-hidden animate-fade-in-up-sm">
+                      <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 mb-1">
+                        Select Currency
+                      </div>
                       {CURRENCIES.map((c) => (
                         <button
                           key={c.code}
@@ -276,12 +235,15 @@ export default function Navbar() {
                             setCurrency(c.code);
                             setIsCurrencyOpen(false);
                           }}
-                          className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-sky-50 transition cursor-pointer ${
+                          className={`w-full text-left px-3.5 py-2 text-xs flex items-center justify-between hover:bg-sky-50 transition cursor-pointer ${
                             currency === c.code ? 'text-[#0284c7] font-bold bg-sky-50/60' : 'text-slate-700'
                           }`}
                         >
-                          <span className="flex items-center gap-1.5">{c.flag} {c.label}</span>
-                          {currency === c.code && <CheckCircle2 className="w-3 h-3 text-[#0284c7]" />}
+                          <span className="flex items-center gap-2 text-xs">
+                            <span className="text-sm">{c.flag}</span>
+                            <span>{c.label}</span>
+                          </span>
+                          {currency === c.code && <CheckCircle2 className="w-3.5 h-3.5 text-[#0284c7]" />}
                         </button>
                       ))}
                     </div>
