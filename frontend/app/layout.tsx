@@ -6,6 +6,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
 
+import ScrollToTop from '@/components/ScrollToTop';
+
 export const metadata: Metadata = {
   title: 'OrbinexGlobal Travel | Luxury Flights, Hotels, Umrah, Visas & Curated Tours',
   description: 'Enterprise full-stack travel booking platform covering international flights, 5-star hotels, intercity buses, electronic visas, travel insurance, Umrah packages, and medical tourism.',
@@ -27,6 +29,7 @@ export default function RootLayout({
               {children}
             </main>
             <CartDrawer />
+            <ScrollToTop />
             <Footer />
           </CartProvider>
         </AuthProvider>
