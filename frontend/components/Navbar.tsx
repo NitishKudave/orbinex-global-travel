@@ -180,7 +180,7 @@ export default function Navbar() {
                   const isActive = pathname === link.href;
                   return (
                     <Link
-                      key={link.href}
+                      key={link.label}
                       href={link.href}
                       className={`relative flex items-center gap-1.5 px-3 xl:px-3.5 py-2 rounded-xl text-[14.5px] xl:text-[15.5px] font-extrabold transition-all duration-180 ${
                         isActive
@@ -214,7 +214,7 @@ export default function Navbar() {
                         const Icon = link.icon;
                         return (
                           <Link
-                            key={link.href}
+                            key={link.label}
                             href={link.href}
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-sky-50/60 hover:text-[#0284c7] transition"
                           >
@@ -372,7 +372,7 @@ export default function Navbar() {
                   const isActive = pathname === link.href;
                   return (
                     <Link
-                      key={link.href}
+                      key={link.label}
                       href={link.href}
                       onClick={() => setIsMobileNavOpen(false)}
                       className={`flex items-center gap-2 p-2.5 rounded-xl text-xs font-semibold transition ${

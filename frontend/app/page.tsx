@@ -479,14 +479,18 @@ export default function HomePage() {
         </div>
       </AnimatedSection>
 
-      {/* 5. Umrah Pilgrimage Spotlight Banner */}
-      <section className="py-14 bg-[#071426] text-white border-b border-[#162a45]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 5. Umrah Pilgrimage Spotlight Banner (Royal Emerald Green & Gold) */}
+      <section className="relative py-16 bg-gradient-to-br from-[#031d16] via-[#08382b] to-[#021811] text-white border-y border-[#0d5340]/80 overflow-hidden">
+        {/* Subtle Ambient Backlight Glows */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-7 space-y-4">
               <span
-                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-300 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/25"
+                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-300 bg-amber-500/15 px-3.5 py-1 rounded-full border border-amber-400/30 shadow-[0_0_15px_rgba(245,158,11,0.15)]"
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                 Dedicated Islamic Pilgrimage Wing
@@ -497,7 +501,7 @@ export default function HomePage() {
                 VIP 5-Star Umrah Packages: Facing Masjid al-Haram &amp; Rawdah
               </h2>
               <p
-                className="text-slate-300 text-sm leading-relaxed"
+                className="text-emerald-100/80 text-sm leading-relaxed"
               >
                 Perform your spiritual journey in utmost tranquility. We bundle 5-Star Clock Tower Haram front suites, Dar Al Taqwa Madinah, Saudi 1-Year Multiple Entry eVisa, private GMC Yukon airport transfers, and scholar-guided historical Ziyarat tours.
               </p>
@@ -506,25 +510,25 @@ export default function HomePage() {
                 className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2"
               >
                 <div
-                  className="bg-[#0b1d35] border border-[#1e3a5f] p-3.5 rounded-xl"
+                  className="bg-[#05281e]/90 border border-[#0d4f3c] hover:border-amber-400/50 p-3.5 rounded-xl shadow-md transition-all"
                 >
-                  <span className="text-[10px] text-slate-400 uppercase block font-bold">Makkah Hotel</span>
+                  <span className="text-[10px] text-amber-300/80 uppercase block font-bold">Makkah Hotel</span>
                   <span className="text-xs font-bold text-white">Fairmont Clock Tower</span>
-                  <span className="text-[10px] text-amber-400 block mt-0.5">0m Facing Kaaba</span>
+                  <span className="text-[10px] text-amber-400 block mt-0.5 font-semibold">0m Facing Kaaba</span>
                 </div>
                 <div
-                  className="bg-[#0b1d35] border border-[#1e3a5f] p-3.5 rounded-xl"
+                  className="bg-[#05281e]/90 border border-[#0d4f3c] hover:border-amber-400/50 p-3.5 rounded-xl shadow-md transition-all"
                 >
-                  <span className="text-[10px] text-slate-400 uppercase block font-bold">Madinah Hotel</span>
+                  <span className="text-[10px] text-amber-300/80 uppercase block font-bold">Madinah Hotel</span>
                   <span className="text-xs font-bold text-white">Dar Al Taqwa 5★</span>
-                  <span className="text-[10px] text-amber-400 block mt-0.5">50m to Rawdah</span>
+                  <span className="text-[10px] text-amber-400 block mt-0.5 font-semibold">50m to Rawdah</span>
                 </div>
                 <div
-                  className="bg-[#0b1d35] border border-[#1e3a5f] p-3.5 rounded-xl"
+                  className="bg-[#05281e]/90 border border-[#0d4f3c] hover:border-amber-400/50 p-3.5 rounded-xl shadow-md transition-all"
                 >
-                  <span className="text-[10px] text-slate-400 uppercase block font-bold">Visa &amp; Transfers</span>
+                  <span className="text-[10px] text-amber-300/80 uppercase block font-bold">Visa &amp; Transfers</span>
                   <span className="text-xs font-bold text-white">1-Year eVisa + GMC</span>
-                  <span className="text-[10px] text-emerald-400 block mt-0.5">Included</span>
+                  <span className="text-[10px] text-emerald-400 block mt-0.5 font-semibold">Included</span>
                 </div>
               </div>
 
@@ -533,13 +537,13 @@ export default function HomePage() {
               >
                 <Link
                   href="/umrah"
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-6 py-3 rounded-xl transition shadow-sm"
+                  className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-black text-xs px-6 py-3 rounded-xl transition shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:scale-[1.02]"
                 >
                   Explore All Umrah Packages
                 </Link>
                 <Link
                   href="/visa"
-                  className="bg-[#0b1d35] hover:bg-[#162a45] text-white font-semibold text-xs px-5 py-3 rounded-xl border border-[#1e3a5f] transition"
+                  className="bg-[#063024] hover:bg-[#0a4233] text-amber-100 font-semibold text-xs px-5 py-3 rounded-xl border border-[#145d47] transition"
                 >
                   Apply for Saudi eVisa
                 </Link>
@@ -548,7 +552,7 @@ export default function HomePage() {
 
             <div className="lg:col-span-5">
               <div
-                className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 group"
+                className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-amber-400/35 group ring-1 ring-amber-400/20"
               >
                 <img
                   src="https://images.unsplash.com/photo-1564769625905-50e93615e769"
@@ -556,12 +560,12 @@ export default function HomePage() {
                   className="w-full h-80 object-cover group-hover:scale-105 transition duration-500"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#021811]/95 via-transparent to-transparent flex flex-col justify-end p-6">
                   <span
                     className="text-amber-400 font-bold text-xs uppercase tracking-wider"
                   >Executive Package</span>
                   <h4 className="text-lg font-bold text-white">14 Days Executive VIP Umrah Pilgrimage</h4>
-                  <p className="text-xs text-slate-300 mt-1">Starting from {formatPrice(1650)} / Pilgrim (Quad Sharing)</p>
+                  <p className="text-xs text-amber-200/90 mt-1">Starting from {formatPrice(1650)} / Pilgrim (Quad Sharing)</p>
                 </div>
               </div>
             </div>

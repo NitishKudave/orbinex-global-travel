@@ -12,7 +12,11 @@ import {
   Award,
   Sparkles,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Lock,
+  Headphones,
+  Globe,
+  CreditCard
 } from 'lucide-react';
 import { api } from '@/lib/api';
 
@@ -28,7 +32,7 @@ export default function Footer() {
     try {
       await api.subscribeNewsletter(email.trim());
       setStatus('success');
-      setMsg('Thank you for subscribing to OrbinexGlobal VIP deals!');
+      setMsg('Welcome to OrbinexGlobal VIP Club! Your exclusive welcome perks are on their way.');
       setEmail('');
     } catch (err: any) {
       setStatus('error');
@@ -37,140 +41,229 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#071426] text-slate-400 text-sm border-t border-[#162a45]">
-      
-      {/* Newsletter VIP Banner */}
-      <div className="border-b border-[#162a45] bg-gradient-to-r from-[#0b1d35] via-[#071426] to-[#0b1d35] py-10 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-1.5 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
+    <footer className="relative bg-gradient-to-b from-[#060c18] via-[#03060c] to-[#010206] text-slate-400 text-sm border-t border-sky-500/25 overflow-hidden">
+      {/* Luminous Top Accent Beam & Ambient Backlight */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-sky-400/80 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-sky-500/5 blur-3xl pointer-events-none" />
+
+      {/* VIP Newsletter Concierge Banner */}
+      <div className="border-b border-white/5 bg-gradient-to-r from-sky-950/30 via-slate-900/40 to-sky-950/30 py-12 px-4 sm:px-6 lg:px-8 relative backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
+          
+          <div className="text-center lg:text-left max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-amber-300 text-xs font-black uppercase tracking-widest mb-2.5 bg-amber-500/10 border border-amber-400/30 px-3.5 py-1 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.15)]">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              Orbinex VIP Travel Club
+              <span>Orbinex Privé Travel Club</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-              Unlock Secret Flight Flash Sales &amp; Exclusive Tour Perks
+            <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
+              Unlock Secret Flight Tariffs &amp; 5-Star Flash Sales
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1">
-              Join 120,000+ luxury travelers receiving our handpicked weekly deals and instant visa updates.
+            <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+              Join 120,000+ luxury travelers worldwide receiving handpicked unpublished business-class fares, complimentary suite upgrades, and instant visa alerts.
             </p>
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mt-3 text-[11px] text-slate-400 font-medium">
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> No spam ever</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Unsubscribe anytime</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> 100% Free VIP access</span>
+            </div>
           </div>
 
           <div className="w-full lg:w-auto">
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto lg:mx-0">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2.5 max-w-md mx-auto lg:mx-0">
               <div className="relative flex-1">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-sky-400 absolute left-4 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address..."
-                  className="w-full bg-[#071426] border border-[#1e3a5f] text-white text-xs rounded-xl pl-10 pr-4 py-3 outline-none focus:border-[#0284c7] transition"
+                  placeholder="Enter your VIP email address..."
+                  className="w-full bg-[#040a14]/90 border border-sky-900/60 focus:border-sky-400 text-white text-xs rounded-xl pl-11 pr-4 py-3.5 outline-none transition-all shadow-inner placeholder:text-slate-500"
                 />
               </div>
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="flex items-center justify-center gap-2 bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-sm cursor-pointer disabled:opacity-50 active:scale-98"
+                className="flex items-center justify-center gap-2 bg-gradient-to-r from-sky-600 via-sky-500 to-cyan-500 hover:from-sky-500 hover:to-cyan-400 text-white font-extrabold text-xs px-6 py-3.5 rounded-xl transition shadow-[0_4px_16px_rgba(2,132,199,0.35)] cursor-pointer disabled:opacity-50 active:scale-95 whitespace-nowrap"
               >
-                <span>{status === 'loading' ? 'Joining...' : 'Subscribe Free'}</span>
+                <span>{status === 'loading' ? 'Verifying...' : 'Join VIP Club'}</span>
                 <Send className="w-3.5 h-3.5" />
               </button>
             </form>
             {msg && (
-              <p className={`text-xs mt-2 flex items-center gap-1.5 ${status === 'success' ? 'text-emerald-400' : 'text-rose-400'}`}>
+              <p className={`text-xs mt-2.5 flex items-center gap-1.5 ${status === 'success' ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {status === 'success' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
                 {msg}
               </p>
             )}
           </div>
+
         </div>
       </div>
 
-      {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      {/* Main Luxury Footer Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-10">
           
-          {/* Column 1: Brand Info */}
+          {/* Column 1 & 2: Brand Credentials & Concierge (Col Span 2) */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-400 flex items-center justify-center text-white font-bold shadow-xs">
-                <Compass className="w-5 h-5" />
+            <Link href="/" className="inline-flex items-center gap-2.5 group">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 via-sky-500 to-cyan-400 flex items-center justify-center text-white shadow-[0_4px_16px_rgba(2,132,199,0.4)] group-hover:scale-105 transition-transform duration-300">
+                <Compass className="w-6 h-6" />
               </div>
-              <span className="text-xl font-black text-white tracking-tight">
-                ORBINEX<span className="text-[#0284c7]">GLOBAL</span>
-              </span>
+              <div>
+                <span className="text-xl font-black text-white tracking-tight block">
+                  ORBINEX<span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">GLOBAL</span>
+                </span>
+                <span className="text-[9.5px] font-bold uppercase tracking-widest text-sky-400 block -mt-0.5">
+                  Luxury Travel &amp; Global Concierge
+                </span>
+              </div>
             </Link>
-            <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
-              OrbinexGlobal Travel is an international full-stack travel booking &amp; concierge platform delivering end-to-end flight booking, 5-star hotel accommodations, religious pilgrimage tours, worldwide medical travel, and seamless visa processing.
+
+            <p className="text-xs text-slate-300 leading-relaxed">
+              OrbinexGlobal Travel is an international full-stack travel booking &amp; concierge ecosystem delivering end-to-end flight booking across 500+ carriers, 1.2M 5-star hotels &amp; villas, IRCTC rail tickets, intercity luxury buses, bespoke holiday circuits, and Islamic pilgrimage services.
             </p>
             
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <div className="flex items-center gap-1.5 text-xs text-slate-300 font-semibold bg-[#0b1d35] px-3 py-1.5 rounded-lg border border-[#1e3a5f]">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                100% Financial Protection
+            {/* Trust & Accreditations Badges */}
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <div className="flex items-center gap-2 text-[11px] text-slate-200 font-semibold bg-[#071324] px-3 py-2 rounded-xl border border-sky-950">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>100% Secure Booking</span>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-slate-300 font-semibold bg-[#0b1d35] px-3 py-1.5 rounded-lg border border-[#1e3a5f]">
-                <Award className="w-4 h-4 text-amber-400" />
-                IATA Accredited
+              <div className="flex items-center gap-2 text-[11px] text-slate-200 font-semibold bg-[#071324] px-3 py-2 rounded-xl border border-sky-950">
+                <Award className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>IATA Accredited</span>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] text-slate-200 font-semibold bg-[#071324] px-3 py-2 rounded-xl border border-sky-950">
+                <Lock className="w-4 h-4 text-sky-400 shrink-0" />
+                <span>256-Bit SSL Encrypted</span>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] text-slate-200 font-semibold bg-[#071324] px-3 py-2 rounded-xl border border-sky-950">
+                <Headphones className="w-4 h-4 text-purple-400 shrink-0" />
+                <span>24/7 VIP Concierge</span>
+              </div>
+            </div>
+
+            {/* Direct Support Hotline */}
+            <div className="pt-2 text-xs text-slate-300 space-y-1.5">
+              <div className="flex items-center gap-2">
+                <PhoneCall className="w-3.5 h-3.5 text-sky-400" />
+                <span className="font-semibold text-white">Concierge Desk:</span>
+                <span className="text-slate-300 font-mono">+1 (800) ORBINEX / +91 (22) 4890-8800</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-sky-400" />
+                <span className="font-semibold text-white">VIP Inquiries:</span>
+                <span className="text-sky-300">concierge@orbinexglobal.com</span>
               </div>
             </div>
           </div>
 
-          {/* Column 2: Flights & Stays */}
+          {/* Column 3: Aviation & Rail */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Aviation & Stays</h4>
-            <ul className="space-y-2 text-xs">
-              <li><Link href="/flights" className="hover:text-cyan-400 transition">International Flights</Link></li>
-              <li><Link href="/flights" className="hover:text-cyan-400 transition">Business & First Class</Link></li>
-              <li><Link href="/hotels" className="hover:text-cyan-400 transition">5-Star Luxury Hotels</Link></li>
-              <li><Link href="/hotels" className="hover:text-cyan-400 transition">Private Pool Villas</Link></li>
-              <li><Link href="/bus" className="hover:text-cyan-400 transition">Intercity Luxury Buses</Link></li>
-              <li><Link href="/utilities" className="hover:text-cyan-400 transition">Airport Lounge Passes</Link></li>
+            <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+              Aviation &amp; Rail
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              <li><Link href="/flights" className="hover:text-cyan-300 transition-colors">International Airfares</Link></li>
+              <li><Link href="/flights" className="hover:text-cyan-300 transition-colors">Business &amp; First Class</Link></li>
+              <li><Link href="/utilities" className="hover:text-cyan-300 transition-colors">IRCTC Train E-Tickets</Link></li>
+              <li><Link href="/bus" className="hover:text-cyan-300 transition-colors">Intercity Volvo &amp; Sleeper Buses</Link></li>
+              <li><Link href="/utilities" className="hover:text-cyan-300 transition-colors">Airport Lounge Access</Link></li>
+              <li><Link href="/flights" className="hover:text-cyan-300 transition-colors">Seat Selection &amp; Web Check-In</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Holidays & Pilgrimage */}
+          {/* Column 4: Luxury Stays & Escapes */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Tours & Pilgrimage</h4>
-            <ul className="space-y-2 text-xs">
-              <li><Link href="/umrah" className="hover:text-cyan-400 transition">VIP Umrah Packages</Link></li>
-              <li><Link href="/umrah" className="hover:text-cyan-400 transition">Clock Tower Haram Suites</Link></li>
-              <li><Link href="/holidays" className="hover:text-cyan-400 transition">Bali & Swiss Alps Tours</Link></li>
-              <li><Link href="/europamundo" className="hover:text-cyan-400 transition">Europamundo Circuits</Link></li>
-              <li><Link href="/medical-tourism" className="hover:text-cyan-400 transition">Medical Tourism Concierge</Link></li>
-              <li><Link href="/offers" className="hover:text-cyan-400 transition">Bank Discount Coupons</Link></li>
+            <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              Stays &amp; Tours
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              <li><Link href="/hotels" className="hover:text-cyan-300 transition-colors">5-Star Luxury Resorts</Link></li>
+              <li><Link href="/hotels" className="hover:text-cyan-300 transition-colors">Overwater Pool Villas</Link></li>
+              <li><Link href="/holidays" className="hover:text-cyan-300 transition-colors">Swiss Alps &amp; Bali Circuits</Link></li>
+              <li><Link href="/europamundo" className="hover:text-cyan-300 transition-colors">Europamundo Coach Circuits</Link></li>
+              <li><Link href="/insurance" className="hover:text-cyan-300 transition-colors">Worldwide Travel Insurance</Link></li>
+              <li><Link href="/offers" className="hover:text-cyan-300 transition-colors">Bank Cards &amp; Promo Codes</Link></li>
             </ul>
           </div>
 
-          {/* Column 4: Visas & Travel Utilities */}
+          {/* Column 5: Pilgrimage & Wellness */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Visas & Utilities</h4>
-            <ul className="space-y-2 text-xs">
-              <li><Link href="/visa" className="hover:text-cyan-400 transition">UAE & Dubai Tourist eVisa</Link></li>
-              <li><Link href="/visa" className="hover:text-cyan-400 transition">Schengen Europe Visa Support</Link></li>
-              <li><Link href="/insurance" className="hover:text-cyan-400 transition">Worldwide Travel Insurance</Link></li>
-              <li><Link href="/utilities" className="hover:text-cyan-400 transition">International 5G eSIMs</Link></li>
-              <li><Link href="/utilities" className="hover:text-cyan-400 transition">Forex Multi-Currency Cards</Link></li>
-              <li><Link href="/dashboard" className="hover:text-cyan-400 transition">Customer Portal & Invoices</Link></li>
+            <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              Pilgrimage &amp; Care
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              <li><Link href="/umrah" className="hover:text-cyan-300 transition-colors">VIP 5-Star Umrah Packages</Link></li>
+              <li><Link href="/umrah" className="hover:text-cyan-300 transition-colors">Clock Tower Haram Suites</Link></li>
+              <li><Link href="/umrah" className="hover:text-cyan-300 transition-colors">Dar Al Taqwa Madinah Stays</Link></li>
+              <li><Link href="/umrah" className="hover:text-cyan-300 transition-colors">Scholar Guided Ziyarat</Link></li>
+              <li><Link href="/medical-tourism" className="hover:text-cyan-300 transition-colors">Medical Tourism Concierge</Link></li>
+              <li><Link href="/medical-tourism" className="hover:text-cyan-300 transition-colors">JCI Accredited Hospitals</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 6: Visas & Travel Utilities */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+              Visas &amp; Utilities
+            </h4>
+            <ul className="space-y-2.5 text-xs">
+              <li><Link href="/visa" className="hover:text-cyan-300 transition-colors">Saudi 1-Year Multiple eVisa</Link></li>
+              <li><Link href="/visa" className="hover:text-cyan-300 transition-colors">Dubai &amp; UAE Tourist eVisa</Link></li>
+              <li><Link href="/visa" className="hover:text-cyan-300 transition-colors">Schengen Europe Visa Help</Link></li>
+              <li><Link href="/utilities" className="hover:text-cyan-300 transition-colors">International 5G eSIMs</Link></li>
+              <li><Link href="/utilities" className="hover:text-cyan-300 transition-colors">Multi-Currency Forex Cards</Link></li>
+              <li><Link href="/dashboard" className="hover:text-cyan-300 transition-colors">Manage Bookings &amp; Invoices</Link></li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom Strip: Copyright & Gateways */}
-        <div className="mt-12 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p className="text-slate-500">
-            © {new Date().getFullYear()} OrbinexGlobal Travel Inc. All rights reserved. Version 1.0.0
+        {/* Global Operational Hubs Bar */}
+        <div className="mt-12 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 text-slate-300 font-bold">
+            <Globe className="w-4 h-4 text-sky-400" />
+            <span className="text-white">Global Concierge Presence:</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
+            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-sky-400" /> London (Mayfair)</span>
+            <span className="text-slate-600">•</span>
+            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-sky-400" /> Dubai (DIFC)</span>
+            <span className="text-slate-600">•</span>
+            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-sky-400" /> New York (Manhattan)</span>
+            <span className="text-slate-600">•</span>
+            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-sky-400" /> Singapore (Marina Bay)</span>
+            <span className="text-slate-600">•</span>
+            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-sky-400" /> Mumbai (BKC)</span>
+            <span className="text-slate-600">•</span>
+            <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-sky-400" /> Riyadh (Al Olaya)</span>
+          </div>
+        </div>
+
+        {/* Bottom Strip: Copyright & Payment Security */}
+        <div className="mt-6 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <p className="text-slate-400 text-center sm:text-left">
+            &copy; {new Date().getFullYear()} OrbinexGlobal Travel Inc. All rights reserved. Registered Travel Partner &amp; Luxury Concierge Network.
           </p>
 
-          {/* Payment Badges Representation */}
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] text-slate-500 uppercase font-semibold">Protected Gateways:</span>
-            <span className="bg-slate-800 text-slate-300 font-bold px-2 py-0.5 rounded text-[10px] border border-slate-700">Stripe</span>
-            <span className="bg-slate-800 text-slate-300 font-bold px-2 py-0.5 rounded text-[10px] border border-slate-700">Razorpay</span>
-            <span className="bg-slate-800 text-slate-300 font-bold px-2 py-0.5 rounded text-[10px] border border-slate-700">Apple Pay</span>
-            <span className="bg-slate-800 text-slate-300 font-bold px-2 py-0.5 rounded text-[10px] border border-slate-700">Visa / MC</span>
+          {/* Certified Payment Gateways Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            <span className="text-[10px] text-slate-400 uppercase font-bold mr-1 flex items-center gap-1">
+              <CreditCard className="w-3 h-3 text-emerald-400" />
+              Secured By:
+            </span>
+            <span className="bg-[#071324] text-slate-200 font-bold px-2.5 py-1 rounded-md text-[10.5px] border border-sky-950 shadow-xs">Stripe Verified</span>
+            <span className="bg-[#071324] text-slate-200 font-bold px-2.5 py-1 rounded-md text-[10.5px] border border-sky-950 shadow-xs">Razorpay 3DS</span>
+            <span className="bg-[#071324] text-slate-200 font-bold px-2.5 py-1 rounded-md text-[10.5px] border border-sky-950 shadow-xs">Visa / Mastercard</span>
+            <span className="bg-[#071324] text-slate-200 font-bold px-2.5 py-1 rounded-md text-[10.5px] border border-sky-950 shadow-xs">Amex</span>
+            <span className="bg-[#071324] text-slate-200 font-bold px-2.5 py-1 rounded-md text-[10.5px] border border-sky-950 shadow-xs">Apple Pay</span>
           </div>
         </div>
 
