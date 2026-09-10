@@ -227,21 +227,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Trending Routes With Cheap Fares (Akbar Travels Signature Route Cards) */}
-      <section className="py-10 bg-slate-50/70 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. Trending Routes With Cheap Fares (Aviation Flight Sky Travel Background) */}
+      <section className="relative py-14 overflow-hidden border-b border-slate-200/80">
+        {/* Scenic Flight Sky Travel Background */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700"
+          style={{ backgroundImage: `url('/routes_flight_sky_bg.jpg')` }}
+        />
+        {/* Frosted Glass Overlay for 100% Card & Route Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/94 via-white/86 to-white/95 backdrop-blur-[1.5px]" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-6 gap-3">
             <div>
+              <div className="inline-flex items-center gap-1.5 text-[#0284c7] font-bold text-xs uppercase tracking-wider mb-1 bg-sky-50/90 border border-sky-200/80 px-2.5 py-0.5 rounded-full shadow-2xs">
+                <Plane className="w-3.5 h-3.5" />
+                <span>Lowest Airfare Guarantee</span>
+              </div>
               <h2 className="text-2xl sm:text-[26px] font-black text-slate-900 tracking-tight">
                 Trending Routes With Cheap Fares
               </h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
                 Book flight tickets at guaranteed best prices on popular domestic and international routes
               </p>
             </div>
             <Link
               href="/flights"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#0284c7] hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#0284c7] hover:underline bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-sky-100 shadow-2xs"
             >
               <span>View All Routes</span>
               <ArrowRight className="w-4 h-4" />
@@ -314,16 +326,16 @@ export default function HomePage() {
               <Link
                 key={idx}
                 href={`/flights?origin=${route.fromCode}&destination=${route.toCode}&tripType=oneway`}
-                className="group bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-[#0284c7] hover:shadow-lg transition-all duration-200 flex flex-col justify-between hover:-translate-y-1"
+                className="group bg-white/94 hover:bg-white rounded-2xl p-4 sm:p-5 border border-white/90 hover:border-[#0284c7] backdrop-blur-md shadow-[0_4px_16px_rgba(15,23,42,0.05)] hover:shadow-[0_16px_32px_rgba(2,132,199,0.16)] transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5"
               >
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-sky-50 text-[#0284c7] flex items-center justify-center font-black text-xs">
+                    <div className="w-8 h-8 rounded-lg bg-sky-50 text-[#0284c7] flex items-center justify-center font-black text-xs shadow-2xs">
                       <Plane className="w-4 h-4 rotate-45" />
                     </div>
-                    <span className="text-xs font-bold text-slate-600">{route.airline}</span>
+                    <span className="text-xs font-bold text-slate-700">{route.airline}</span>
                   </div>
-                  <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                  <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
                     {route.type} • {route.duration}
                   </span>
                 </div>
@@ -350,7 +362,7 @@ export default function HomePage() {
                     <span className="text-[10px] text-slate-400 font-semibold block uppercase">Starts from</span>
                     <span className="text-lg font-black text-[#eb2026]">{route.price}</span>
                   </div>
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-[#0284c7] group-hover:translate-x-0.5 transition">
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-[#0284c7] group-hover:translate-x-1 transition-transform">
                     <span>Book Now</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>
@@ -366,24 +378,32 @@ export default function HomePage() {
         <AllServicesGrid />
       </FadeInUp>
 
-      {/* 4. Trending Holiday Packages & Luxury Stays */}
-      <AnimatedSection className="py-14 bg-white" delay={0.2} staggerChildren={0.12}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 4. Trending Holiday Packages & Luxury Stays (Tropical Paradise & Luxury Resorts Background) */}
+      <section className="relative py-16 overflow-hidden border-b border-slate-200/80">
+        {/* Tropical Holiday Paradise Panoramic Background */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-[1.01]"
+          style={{ backgroundImage: `url('/holidays_paradise_bg.jpg')` }}
+        />
+        {/* Frosted Glass Overlay: Keeps paradise lagoon vivid while keeping tour cards completely crisp */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/93 via-white/84 to-white/95 backdrop-blur-[1.5px]" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50/90 border border-rose-200/80 px-3 py-1 rounded-full shadow-2xs backdrop-blur-xs">
                 Handcrafted Journeys
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-2">
                 Trending Holiday Tours &amp; Luxury Stays
               </h2>
-              <p className="text-sm text-slate-500 mt-1">
-                Handpicked global tour circuits with premium accommodations and private guides.
+              <p className="text-sm font-medium text-slate-600 mt-1 max-w-2xl">
+                Handpicked global tour circuits with premium accommodations, private transfers, and professional local guides.
               </p>
             </div>
             <Link
               href="/holidays"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 hover:text-rose-600 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 hover:text-rose-600 bg-white/90 hover:bg-white border border-slate-200 px-4 py-2 rounded-xl transition shadow-xs backdrop-blur-sm"
             >
               <span>Explore All Tours</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -394,7 +414,7 @@ export default function HomePage() {
             {featuredDestinations.map((item) => (
               <div
                 key={item.id}
-                className="group bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-lg hover:border-slate-300 transition-all duration-200 flex flex-col hover:-translate-y-1"
+                className="group bg-white/95 hover:bg-white rounded-2xl border border-white/90 overflow-hidden shadow-[0_4px_18px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_36px_rgba(15,23,42,0.14)] hover:border-sky-300 transition-all duration-300 flex flex-col hover:-translate-y-1.5 backdrop-blur-md"
               >
                 {/* Image Container */}
                 <div className="relative h-56 overflow-hidden">
@@ -406,7 +426,7 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
                   <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
-                    <span className="bg-[#071426]/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                    <span className="bg-[#071426]/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-xs">
                       <Clock className="w-3 h-3 text-cyan-400" />
                       {item.duration}
                     </span>
@@ -433,7 +453,7 @@ export default function HomePage() {
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-[10.5px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md"
+                          className="text-[10.5px] font-semibold text-slate-600 bg-slate-100/90 px-2 py-0.5 rounded-md border border-slate-200/50"
                         >
                           {tag}
                         </span>
@@ -477,13 +497,18 @@ export default function HomePage() {
           </div>
 
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* 5. Umrah Pilgrimage Spotlight Banner (Royal Emerald Green & Gold) */}
+      {/* 5. Umrah Pilgrimage Spotlight Banner (Royal Emerald Green & Gold with Holy Haram Background) */}
       <section className="relative py-16 bg-gradient-to-br from-[#031d16] via-[#08382b] to-[#021811] text-white border-y border-[#0d5340]/80 overflow-hidden">
+        {/* Holy Makkah Haram & Clock Tower Atmospheric Background Texture */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 mix-blend-luminosity pointer-events-none"
+          style={{ backgroundImage: `url('/makkah_spiritual_bg.jpg')` }}
+        />
         {/* Subtle Ambient Backlight Glows */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -576,15 +601,19 @@ export default function HomePage() {
 
       {/* 6. Medical Tourism & European Circuits Grid */}
       <FadeInUp delay={0.15}>
-        <div className="py-14 bg-slate-50/70">
+        <div className="py-14 bg-slate-50/70 border-b border-slate-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               {/* Medical Tourism Card */}
               <div
-                className="relative group bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col justify-between overflow-hidden hover:shadow-md transition-all duration-200"
+                className="relative group bg-white p-6 sm:p-7 rounded-2xl border border-red-200/80 shadow-xs flex flex-col justify-between overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <div>
+                {/* Subtle Healthcare Wellness Ambient Glow */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative">
                   <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-wider mb-2">
                     <HeartPulse className="w-4 h-4" />
                     <span>Global Healthcare Concierge</span>
@@ -592,35 +621,42 @@ export default function HomePage() {
                   <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                     Medical Tourism: Save Up to 85% with JCI Accredited Hospitals
                   </h3>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
                     Connect with world-class surgeons at Apollo Hospitals India and Bumrungrad Thailand for Robotic Knee Replacements, Minimally Invasive Heart Surgeries, Cosmetic &amp; Dental Makeovers with zero waitlists.
                   </p>
 
-                  <div className="mt-4 p-3 bg-red-50/60 rounded-xl border border-red-100 flex items-center justify-between text-xs">
+                  <div className="mt-4 p-3.5 bg-red-50/80 backdrop-blur-xs rounded-xl border border-red-100 flex items-center justify-between text-xs shadow-2xs">
                     <div>
-                      <span className="text-slate-500 block text-[11px]">Robotic Knee Replacement</span>
+                      <span className="text-slate-500 block text-[11px] font-medium">Robotic Knee Replacement</span>
                       <span className="font-bold text-red-700">Apollo India: $4,800</span>
                     </div>
-                    <span className="text-slate-400 text-xs font-semibold">vs US Avg: $35,000</span>
+                    <span className="text-slate-500 text-xs font-bold">vs US Avg: $35,000</span>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="relative mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                   <Link
                     href="/medical-tourism"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-red-600 hover:text-red-700 transition"
                   >
                     <span>Request Free 2nd Opinion &amp; Quote</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>
 
-              {/* Europamundo Card */}
+              {/* Europamundo Card with Scenic European Coach Route Background */}
               <div
-                className="relative group bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col justify-between overflow-hidden hover:shadow-md transition-all duration-200"
+                className="relative group bg-white p-6 sm:p-7 rounded-2xl border border-sky-200/90 shadow-xs flex flex-col justify-between overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <div>
+                {/* Europamundo Coach Scenic Highway Background Image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105 opacity-20"
+                  style={{ backgroundImage: `url('/europamundo_coach_bg.jpg')` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-white/90" />
+
+                <div className="relative">
                   <div className="flex items-center gap-2 text-[#0284c7] font-bold text-xs uppercase tracking-wider mb-2">
                     <Compass className="w-4 h-4" />
                     <span>Official Guided Coach Circuits</span>
@@ -628,26 +664,26 @@ export default function HomePage() {
                   <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                     Europamundo European Circuits with Guaranteed Departures
                   </h3>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">
                     Travel across Spain, Portugal, Italy, and Switzerland in panoramic luxury coaches. Multilingual audio guides in English, Spanish, and Arabic with 4-star city hotels included.
                   </p>
 
-                  <div className="mt-4 p-3 bg-sky-50/60 rounded-xl border border-sky-100 flex items-center justify-between text-xs">
+                  <div className="mt-4 p-3.5 bg-sky-50/80 backdrop-blur-xs rounded-xl border border-sky-200/80 flex items-center justify-between text-xs shadow-2xs">
                     <div>
-                      <span className="text-slate-500 block text-[11px]">Classic Iberian Tour (10 Days)</span>
+                      <span className="text-slate-500 block text-[11px] font-medium">Classic Iberian Tour (10 Days)</span>
                       <span className="font-bold text-[#0284c7]">Madrid, Granada, Lisbon, Porto</span>
                     </div>
-                    <span className="font-bold text-slate-800">{formatPrice(1450)}</span>
+                    <span className="font-extrabold text-slate-900 text-sm">{formatPrice(1450)}</span>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="relative mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                   <Link
                     href="/europamundo"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284c7] hover:text-sky-700 transition"
                   >
                     <span>View European Tour Departures</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>
