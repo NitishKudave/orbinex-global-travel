@@ -319,116 +319,157 @@ export default function TravelSceneAnimation({ activeTab = 'flights' }: TravelSc
 
 
         {/* ========================================================================= */}
-        {/* B. PROPER DUAL-LANE HIGHWAY CORRIDOR (TOP VIEW BUSES CRUISING)            */}
+        {/* B. PROPER HIGHWAY CORRIDOR (AUTHENTIC SIDE-VIEW LUXURY BUSES)             */}
         {/* ========================================================================= */}
-        <div className="relative w-full h-8 sm:h-9 bg-gradient-to-b from-[#111827] via-[#090d16] to-[#111827] border-t-2 border-slate-700 shadow-2xl flex items-center overflow-hidden">
+        <div className="relative w-full h-10 sm:h-12 bg-gradient-to-b from-[#1e293b] via-[#0f172a] to-[#090d16] border-t-2 border-slate-600/90 shadow-2xl flex items-center overflow-hidden">
           
           {/* Asphalt Road Bitumen Texture */}
-          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(#64748b_1px,transparent_1px)] [background-size:4px_4px]" />
+          <div className="absolute inset-0 opacity-35 bg-[radial-gradient(#64748b_1px,transparent_1px)] [background-size:4px_4px]" />
 
           {/* Crisp White Shoulder Lines */}
-          <div className="absolute top-0.5 left-0 right-0 h-[2px] bg-white/90 shadow-xs" />
-          <div className="absolute bottom-0.5 left-0 right-0 h-[2px] bg-white/90 shadow-xs" />
+          <div className="absolute top-1 left-0 right-0 h-[2px] bg-white/85 shadow-xs" />
+          <div className="absolute bottom-1 left-0 right-0 h-[2px] bg-white/95 shadow-xs" />
 
           {/* Highway Dashed Yellow Center Lane Divider */}
-          <div className="w-full h-0.5 border-b-2 border-dashed border-amber-400/90 shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
+          <div className="w-full h-0.5 border-b-2 border-dashed border-amber-400/90 shadow-[0_0_6px_rgba(251,191,36,0.6)]" />
 
-          {/* TOP-VIEW BUS 1: VOLVO 9600 MULTI-AXLE (Westbound: Right to Left in Upper Lane) */}
-          <div className="absolute top-0.5 left-0 animate-bus-west pointer-events-auto z-10">
+          {/* SIDE-VIEW BUS 1: VOLVO 9600 MULTI-AXLE (Westbound: Right to Left, Facing Left) */}
+          <div className="absolute bottom-1 sm:bottom-1.5 left-0 animate-bus-west pointer-events-auto z-10">
             <div className="relative group/bus1 cursor-pointer flex items-center scale-x-[-1]">
-              <svg className="h-4.5 sm:h-5 w-26 sm:w-32 filter drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]" viewBox="0 0 110 18" fill="none">
+              
+              {/* Detailed Side-View Volvo Luxury Sleeper Coach */}
+              <svg className="h-7 sm:h-8.5 w-34 sm:w-42 filter drop-shadow-[0_4px_12px_rgba(109,40,217,0.75)]" viewBox="0 0 140 34" fill="none">
                 <defs>
-                  <linearGradient id="b1-top-beam" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#fef08a" stopOpacity="0.9" />
+                  <linearGradient id="b1-side-beam" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#fef08a" stopOpacity="0.95" />
                     <stop offset="100%" stopColor="#fef08a" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
-                {/* Headlight Forward Beams */}
-                <polygon points="106,9 145,2 145,16 106,9" fill="url(#b1-top-beam)" />
+                {/* Forward Glowing Headlight Beams Casting Light on Asphalt Ahead */}
+                <polygon points="136,24 195,16 195,33 136,28" fill="url(#b1-side-beam)" />
 
-                {/* Bus Main Body (Top-View Rectangular Coach with Rounded Front) */}
-                <rect x="4" y="2" width="102" height="14" rx="3" fill="#6d28d9" stroke="#4c1d95" strokeWidth="1" />
-                
-                {/* Windshield (Front curved glass) */}
-                <path d="M100 3 C104 5 105 7 105 9 C105 11 104 13 100 15 Z" fill="#0f172a" />
-                
-                {/* Side Mirrors (Classic Bus Ears sticking out) */}
-                <rect x="98" y="0.5" width="2" height="2" fill="#0f172a" />
-                <rect x="98" y="15.5" width="2" height="2" fill="#0f172a" />
+                {/* Aerodynamic Luxury Coach Body */}
+                <path
+                  d="M4 8 C14 8 124 8 129 10 C135 12 136 16 136 27 L2 27 C2 15 3 10 4 8 Z"
+                  fill="#6d28d9"
+                  stroke="#5b21b6"
+                  strokeWidth="1.2"
+                />
 
-                {/* Roof AC Climate Control Pod */}
-                <rect x="40" y="4" width="34" height="10" rx="1.5" fill="#4c1d95" stroke="#7c3aed" strokeWidth="0.8" />
-                
-                {/* Emergency Roof Escape Hatches */}
-                <rect x="18" y="6" width="8" height="6" rx="1" fill="#5b21b6" />
-                <rect x="85" y="6" width="8" height="6" rx="1" fill="#5b21b6" />
+                {/* Roof Climate Control Unit */}
+                <rect x="50" y="6" width="46" height="2.5" rx="1" fill="#4c1d95" />
 
-                {/* Golden Livery Accent Stripe */}
-                <line x1="8" y1="9" x2="98" y2="9" stroke="#f59e0b" strokeWidth="1" strokeDasharray="6 3" />
+                {/* Windshield Cockpit Visor & Driver Window */}
+                <path d="M120 10 L134 14 L134 20 L120 20 Z" fill="#0f172a" />
+                {/* Driver Door Frame */}
+                <line x1="120" y1="10" x2="120" y2="27" stroke="#4c1d95" strokeWidth="0.8" />
 
-                {/* Front Headlights */}
-                <circle cx="104" cy="4" r="1.2" fill="#fef08a" />
-                <circle cx="104" cy="14" r="1.2" fill="#fef08a" />
-                
-                {/* Rear Red Lights */}
-                <rect x="4" y="3" width="1.5" height="2.5" fill="#ef4444" />
-                <rect x="4" y="12.5" width="1.5" height="2.5" fill="#ef4444" />
+                {/* Tinted Panoramic Passenger Sleeper Windows (Upper & Lower Row Look) */}
+                {[8, 26, 44, 62, 80, 98].map((x) => (
+                  <g key={x}>
+                    <rect x={x} y="10" width="16" height="4.2" rx="0.8" fill="#38bdf8" opacity="0.95" />
+                    <rect x={x} y="15.2" width="16" height="4.5" rx="0.8" fill="#38bdf8" opacity="0.9" />
+                  </g>
+                ))}
+
+                {/* Luxury Golden Livery Wave Accent Running Across Side */}
+                <path d="M4 22 Q52 17 134 23 L134 25 Q52 19 4 24 Z" fill="#f59e0b" />
+                <path d="M10 24 Q60 21 130 25 L130 25.8 Q60 22 10 25 Z" fill="#fde047" />
+
+                {/* Rear Vertical LED Taillight Cluster */}
+                <rect x="2" y="14" width="2" height="8" rx="0.5" fill="#ef4444" />
+
+                {/* Chrome Alloy Wheels Rolling on the Road (Multi-Axle: 1 Front + 2 Rear) */}
+                <g id="volvo-wheels">
+                  {/* Front Steering Axle */}
+                  <circle cx="28" cy="27" r="4.8" fill="#0f172a" />
+                  <circle cx="28" cy="27" r="2.8" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.8" />
+                  <circle cx="28" cy="27" r="1.2" fill="#0f172a" />
+
+                  {/* Rear Drive Axle */}
+                  <circle cx="104" cy="27" r="4.8" fill="#0f172a" />
+                  <circle cx="104" cy="27" r="2.8" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.8" />
+                  <circle cx="104" cy="27" r="1.2" fill="#0f172a" />
+
+                  {/* Rear Tag Axle (Volvo Multi-Axle Signature) */}
+                  <circle cx="117" cy="27" r="4.8" fill="#0f172a" />
+                  <circle cx="117" cy="27" r="2.8" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.8" />
+                  <circle cx="117" cy="27" r="1.2" fill="#0f172a" />
+                </g>
               </svg>
 
               {/* Hover Tooltip */}
               <div className="scale-x-[-1] absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/bus1:opacity-100 transition-opacity duration-200 pointer-events-none border border-purple-500/40 backdrop-blur-md">
-                <span className="text-purple-400">🚌 IntrCity SmartBus</span> • Mumbai ➔ Pune Express • Volvo 9600
+                <span className="text-purple-400">🚌 IntrCity SmartBus</span> • Mumbai ➔ Pune Express • Volvo 9600 Multi-Axle
               </div>
             </div>
           </div>
 
-          {/* TOP-VIEW BUS 2: MERCEDES TOURIST COACH (Eastbound: Left to Right in Lower Lane) */}
-          <div className="absolute bottom-0.5 left-0 animate-bus-east pointer-events-auto z-10">
+          {/* SIDE-VIEW BUS 2: MERCEDES TOURIST COACH (Eastbound: Left to Right, Facing Right) */}
+          <div className="absolute bottom-1 sm:bottom-1.5 left-0 animate-bus-east pointer-events-auto z-10">
             <div className="relative group/bus2 cursor-pointer flex items-center">
-              <svg className="h-4.5 sm:h-5 w-26 sm:w-32 filter drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]" viewBox="0 0 110 18" fill="none">
+              
+              {/* Detailed Side-View Mercedes Tourist Coach */}
+              <svg className="h-7 sm:h-8.5 w-34 sm:w-42 filter drop-shadow-[0_4px_12px_rgba(16,185,129,0.75)]" viewBox="0 0 140 34" fill="none">
                 <defs>
-                  <linearGradient id="b2-top-beam" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#fef08a" stopOpacity="0.9" />
+                  <linearGradient id="b2-side-beam" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#fef08a" stopOpacity="0.95" />
                     <stop offset="100%" stopColor="#fef08a" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
-                {/* Headlight Forward Beams */}
-                <polygon points="106,9 145,2 145,16 106,9" fill="url(#b2-top-beam)" />
+                {/* Forward Glowing Headlight Beams */}
+                <polygon points="136,24 195,16 195,33 136,28" fill="url(#b2-side-beam)" />
 
-                {/* Bus Body Emerald Green */}
-                <rect x="4" y="2" width="102" height="14" rx="3" fill="#059669" stroke="#047857" strokeWidth="1" />
-                
+                {/* Emerald Green Luxury Coach Body */}
+                <path
+                  d="M4 8 C14 8 124 8 129 10 C135 12 136 16 136 27 L2 27 C2 15 3 10 4 8 Z"
+                  fill="#059669"
+                  stroke="#047857"
+                  strokeWidth="1.2"
+                />
+
+                {/* AC Unit */}
+                <rect x="50" y="6" width="46" height="2.5" rx="1" fill="#065f46" />
+
                 {/* Windshield */}
-                <path d="M100 3 C104 5 105 7 105 9 C105 11 104 13 100 15 Z" fill="#0f172a" />
-                
-                {/* Side Mirrors */}
-                <rect x="98" y="0.5" width="2" height="2" fill="#0f172a" />
-                <rect x="98" y="15.5" width="2" height="2" fill="#0f172a" />
+                <path d="M120 10 L134 14 L134 20 L120 20 Z" fill="#0f172a" />
 
-                {/* Roof AC Pod */}
-                <rect x="40" y="4" width="34" height="10" rx="1.5" fill="#065f46" stroke="#34d399" strokeWidth="0.8" />
-                
-                {/* Roof Hatches */}
-                <rect x="18" y="6" width="8" height="6" rx="1" fill="#047857" />
-                <rect x="85" y="6" width="8" height="6" rx="1" fill="#047857" />
+                {/* Panoramic Tinted Passenger Windows */}
+                {[8, 26, 44, 62, 80, 98].map((x) => (
+                  <g key={x}>
+                    <rect x={x} y="10" width="16" height="4.2" rx="0.8" fill="#6ee7b7" opacity="0.95" />
+                    <rect x={x} y="15.2" width="16" height="4.5" rx="0.8" fill="#6ee7b7" opacity="0.9" />
+                  </g>
+                ))}
 
-                {/* White Stripe */}
-                <line x1="8" y1="9" x2="98" y2="9" stroke="#ffffff" strokeWidth="1" strokeDasharray="6 3" />
+                {/* Silver & White Livery Wave */}
+                <path d="M4 22 Q52 17 134 23 L134 25 Q52 19 4 24 Z" fill="#ffffff" />
+                <path d="M10 24 Q60 21 130 25 L130 25.8 Q60 22 10 25 Z" fill="#e2e8f0" />
 
-                {/* Headlights */}
-                <circle cx="104" cy="4" r="1.2" fill="#fef08a" />
-                <circle cx="104" cy="14" r="1.2" fill="#fef08a" />
+                {/* Rear Taillights */}
+                <rect x="2" y="14" width="2" height="8" rx="0.5" fill="#ef4444" />
 
-                {/* Rear Lights */}
-                <rect x="4" y="3" width="1.5" height="2.5" fill="#ef4444" />
-                <rect x="4" y="12.5" width="1.5" height="2.5" fill="#ef4444" />
+                {/* Chrome Wheels Rolling on Road */}
+                <g id="merc-wheels">
+                  <circle cx="28" cy="27" r="4.8" fill="#0f172a" />
+                  <circle cx="28" cy="27" r="2.8" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.8" />
+                  <circle cx="28" cy="27" r="1.2" fill="#0f172a" />
+
+                  <circle cx="104" cy="27" r="4.8" fill="#0f172a" />
+                  <circle cx="104" cy="27" r="2.8" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.8" />
+                  <circle cx="104" cy="27" r="1.2" fill="#0f172a" />
+
+                  <circle cx="117" cy="27" r="4.8" fill="#0f172a" />
+                  <circle cx="117" cy="27" r="2.8" fill="#e2e8f0" stroke="#64748b" strokeWidth="0.8" />
+                  <circle cx="117" cy="27" r="1.2" fill="#0f172a" />
+                </g>
               </svg>
 
               {/* Hover Tooltip */}
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/bus2:opacity-100 transition-opacity duration-200 pointer-events-none border border-emerald-500/40 backdrop-blur-md">
-                <span className="text-emerald-400">🚌 Zingbus Luxury Lounge</span> • Delhi ➔ Manali • Mercedes Coach
+                <span className="text-emerald-400">🚌 Zingbus Luxury Lounge</span> • Delhi ➔ Manali • Mercedes Multi-Axle
               </div>
             </div>
           </div>
