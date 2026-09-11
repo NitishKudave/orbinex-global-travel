@@ -173,17 +173,108 @@ export default function HeroSearch() {
     router.push(`/medical-tourism?specialty=${encodeURIComponent(medicalSpecialty)}`);
   };
 
-  // Big, impressive service navigation tabs (MakeMyTrip / Goibibo vertical icon format)
+  // Big, impressive service navigation tabs - 100% COLORFUL ALL THE TIME (MakeMyTrip / Goibibo style)
   const tabs = [
-    { id: 'flights', label: 'Flights', icon: Plane, color: 'text-sky-600', activeBg: 'bg-sky-50' },
-    { id: 'hotels', label: 'Hotels', icon: Building2, badge: 'Flat 25% Off', badgeColor: 'bg-[#eb2026] text-white', color: 'text-rose-600', activeBg: 'bg-rose-50' },
-    { id: 'train', label: 'Trains', icon: Train, badge: 'IRCTC', badgeColor: 'bg-emerald-600 text-white', color: 'text-emerald-600', activeBg: 'bg-emerald-50' },
-    { id: 'bus', label: 'Buses', icon: Bus, badge: 'New', badgeColor: 'bg-purple-600 text-white', color: 'text-purple-600', activeBg: 'bg-purple-50' },
-    { id: 'holidays', label: 'Holidays', icon: Palmtree, badge: 'Deals', badgeColor: 'bg-amber-500 text-slate-950', color: 'text-amber-600', activeBg: 'bg-amber-50' },
-    { id: 'visa', label: 'Visa', icon: FileCheck2, color: 'text-cyan-600', activeBg: 'bg-cyan-50' },
-    { id: 'umrah', label: 'Umrah', icon: Sparkles, badge: 'VIP', badgeColor: 'bg-emerald-700 text-amber-300', color: 'text-emerald-700', activeBg: 'bg-emerald-50' },
-    { id: 'insurance', label: 'Insurance', icon: ShieldCheck, color: 'text-blue-600', activeBg: 'bg-blue-50' },
-    { id: 'medical', label: 'Medical', icon: HeartPulse, color: 'text-rose-500', activeBg: 'bg-rose-50' },
+    {
+      id: 'flights',
+      label: 'Flights',
+      icon: Plane,
+      iconColor: 'text-sky-600',
+      iconBg: 'bg-sky-50/90 border-sky-200/80',
+      activeGradient: 'bg-gradient-to-tr from-sky-500 to-blue-600 text-white shadow-md shadow-sky-500/35',
+      activeText: 'text-sky-600',
+      activeNotch: 'bg-sky-500',
+    },
+    {
+      id: 'hotels',
+      label: 'Hotels',
+      icon: Building2,
+      badge: 'Flat 25% Off',
+      badgeColor: 'bg-[#eb2026] text-white',
+      iconColor: 'text-rose-600',
+      iconBg: 'bg-rose-50/90 border-rose-200/80',
+      activeGradient: 'bg-gradient-to-tr from-rose-500 to-red-600 text-white shadow-md shadow-rose-500/35',
+      activeText: 'text-rose-600',
+      activeNotch: 'bg-rose-500',
+    },
+    {
+      id: 'train',
+      label: 'Trains',
+      icon: Train,
+      badge: 'IRCTC',
+      badgeColor: 'bg-emerald-600 text-white',
+      iconColor: 'text-emerald-600',
+      iconBg: 'bg-emerald-50/90 border-emerald-200/80',
+      activeGradient: 'bg-gradient-to-tr from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/35',
+      activeText: 'text-emerald-600',
+      activeNotch: 'bg-emerald-500',
+    },
+    {
+      id: 'bus',
+      label: 'Buses',
+      icon: Bus,
+      badge: 'New',
+      badgeColor: 'bg-purple-600 text-white',
+      iconColor: 'text-purple-600',
+      iconBg: 'bg-purple-50/90 border-purple-200/80',
+      activeGradient: 'bg-gradient-to-tr from-purple-500 to-indigo-600 text-white shadow-md shadow-purple-500/35',
+      activeText: 'text-purple-600',
+      activeNotch: 'bg-purple-500',
+    },
+    {
+      id: 'holidays',
+      label: 'Holidays',
+      icon: Palmtree,
+      badge: 'Deals',
+      badgeColor: 'bg-amber-500 text-slate-950 font-black',
+      iconColor: 'text-amber-600',
+      iconBg: 'bg-amber-50/90 border-amber-200/80',
+      activeGradient: 'bg-gradient-to-tr from-amber-500 to-orange-600 text-white shadow-md shadow-amber-500/35',
+      activeText: 'text-amber-600',
+      activeNotch: 'bg-amber-500',
+    },
+    {
+      id: 'visa',
+      label: 'Visa',
+      icon: FileCheck2,
+      iconColor: 'text-cyan-600',
+      iconBg: 'bg-cyan-50/90 border-cyan-200/80',
+      activeGradient: 'bg-gradient-to-tr from-cyan-500 to-teal-600 text-white shadow-md shadow-cyan-500/35',
+      activeText: 'text-cyan-600',
+      activeNotch: 'bg-cyan-500',
+    },
+    {
+      id: 'umrah',
+      label: 'Umrah',
+      icon: Sparkles,
+      badge: 'VIP',
+      badgeColor: 'bg-emerald-800 text-amber-300 font-bold',
+      iconColor: 'text-emerald-700',
+      iconBg: 'bg-emerald-50/90 border-emerald-200/80',
+      activeGradient: 'bg-gradient-to-tr from-emerald-600 to-teal-800 text-amber-300 shadow-md shadow-emerald-700/35',
+      activeText: 'text-emerald-700',
+      activeNotch: 'bg-emerald-600',
+    },
+    {
+      id: 'insurance',
+      label: 'Insurance',
+      icon: ShieldCheck,
+      iconColor: 'text-blue-600',
+      iconBg: 'bg-blue-50/90 border-blue-200/80',
+      activeGradient: 'bg-gradient-to-tr from-blue-500 to-indigo-600 text-white shadow-md shadow-blue-500/35',
+      activeText: 'text-blue-600',
+      activeNotch: 'bg-blue-500',
+    },
+    {
+      id: 'medical',
+      label: 'Medical',
+      icon: HeartPulse,
+      iconColor: 'text-rose-500',
+      iconBg: 'bg-rose-50/90 border-rose-200/80',
+      activeGradient: 'bg-gradient-to-tr from-rose-500 to-pink-600 text-white shadow-md shadow-rose-500/35',
+      activeText: 'text-rose-600',
+      activeNotch: 'bg-rose-500',
+    },
   ];
 
   // Helper date display
@@ -207,14 +298,14 @@ export default function HeroSearch() {
   return (
     <div className="relative">
       
-      {/* 1. IMPRESSIVE WORLD LANDMARKS TRAVEL HERO CANVAS & LIVE TRANSIT ANIMATIONS */}
+      {/* 1. IMPRESSIVE LUXURY GLOBAL TRAVEL PANORAMA & LIVE TRANSIT ANIMATIONS */}
       <div
-        className="relative min-h-[620px] sm:min-h-[670px] pt-6 pb-28 px-3 sm:px-6 lg:px-8 bg-cover bg-top overflow-hidden transition-all duration-500"
+        className="relative min-h-[640px] sm:min-h-[700px] pt-6 pb-26 px-3 sm:px-6 lg:px-8 bg-cover bg-top overflow-hidden transition-all duration-500"
         style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(10, 32, 64, 0.14), rgba(6, 20, 42, 0.36)), url('/world_landmarks_travel_hero.jpg')"
+          backgroundImage: "linear-gradient(to bottom, rgba(10, 32, 64, 0.12), rgba(6, 20, 42, 0.30)), url('/luxury_global_travel_panorama.jpg')"
         }}
       >
-        {/* Dynamic Flying Flights, High-Speed Train & Cruising Coach Bus Animations */}
+        {/* Dynamic Flying Flights, Realistic Railway Track & Highway Bus Animations */}
         <TravelSceneAnimation activeTab={activeTab} />
 
         <div className="max-w-7xl mx-auto relative z-10 space-y-4">
@@ -233,9 +324,9 @@ export default function HeroSearch() {
             </div>
           </div>
 
-          {/* 2. THE SUPER-NAV WIDGET (Elevated White Card with BIG Vertical Icons - MakeMyTrip & Goibibo Signature) */}
+          {/* 2. THE SUPER-NAV WIDGET (Elevated White Card with BIG COLORFUL Icons - Goibibo & MakeMyTrip Standard) */}
           <div className="bg-white rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.22)] border border-slate-200/90 px-3 sm:px-6 pt-3 pb-2.5 max-w-5xl mx-auto overflow-x-auto no-scrollbar">
-            <div className="flex items-center justify-start sm:justify-center gap-1.5 sm:gap-4 md:gap-6 min-w-max">
+            <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-4 md:gap-5 min-w-max">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -243,10 +334,10 @@ export default function HeroSearch() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as TabType)}
-                    className={`group relative flex flex-col items-center justify-center px-3.5 sm:px-5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${
+                    className={`group relative flex flex-col items-center justify-center px-3.5 sm:px-4 py-2 rounded-xl transition-all duration-200 cursor-pointer ${
                       isActive
-                        ? 'text-sky-600 font-black'
-                        : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50 font-bold'
+                        ? `${tab.activeText} font-black`
+                        : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-extrabold'
                     }`}
                   >
                     {/* Floating Promotional Badge */}
@@ -256,23 +347,25 @@ export default function HeroSearch() {
                       </span>
                     )}
 
-                    {/* BIG ICON (w-7 h-7 sm:w-8 sm:h-8) - Vibrant, Clean, Impressive */}
-                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 ${
+                    {/* BIG COLORFUL ICON (w-12 h-12) - Permanently Colorful in Signature Hue */}
+                    <div className={`w-11 sm:w-12 h-11 sm:h-12 rounded-2xl flex items-center justify-center transition-all duration-200 border ${
                       isActive
-                        ? `${tab.activeBg} ${tab.color} scale-110 shadow-sm ring-1 ring-sky-300/40`
-                        : 'text-slate-500 group-hover:text-slate-900 group-hover:bg-slate-100 group-hover:scale-105'
+                        ? `${tab.activeGradient} scale-110 ring-2 ring-white`
+                        : `${tab.iconBg} ${tab.iconColor} group-hover:scale-105 group-hover:shadow-sm`
                     }`}>
-                      <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${isActive ? 'stroke-[2.4]' : 'stroke-[1.9]'}`} />
+                      <Icon className={`w-6 h-6 sm:w-6.5 sm:h-6.5 ${isActive ? 'stroke-[2.5]' : 'stroke-[2.1]'}`} />
                     </div>
 
                     {/* Bold Label Below Icon */}
-                    <span className="text-xs sm:text-[13px] font-extrabold mt-1.5 tracking-tight whitespace-nowrap">
+                    <span className={`text-xs sm:text-[13px] font-extrabold mt-1.5 tracking-tight whitespace-nowrap transition-colors ${
+                      isActive ? tab.activeText : 'text-slate-700 group-hover:text-slate-900'
+                    }`}>
                       {tab.label}
                     </span>
 
                     {/* Active Underline Notch */}
                     {isActive && (
-                      <span className="absolute -bottom-2.5 w-10 h-1 bg-sky-500 rounded-full shadow-xs" />
+                      <span className={`absolute -bottom-2.5 w-10 h-1 ${tab.activeNotch} rounded-full shadow-xs`} />
                     )}
                   </button>
                 );
