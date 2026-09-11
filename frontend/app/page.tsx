@@ -240,12 +240,13 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-6 gap-3">
             <div>
-              <div className="inline-flex items-center gap-1.5 text-[#0284c7] font-bold text-xs uppercase tracking-wider mb-1 bg-sky-50/90 border border-sky-200/80 px-2.5 py-0.5 rounded-full shadow-2xs">
+              <div className="inline-flex items-center gap-1.5 font-bold text-xs uppercase tracking-wider mb-2 px-3 py-1 rounded-full shadow-sm border" style={{background: 'linear-gradient(135deg, rgba(2,132,199,0.1), rgba(14,165,233,0.08))', borderColor: 'rgba(2,132,199,0.30)', color: '#0284c7'}}>
                 <Plane className="w-3.5 h-3.5" />
                 <span>Lowest Airfare Guarantee</span>
               </div>
-              <h2 className="text-2xl sm:text-[26px] font-black text-slate-900 tracking-tight">
-                Trending Routes With Cheap Fares
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight mt-1">
+                <span className="text-slate-900">Trending Routes </span>
+                <span style={{background: 'linear-gradient(135deg, #0284c7, #0ea5e9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text'}}>With Cheap Fares</span>
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
                 Book flight tickets at guaranteed best prices on popular domestic and international routes
@@ -391,11 +392,13 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50/90 border border-rose-200/80 px-3 py-1 rounded-full shadow-2xs backdrop-blur-xs">
-                Handcrafted Journeys
+              <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50/90 border border-rose-200/80 px-3 py-1 rounded-full shadow-sm backdrop-blur-xs">
+                ✈ Handcrafted Journeys
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-2">
-                Trending Holiday Tours &amp; Luxury Stays
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight mt-2">
+                <span className="text-slate-900">Trending Holiday Tours</span>
+                <br />
+                <span style={{background: 'linear-gradient(135deg, #f43f5e, #f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text'}}>&amp; Luxury Stays</span>
               </h2>
               <p className="text-sm font-medium text-slate-600 mt-1 max-w-2xl">
                 Handpicked global tour circuits with premium accommodations, private transfers, and professional local guides.

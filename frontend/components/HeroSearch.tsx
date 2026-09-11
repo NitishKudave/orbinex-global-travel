@@ -16,6 +16,7 @@ import {
   Users,
   MapPin,
   ArrowRightLeft,
+  ArrowLeftRight,
   GraduationCap,
   Globe2,
   Moon,
@@ -28,12 +29,64 @@ import {
   Check,
   CheckCircle2,
   Shield,
-  Stethoscope
+  Stethoscope,
+  PlaneTakeoff,
+  PlaneLanding,
+  Compass,
+  Tag,
+  Clock
 } from 'lucide-react';
 import BusSearchAutocomplete from '@/components/BusSearchAutocomplete';
 import TravelSceneAnimation from '@/components/TravelSceneAnimation';
+import { useSearchTab, SearchTabType } from '@/context/SearchTabContext';
 
-type TabType = 'flights' | 'hotels' | 'train' | 'bus' | 'holidays' | 'umrah' | 'visa' | 'insurance' | 'medical';
+const SERVICE_HEADINGS: Record<SearchTabType, { title: string; highlight: string; subtitle: string }> = {
+  flights: {
+    title: 'Your World ',
+    highlight: 'Awaits ✈',
+    subtitle: 'Book Domestic & International Flights at Guaranteed Lowest Airline Fares',
+  },
+  hotels: {
+    title: 'Find Your Perfect ',
+    highlight: 'Luxury Stay 🏨',
+    subtitle: '5-Star Hotels, Luxury Resorts & Boutique Villas with Flat 25% Off',
+  },
+  train: {
+    title: 'Indian Railways ',
+    highlight: 'IRCTC Authorized 🚆',
+    subtitle: 'Instant Train Bookings with Zero Convenience Fee & Instant Refund',
+  },
+  bus: {
+    title: 'Intercity Luxury ',
+    highlight: 'Coach Travel 🚌',
+    subtitle: 'Volvo, Sleeper & AC Buses Across 100,000+ Verified Routes',
+  },
+  holidays: {
+    title: 'Handcrafted Global ',
+    highlight: 'Vacations 🌴',
+    subtitle: 'All-Inclusive Luxury Holiday Packages with Custom Tour Itineraries',
+  },
+  visa: {
+    title: 'Seamless Online ',
+    highlight: 'E-Visa Concierge 📄',
+    subtitle: '99.4% Approval Rate with Doorstep Biometrics & Express Processing',
+  },
+  umrah: {
+    title: 'Blessed & Sacred ',
+    highlight: 'Umrah Journeys 🕋',
+    subtitle: 'Ministry Authorized 5-Star Kaaba View Packages & Private Transfers',
+  },
+  insurance: {
+    title: 'Global Comprehensive ',
+    highlight: 'Travel Shield 🛡️',
+    subtitle: 'Cashless Hospitalization, Flight Delay & Baggage Loss Protection',
+  },
+  medical: {
+    title: 'World-Class Healthcare ',
+    highlight: 'Concierge 🩺',
+    subtitle: 'JCI Accredited Hospital Partners with Zero Consultation Waiting Time',
+  },
+};
 
 const AIRPORT_INFO: Record<string, { city: string; desc: string }> = {
   BOM: { city: 'Mumbai', desc: 'BOM, Chhatrapati Shivaji International Airport' },
@@ -63,7 +116,7 @@ const TRAIN_STATION_INFO: Record<string, { name: string; desc: string }> = {
 
 export default function HeroSearch() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabType>('flights');
+  const { activeTab, selectTab } = useSearchTab();
 
   // Flight search states
   const [tripType, setTripType] = useState<'oneway' | 'roundtrip' | 'multicity'>('oneway');
@@ -95,6 +148,7 @@ export default function HeroSearch() {
   // Bus search states
   const [busOrigin, setBusOrigin] = useState('Mumbai');
   const [busDestination, setBusDestination] = useState('Pune');
+  const [busDate, setBusDate] = useState('2026-09-15');
 
   // Holiday search states
   const [holidayDest, setHolidayDest] = useState('Bali, Indonesia');
@@ -145,7 +199,7 @@ export default function HeroSearch() {
 
   const handleBusSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push(`/bus?origin=${encodeURIComponent(busOrigin)}&destination=${encodeURIComponent(busDestination)}`);
+    router.push(`/bus?origin=${encodeURIComponent(busOrigin)}&destination=${encodeURIComponent(busDestination)}&date=${encodeURIComponent(busDate)}`);
   };
 
   const handleHolidaySearch = (e: React.FormEvent) => {
@@ -173,109 +227,6 @@ export default function HeroSearch() {
     router.push(`/medical-tourism?specialty=${encodeURIComponent(medicalSpecialty)}`);
   };
 
-  // Big, impressive service navigation tabs - 100% COLORFUL ALL THE TIME (MakeMyTrip / Goibibo style)
-  const tabs = [
-    {
-      id: 'flights',
-      label: 'Flights',
-      icon: Plane,
-      iconColor: 'text-sky-600',
-      iconBg: 'bg-sky-50/90 border-sky-200/80',
-      activeGradient: 'bg-gradient-to-tr from-sky-500 to-blue-600 text-white shadow-md shadow-sky-500/35',
-      activeText: 'text-sky-600',
-      activeNotch: 'bg-sky-500',
-    },
-    {
-      id: 'hotels',
-      label: 'Hotels',
-      icon: Building2,
-      badge: 'Flat 25% Off',
-      badgeColor: 'bg-[#eb2026] text-white',
-      iconColor: 'text-rose-600',
-      iconBg: 'bg-rose-50/90 border-rose-200/80',
-      activeGradient: 'bg-gradient-to-tr from-rose-500 to-red-600 text-white shadow-md shadow-rose-500/35',
-      activeText: 'text-rose-600',
-      activeNotch: 'bg-rose-500',
-    },
-    {
-      id: 'train',
-      label: 'Trains',
-      icon: Train,
-      badge: 'IRCTC',
-      badgeColor: 'bg-emerald-600 text-white',
-      iconColor: 'text-emerald-600',
-      iconBg: 'bg-emerald-50/90 border-emerald-200/80',
-      activeGradient: 'bg-gradient-to-tr from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/35',
-      activeText: 'text-emerald-600',
-      activeNotch: 'bg-emerald-500',
-    },
-    {
-      id: 'bus',
-      label: 'Buses',
-      icon: Bus,
-      badge: 'New',
-      badgeColor: 'bg-purple-600 text-white',
-      iconColor: 'text-purple-600',
-      iconBg: 'bg-purple-50/90 border-purple-200/80',
-      activeGradient: 'bg-gradient-to-tr from-purple-500 to-indigo-600 text-white shadow-md shadow-purple-500/35',
-      activeText: 'text-purple-600',
-      activeNotch: 'bg-purple-500',
-    },
-    {
-      id: 'holidays',
-      label: 'Holidays',
-      icon: Palmtree,
-      badge: 'Deals',
-      badgeColor: 'bg-amber-500 text-slate-950 font-black',
-      iconColor: 'text-amber-600',
-      iconBg: 'bg-amber-50/90 border-amber-200/80',
-      activeGradient: 'bg-gradient-to-tr from-amber-500 to-orange-600 text-white shadow-md shadow-amber-500/35',
-      activeText: 'text-amber-600',
-      activeNotch: 'bg-amber-500',
-    },
-    {
-      id: 'visa',
-      label: 'Visa',
-      icon: FileCheck2,
-      iconColor: 'text-cyan-600',
-      iconBg: 'bg-cyan-50/90 border-cyan-200/80',
-      activeGradient: 'bg-gradient-to-tr from-cyan-500 to-teal-600 text-white shadow-md shadow-cyan-500/35',
-      activeText: 'text-cyan-600',
-      activeNotch: 'bg-cyan-500',
-    },
-    {
-      id: 'umrah',
-      label: 'Umrah',
-      icon: Sparkles,
-      badge: 'VIP',
-      badgeColor: 'bg-emerald-800 text-amber-300 font-bold',
-      iconColor: 'text-emerald-700',
-      iconBg: 'bg-emerald-50/90 border-emerald-200/80',
-      activeGradient: 'bg-gradient-to-tr from-emerald-600 to-teal-800 text-amber-300 shadow-md shadow-emerald-700/35',
-      activeText: 'text-emerald-700',
-      activeNotch: 'bg-emerald-600',
-    },
-    {
-      id: 'insurance',
-      label: 'Insurance',
-      icon: ShieldCheck,
-      iconColor: 'text-blue-600',
-      iconBg: 'bg-blue-50/90 border-blue-200/80',
-      activeGradient: 'bg-gradient-to-tr from-blue-500 to-indigo-600 text-white shadow-md shadow-blue-500/35',
-      activeText: 'text-blue-600',
-      activeNotch: 'bg-blue-500',
-    },
-    {
-      id: 'medical',
-      label: 'Medical',
-      icon: HeartPulse,
-      iconColor: 'text-rose-500',
-      iconBg: 'bg-rose-50/90 border-rose-200/80',
-      activeGradient: 'bg-gradient-to-tr from-rose-500 to-pink-600 text-white shadow-md shadow-rose-500/35',
-      activeText: 'text-rose-600',
-      activeNotch: 'bg-rose-500',
-    },
-  ];
 
   // Helper date display
   const formatDateDisplay = (dateStr: string) => {
@@ -298,208 +249,232 @@ export default function HeroSearch() {
   return (
     <div className="relative">
       
-      {/* 1. IMPRESSIVE LUXURY GLOBAL TRAVEL PANORAMA & LIVE TRANSIT ANIMATIONS */}
+      {/* 1. IMPRESSIVE LUXURY GLOBAL TRAVEL PANORAMA & LIVE FLIGHTS ANIMATION */}
       <div
-        className="relative min-h-[640px] sm:min-h-[690px] pt-4 sm:pt-6 pb-28 sm:pb-32 px-3 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden transition-all duration-500"
+        className="relative pt-2 sm:pt-2.5 pb-7 sm:pb-8 px-3 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden transition-all duration-500"
         style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(10, 32, 64, 0.08), rgba(6, 20, 42, 0.25)), url('/scenic_travel_horizon_panorama.jpg')"
+          backgroundImage: "linear-gradient(to bottom, rgba(5, 15, 35, 0.20) 0%, rgba(3, 12, 28, 0.18) 50%, rgba(2, 8, 20, 0.55) 100%), url('/luxury_tropical_sunset_hero.jpg')"
         }}
       >
-        {/* Dynamic Flying Flights, Realistic Railway Track & Highway Bus Animations */}
+        {/* Dynamic Flying Flights Animation */}
         <TravelSceneAnimation activeTab={activeTab} />
 
-        <div className="max-w-7xl mx-auto relative z-30 space-y-4">
+        <div className="max-w-[1200px] mx-auto relative z-30 space-y-2.5 sm:space-y-3">
           
-          {/* Top Title Strip inside Hero */}
-          <div className="flex flex-wrap items-center justify-between text-white pb-1 gap-2">
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase font-black tracking-widest text-amber-300 bg-amber-950/60 px-3.5 py-1 rounded-full border border-amber-400/40 shadow-xs backdrop-blur-xs">
-                ★ India&apos;s Premium Full-Service Travel Concierge
+          {/* ✨ DYNAMIC CINEMATIC HERO TITLE (Syncs with Selected Service) */}
+          <div className="text-center pt-0.5 sm:pt-1 pb-1">
+            <h1 className="text-2xl sm:text-3xl md:text-[34px] font-black tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]">
+              <span>{SERVICE_HEADINGS[activeTab]?.title || 'Your World '}</span>
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #fbbf24 0%, #f97316 35%, #ec4899 70%, #a78bfa 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                {SERVICE_HEADINGS[activeTab]?.highlight || 'Awaits ✈'}
               </span>
-            </div>
-
-            <div className="text-xs sm:text-sm font-black text-white/90 flex items-center gap-2 bg-slate-900/60 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Live Fare Integration &amp; Instant E-Tickets</span>
-            </div>
+            </h1>
+            <p className="text-[11px] sm:text-xs font-semibold text-white/90 drop-shadow-md mt-0.5">
+              {SERVICE_HEADINGS[activeTab]?.subtitle || 'Flights · Hotels · Trains · Buses · Holidays · Visa · Umrah & Luxury Concierge'}
+            </p>
           </div>
 
-          {/* 2. THE SUPER-NAV WIDGET (Elevated White Card with BIG COLORFUL Icons - Goibibo & MakeMyTrip Standard) */}
-          <div className="bg-white rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.22)] border border-slate-200/90 px-3 sm:px-6 pt-3 pb-2.5 max-w-5xl mx-auto overflow-x-auto no-scrollbar">
-            <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-4 md:gap-5 min-w-max">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id as TabType)}
-                    className={`group relative flex flex-col items-center justify-center px-3.5 sm:px-4 py-2 rounded-xl transition-all duration-200 cursor-pointer ${
-                      isActive
-                        ? `${tab.activeText} font-black`
-                        : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-extrabold'
-                    }`}
-                  >
-                    {/* Floating Promotional Badge */}
-                    {tab.badge && (
-                      <span className={`absolute -top-2.5 text-[9.5px] font-black px-2 py-0.5 rounded-full shadow-xs pointer-events-none z-10 leading-none whitespace-nowrap ${tab.badgeColor}`}>
-                        {tab.badge}
-                      </span>
-                    )}
-
-                    {/* BIG COLORFUL ICON (w-12 h-12) - Permanently Colorful in Signature Hue */}
-                    <div className={`w-11 sm:w-12 h-11 sm:h-12 rounded-2xl flex items-center justify-center transition-all duration-200 border ${
-                      isActive
-                        ? `${tab.activeGradient} scale-110 ring-2 ring-white`
-                        : `${tab.iconBg} ${tab.iconColor} group-hover:scale-105 group-hover:shadow-sm`
-                    }`}>
-                      <Icon className={`w-6 h-6 sm:w-6.5 sm:h-6.5 ${isActive ? 'stroke-[2.5]' : 'stroke-[2.1]'}`} />
-                    </div>
-
-                    {/* Bold Label Below Icon */}
-                    <span className={`text-xs sm:text-[13px] font-extrabold mt-1.5 tracking-tight whitespace-nowrap transition-colors ${
-                      isActive ? tab.activeText : 'text-slate-700 group-hover:text-slate-900'
-                    }`}>
-                      {tab.label}
-                    </span>
-
-                    {/* Active Underline Notch */}
-                    {isActive && (
-                      <span className={`absolute -bottom-2.5 w-10 h-1 ${tab.activeNotch} rounded-full shadow-xs`} />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 3. MAIN WHITE BOOKING CARD WITH BIG BOLD TILES (MakeMyTrip / Goibibo Style) */}
-          <div className="bg-white text-slate-900 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.28)] border border-slate-200 p-5 sm:p-7 pt-6 pb-12 relative">
+          {/* 2. THE UNIFIED TRAVEL SEARCH SUPERCARD */}
+          <div className="w-full shadow-[0_25px_70px_rgba(0,0,0,0.32)] rounded-3xl overflow-visible relative border border-slate-200/90 bg-white">
+            
+            {/* MAIN BOOKING CONTENT BODY */}
+            <div className="p-4 sm:p-6 sm:px-7 pt-4 sm:pt-5 pb-8 sm:pb-8.5 relative rounded-3xl">
             
             {/* ================= FLIGHTS TAB ================= */}
             {activeTab === 'flights' && (
-              <form onSubmit={handleFlightSearch} className="space-y-4">
+              <form onSubmit={handleFlightSearch} className="space-y-3.5">
                 
-                {/* Trip Type Selector + Header Tag */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pb-1 border-b border-slate-100 pb-3">
-                  <div className="flex items-center gap-6">
+                {/* Luxury Trip Type Segmented Selector */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
+                  <div className="inline-flex items-center bg-slate-100/90 p-1 rounded-xl gap-1 border border-slate-200/70">
                     {[
-                      { id: 'oneway', label: 'One Way' },
-                      { id: 'roundtrip', label: 'Round Trip' },
-                      { id: 'multicity', label: 'Multi City' },
-                    ].map((type) => (
-                      <label key={type.id} className="flex items-center gap-2 cursor-pointer text-xs sm:text-sm font-black text-slate-800 hover:text-sky-600 transition">
-                        <input
-                          type="radio"
-                          name="tripType"
-                          checked={tripType === type.id}
-                          onChange={() => {
+                      { id: 'oneway', label: 'One Way', icon: PlaneTakeoff },
+                      { id: 'roundtrip', label: 'Round Trip', icon: ArrowRightLeft },
+                      { id: 'multicity', label: 'Multi City', icon: Compass },
+                    ].map((type) => {
+                      const isSelected = tripType === type.id;
+                      const TypeIcon = type.icon;
+                      return (
+                        <button
+                          key={type.id}
+                          type="button"
+                          onClick={() => {
                             setTripType(type.id as any);
                             if (type.id === 'roundtrip' && !returnDate) setReturnDate('2026-09-22');
                           }}
-                          className="w-4 h-4 text-sky-600 focus:ring-sky-500 cursor-pointer"
-                        />
-                        <span className={tripType === type.id ? 'text-sky-600' : 'text-slate-700'}>{type.label}</span>
-                      </label>
-                    ))}
+                          className={`flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-white text-sky-700 shadow-xs border border-slate-200/90 ring-1 ring-sky-500/20'
+                              : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
+                          }`}
+                        >
+                          <TypeIcon className={`w-3.5 h-3.5 ${isSelected ? 'text-sky-600 stroke-[2.5]' : 'text-slate-400'}`} />
+                          <span>{type.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
 
-                  <span className="text-xs font-bold text-slate-400 hidden sm:inline">
-                    Book International and Domestic Flights
-                  </span>
+                  <div className="hidden sm:flex items-center gap-2 text-[11px] font-bold text-slate-500">
+                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Book International &amp; Domestic Flights</span>
+                    <span className="text-slate-300">·</span>
+                    <span className="text-sky-600 font-extrabold flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5 text-sky-500" /> Instant Confirmation
+                    </span>
+                  </div>
                 </div>
 
-                {/* Main Connected Tiles Container (MakeMyTrip 5-Column Grid with Huge Typography) */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border border-slate-200 rounded-2xl overflow-visible bg-white shadow-xs divide-y md:divide-y-0 md:divide-x divide-slate-200 relative">
+                {/* Main Connected Tiles Container (5-Column Luxury Modular Card Grid) */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-2.5 relative items-stretch">
                   
-                  {/* FROM TILE */}
-                  <div className="md:col-span-3 p-4 sm:p-4.5 hover:bg-sky-50/40 transition relative group cursor-pointer">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      From
-                    </span>
-                    <div className="relative">
-                      <select
-                        value={origin}
-                        onChange={(e) => setOrigin(e.target.value)}
-                        className="w-full bg-transparent text-2xl sm:text-3xl font-black text-slate-900 outline-none cursor-pointer tracking-tight appearance-none pr-6 z-10 relative"
-                      >
-                        <option value="BOM">Mumbai</option>
-                        <option value="DEL">New Delhi</option>
-                        <option value="DXB">Dubai</option>
-                        <option value="LHR">London</option>
-                        <option value="JFK">New York</option>
-                        <option value="SIN">Singapore</option>
-                        <option value="JED">Jeddah</option>
-                        <option value="PNQ">Pune</option>
-                        <option value="GOI">Goa</option>
-                        <option value="BLR">Bengaluru</option>
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-slate-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  {/* 1. FROM CARD */}
+                  <div className="md:col-span-3 relative group">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-sky-200/90 bg-gradient-to-br from-sky-50/70 via-white to-sky-50/30 hover:border-sky-500 hover:shadow-lg hover:shadow-sky-500/10 transition-all duration-200 cursor-pointer flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-sky-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-sky-100 text-sky-600 flex items-center justify-center shadow-2xs">
+                            <PlaneTakeoff className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>FROM</span>
+                        </span>
+                        <span className="font-black text-sky-700 bg-sky-100/90 border border-sky-300/80 px-2 py-0.5 rounded-md text-[10.5px] uppercase tracking-wider">
+                          {origin}
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-sky-950 tracking-tight leading-tight block truncate">
+                          {originInfo.city}
+                        </span>
+                        <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">
+                          {originInfo.desc}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium truncate mt-1">
-                      {originInfo.desc}
-                    </p>
 
-                    {/* Swap Button (Floating right on the border between From & To) */}
+                    {/* Invisible full-tile select */}
+                    <select
+                      value={origin}
+                      onChange={(e) => setOrigin(e.target.value)}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      title="Select origin city"
+                    >
+                      <option value="BOM">Mumbai [BOM]</option>
+                      <option value="DEL">New Delhi [DEL]</option>
+                      <option value="DXB">Dubai [DXB]</option>
+                      <option value="LHR">London [LHR]</option>
+                      <option value="JFK">New York [JFK]</option>
+                      <option value="SIN">Singapore [SIN]</option>
+                      <option value="JED">Jeddah [JED]</option>
+                      <option value="PNQ">Pune [PNQ]</option>
+                      <option value="GOI">Goa [GOI]</option>
+                      <option value="BLR">Bengaluru [BLR]</option>
+                    </select>
+
+                    {/* Centered Floating Luxury Swap Button */}
                     <button
                       type="button"
-                      onClick={handleSwap}
-                      className="hidden md:flex absolute -right-4.5 top-1/2 -translate-y-1/2 z-30 w-9 h-9 bg-white text-sky-600 hover:text-sky-700 hover:bg-sky-50 rounded-full shadow-lg border border-slate-200 items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSwap();
+                      }}
+                      className="hidden md:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-30 w-7.5 h-7.5 bg-white text-sky-600 hover:text-white hover:bg-gradient-to-r hover:from-sky-500 hover:to-blue-600 border-2 border-sky-300 hover:border-transparent rounded-full shadow-md hover:shadow-lg hover:shadow-sky-500/30 items-center justify-center transition-all duration-200 hover:scale-115 active:scale-95 cursor-pointer"
                       title="Swap Origin and Destination"
                     >
-                      <ArrowRightLeft className="w-4 h-4 stroke-[2.4]" />
+                      <ArrowRightLeft className="w-3.5 h-3.5 stroke-[2.4]" />
                     </button>
                   </div>
 
-                  {/* TO TILE */}
-                  <div className="md:col-span-3 p-4 sm:p-4.5 hover:bg-sky-50/40 transition relative group cursor-pointer md:pl-6">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      To
-                    </span>
-                    <div className="relative">
-                      <select
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                        className="w-full bg-transparent text-2xl sm:text-3xl font-black text-slate-900 outline-none cursor-pointer tracking-tight appearance-none pr-6 z-10 relative"
-                      >
-                        <option value="DEL">New Delhi</option>
-                        <option value="BOM">Mumbai</option>
-                        <option value="DXB">Dubai</option>
-                        <option value="LHR">London</option>
-                        <option value="JFK">New York</option>
-                        <option value="SIN">Singapore</option>
-                        <option value="JED">Jeddah</option>
-                        <option value="PNQ">Pune</option>
-                        <option value="GOI">Goa</option>
-                        <option value="BLR">Bengaluru</option>
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-slate-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  {/* 2. TO CARD */}
+                  <div className="md:col-span-3 relative group">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-blue-200/90 bg-gradient-to-br from-blue-50/70 via-white to-blue-50/30 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200 cursor-pointer flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-blue-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center shadow-2xs">
+                            <PlaneLanding className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>TO</span>
+                        </span>
+                        <span className="font-black text-blue-700 bg-blue-100/90 border border-blue-300/80 px-2 py-0.5 rounded-md text-[10.5px] uppercase tracking-wider">
+                          {destination}
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-blue-950 tracking-tight leading-tight block truncate">
+                          {destInfo.city}
+                        </span>
+                        <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">
+                          {destInfo.desc}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium truncate mt-1">
-                      {destInfo.desc}
-                    </p>
+
+                    <select
+                      value={destination}
+                      onChange={(e) => setDestination(e.target.value)}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      title="Select destination city"
+                    >
+                      <option value="DEL">New Delhi [DEL]</option>
+                      <option value="BOM">Mumbai [BOM]</option>
+                      <option value="DXB">Dubai [DXB]</option>
+                      <option value="LHR">London [LHR]</option>
+                      <option value="JFK">New York [JFK]</option>
+                      <option value="SIN">Singapore [SIN]</option>
+                      <option value="JED">Jeddah [JED]</option>
+                      <option value="PNQ">Pune [PNQ]</option>
+                      <option value="GOI">Goa [GOI]</option>
+                      <option value="BLR">Bengaluru [BLR]</option>
+                    </select>
                   </div>
 
-                  {/* DEPARTURE TILE */}
-                  <div className="md:col-span-2 p-4 sm:p-4.5 hover:bg-sky-50/40 transition cursor-pointer relative">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Departure ▾
-                    </span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-2xl sm:text-3xl font-black text-slate-900 leading-none">{departDisplay.day}</span>
-                      <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">{departDisplay.monthYear}</span>
+                  {/* 3. DEPARTURE CARD */}
+                  <div className="md:col-span-2 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-indigo-200/90 bg-gradient-to-br from-indigo-50/70 via-white to-indigo-50/30 hover:border-indigo-500 hover:shadow-lg hover:shadow-indigo-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-indigo-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-indigo-100 text-indigo-600 flex items-center justify-center shadow-2xs">
+                            <Calendar className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>DEPARTURE</span>
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-indigo-950 leading-none">
+                            {departDisplay.day}
+                          </span>
+                          <span className="text-xs sm:text-sm font-black text-slate-800">
+                            {departDisplay.monthYear}
+                          </span>
+                        </div>
+                        <p className="text-[10.5px] text-indigo-600 font-bold mt-0.5 truncate">
+                          {departDisplay.weekday}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">{departDisplay.weekday}</p>
                     <input
                       type="date"
                       value={departDate}
                       onChange={(e) => setDepartDate(e.target.value)}
-                      className="opacity-0 absolute inset-0 cursor-pointer w-full h-full z-10"
+                      onClick={(e) => {
+                        try {
+                          (e.target as HTMLInputElement).showPicker();
+                        } catch {}
+                      }}
+                      className="full-tile-date-input"
                       title="Select departure date"
                     />
                   </div>
 
-                  {/* RETURN TILE */}
+                  {/* 4. RETURN CARD */}
                   <div
                     onClick={() => {
                       if (tripType !== 'roundtrip') {
@@ -507,85 +482,139 @@ export default function HeroSearch() {
                         if (!returnDate) setReturnDate('2026-09-22');
                       }
                     }}
-                    className={`md:col-span-2 p-4 sm:p-4.5 transition cursor-pointer relative ${
-                      tripType === 'roundtrip' ? 'bg-sky-50/40 hover:bg-sky-50' : 'hover:bg-slate-50'
-                    }`}
+                    className="md:col-span-2 relative group cursor-pointer"
                   >
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Return ▾
-                    </span>
-                    {tripType === 'roundtrip' ? (
-                      <>
-                        <div className="flex items-baseline gap-1 mt-0.5">
-                          <span className="text-2xl sm:text-3xl font-black text-slate-900 leading-none">{returnDisplay.day}</span>
-                          <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">{returnDisplay.monthYear}</span>
-                        </div>
-                        <p className="text-xs text-slate-500 font-medium mt-1">{returnDisplay.weekday}</p>
-                        <input
-                          type="date"
-                          value={returnDate}
-                          onChange={(e) => setReturnDate(e.target.value)}
-                          className="opacity-0 absolute inset-0 cursor-pointer w-full h-full z-10"
-                          title="Select return date"
-                        />
-                      </>
-                    ) : (
-                      <div className="mt-1">
-                        <span className="text-xs font-bold text-slate-400 leading-tight block">
-                          Tap to add a return date for bigger discounts
+                    <div className={`h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 transition-all duration-200 flex flex-col justify-between ${
+                      tripType === 'roundtrip'
+                        ? 'border-emerald-300 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10'
+                        : 'border-slate-200/90 border-dashed bg-gradient-to-br from-slate-50/80 via-white to-emerald-50/20 hover:border-emerald-400 hover:bg-emerald-50/30 hover:shadow-md'
+                    }`}>
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-2xs">
+                            <Calendar className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>RETURN</span>
                         </span>
+                        {tripType !== 'roundtrip' && (
+                          <span className="text-[9px] font-black text-emerald-700 bg-emerald-100 border border-emerald-300/90 px-1.5 py-0.2 rounded-full shadow-2xs">
+                            Save 15%
+                          </span>
+                        )}
                       </div>
+                      {tripType === 'roundtrip' ? (
+                        <div className="my-0.5">
+                          <div className="flex items-baseline gap-1.5">
+                            <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-emerald-950 leading-none">
+                              {returnDisplay.day}
+                            </span>
+                            <span className="text-xs sm:text-sm font-black text-slate-800">
+                              {returnDisplay.monthYear}
+                            </span>
+                          </div>
+                          <p className="text-[10.5px] text-emerald-600 font-bold mt-0.5 truncate">
+                            {returnDisplay.weekday}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="my-0.5">
+                          <div className="text-sm sm:text-base font-black text-slate-700 group-hover:text-emerald-700 leading-tight transition-colors">
+                            + Add Return
+                          </div>
+                          <p className="text-[10.5px] text-slate-400 font-medium mt-0.5 truncate">
+                            Round trip savings
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    {tripType === 'roundtrip' && (
+                      <input
+                        type="date"
+                        value={returnDate}
+                        onChange={(e) => setReturnDate(e.target.value)}
+                        onClick={(e) => {
+                          try {
+                            (e.target as HTMLInputElement).showPicker();
+                          } catch {}
+                        }}
+                        className="full-tile-date-input"
+                        title="Select return date"
+                      />
                     )}
                   </div>
 
-                  {/* TRAVELLERS & CLASS TILE */}
-                  <div className="md:col-span-2 p-4 sm:p-4.5 hover:bg-sky-50/40 transition cursor-pointer relative">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Travellers &amp; Class ▾
-                    </span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
+                  {/* 5. TRAVELLERS & CLASS CARD */}
+                  <div className="md:col-span-2 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-purple-200/90 bg-gradient-to-br from-purple-50/70 via-white to-purple-50/30 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-purple-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-purple-100 text-purple-600 flex items-center justify-center shadow-2xs">
+                            <Users className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>TRAVELLERS</span>
+                        </span>
+                        <ChevronDown className="w-3.5 h-3.5 text-purple-400 group-hover:text-purple-600 transition-colors" />
+                      </div>
+                      <div className="my-0.5">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-purple-950 leading-none">
+                            {passengers}
+                          </span>
+                          <span className="text-xs sm:text-sm font-black text-slate-800">
+                            {passengers === 1 ? 'Adult' : 'Travellers'}
+                          </span>
+                        </div>
+                        <p className="text-[10.5px] font-bold text-purple-700 capitalize mt-0.5 truncate">
+                          {cabinClass === 'economy' ? 'Economy / Premium' : cabinClass}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex absolute inset-0 opacity-0 z-10">
                       <select
                         value={passengers}
                         onChange={(e) => setPassengers(Number(e.target.value))}
-                        className="bg-transparent text-2xl sm:text-3xl font-black text-slate-900 outline-none cursor-pointer"
+                        className="w-1/2 h-full cursor-pointer"
+                        title="Select travellers"
                       >
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                        <option value={3}>3</option>
-                        <option value={4}>4</option>
-                        <option value={5}>5+</option>
+                        <option value={1}>1 Adult</option>
+                        <option value={2}>2 Travellers</option>
+                        <option value={3}>3 Travellers</option>
+                        <option value={4}>4 Travellers</option>
+                        <option value={5}>5+ Travellers</option>
                       </select>
-                      <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">
-                        {passengers === 1 ? 'Adult' : 'Travellers'}
-                      </span>
+                      <select
+                        value={cabinClass}
+                        onChange={(e) => setCabinClass(e.target.value)}
+                        className="w-1/2 h-full cursor-pointer"
+                        title="Select cabin class"
+                      >
+                        <option value="economy">Economy</option>
+                        <option value="premium">Premium Economy</option>
+                        <option value="business">Business Class</option>
+                        <option value="first">First Class</option>
+                      </select>
                     </div>
-                    <select
-                      value={cabinClass}
-                      onChange={(e) => setCabinClass(e.target.value)}
-                      className="bg-transparent text-xs font-bold text-slate-500 outline-none cursor-pointer capitalize mt-1 block w-full"
-                    >
-                      <option value="economy">Economy / Premium</option>
-                      <option value="premium">Premium Economy</option>
-                      <option value="business">Business Class</option>
-                      <option value="first">First Class</option>
-                    </select>
                   </div>
 
                 </div>
 
-                {/* Special Fare Selection Chips (MakeMyTrip Signature) */}
-                <div className="pt-2">
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-                    <span className="text-xs font-black text-slate-800 mr-1">
-                      Select a special fare:
+                {/* Special Fare Selection Chips & Assurance (Unified Luxury Bar) */}
+                <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1.5 pb-0.5">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <span className="text-[11px] font-black text-slate-800 mr-0.5 shrink-0 flex items-center gap-1">
+                      <div className="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+                        <Tag className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>Special Fares:</span>
                     </span>
                     {[
-                      { id: 'regular', title: 'Regular', subtitle: 'Regular fares' },
-                      { id: 'student', title: 'Student', subtitle: 'Extra discounts & baggage' },
-                      { id: 'defence', title: 'Armed Forces', subtitle: 'Up to ₹600 off' },
-                      { id: 'senior', title: 'Senior Citizen', subtitle: 'Up to ₹600 off' },
-                      { id: 'doctor', title: 'Doctors & Nurses', subtitle: 'Up to ₹600 off' },
-                      { id: 'direct', title: 'Direct Flights', subtitle: 'Non-stop only' },
+                      { id: 'regular', title: 'Regular', subtitle: 'Regular fares', icon: '⭐', activeBg: 'border-sky-500 bg-sky-50/90 text-sky-950 ring-2 ring-sky-500/20' },
+                      { id: 'student', title: 'Student', subtitle: 'Extra baggage', icon: '🎓', activeBg: 'border-emerald-500 bg-emerald-50/90 text-emerald-950 ring-2 ring-emerald-500/20' },
+                      { id: 'defence', title: 'Armed Forces', subtitle: '₹600 off', icon: '🎖️', activeBg: 'border-amber-500 bg-amber-50/90 text-amber-950 ring-2 ring-amber-500/20' },
+                      { id: 'senior', title: 'Senior Citizen', subtitle: '₹600 off', icon: '👴', activeBg: 'border-purple-500 bg-purple-50/90 text-purple-950 ring-2 ring-purple-500/20' },
+                      { id: 'doctor', title: 'Doctors & Nurses', subtitle: '₹600 off', icon: '🩺', activeBg: 'border-rose-500 bg-rose-50/90 text-rose-950 ring-2 ring-rose-500/20' },
+                      { id: 'direct', title: 'Direct Flights', subtitle: 'Non-stop', icon: '⚡', activeBg: 'border-cyan-500 bg-cyan-50/90 text-cyan-950 ring-2 ring-cyan-500/20' },
                     ].map((fare) => {
                       const isSelected = selectedFare === fare.id;
                       return (
@@ -593,20 +622,16 @@ export default function HeroSearch() {
                           key={fare.id}
                           type="button"
                           onClick={() => setSelectedFare(fare.id as any)}
-                          className={`flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border text-left transition-all cursor-pointer ${
+                          className={`group flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-left transition-all cursor-pointer ${
                             isSelected
-                              ? 'border-sky-500 bg-sky-50/90 text-sky-950 ring-1 ring-sky-400 shadow-xs'
-                              : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'
+                              ? `${fare.activeBg} shadow-xs scale-[1.02]`
+                              : 'border-slate-200/90 bg-white hover:border-slate-300 hover:bg-slate-50/80 text-slate-700 shadow-2xs'
                           }`}
                         >
-                          <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
-                            isSelected ? 'border-sky-600 bg-sky-600' : 'border-slate-300 bg-white'
-                          }`}>
-                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                          </div>
+                          <span className="text-xs">{fare.icon}</span>
                           <div className="flex flex-col">
-                            <span className="text-xs font-black leading-tight">{fare.title}</span>
-                            <span className={`text-[10px] leading-tight ${isSelected ? 'text-sky-700 font-bold' : 'text-slate-400'}`}>
+                            <span className="text-[11px] font-black leading-tight group-hover:text-slate-900">{fare.title}</span>
+                            <span className={`text-[9px] leading-tight font-extrabold ${isSelected ? 'text-slate-800' : 'text-slate-400'}`}>
                               {fare.subtitle}
                             </span>
                           </div>
@@ -614,32 +639,32 @@ export default function HeroSearch() {
                       );
                     })}
                   </div>
+
+                  <div className="flex items-center gap-2.5 text-xs font-bold text-slate-600 ml-auto">
+                    <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-900 transition bg-slate-50 hover:bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200/80">
+                      <input
+                        type="checkbox"
+                        checked={priceDropProtection}
+                        onChange={(e) => setPriceDropProtection(e.target.checked)}
+                        className="w-3.5 h-3.5 rounded text-sky-600 focus:ring-sky-500 border-slate-300 cursor-pointer accent-sky-600"
+                      />
+                      <span className="text-[11px] font-bold text-slate-700">Price Drop Protection</span>
+                    </label>
+                    <div className="text-emerald-800 font-black flex items-center gap-1.5 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 px-3 py-1 rounded-full border border-emerald-300/80 shadow-2xs text-[11px]">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 stroke-[2.5]" />
+                      <span>100% Refund Guarantee</span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Price Drop Protection Banner (MakeMyTrip Style Trust Element) */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-1 text-xs text-slate-600 bg-slate-50/70 p-2.5 rounded-xl border border-slate-150">
-                  <label className="flex items-center gap-2 cursor-pointer font-bold">
-                    <input
-                      type="checkbox"
-                      checked={priceDropProtection}
-                      onChange={(e) => setPriceDropProtection(e.target.checked)}
-                      className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 border-slate-300"
-                    />
-                    <span>Add Price Drop Protection: Price drops, we&apos;ll refund the difference.</span>
-                  </label>
-                  <span className="text-sky-600 font-black text-[11px] flex items-center gap-1">
-                    <Shield className="w-3.5 h-3.5" /> 100% Guaranteed Refund
-                  </span>
-                </div>
-
-                {/* THE MASSIVE CENTERED FLOATING SEARCH BUTTON (MakeMyTrip / Goibibo Style) */}
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                {/* THE MASSIVE CENTERED FLOATING SEARCH BUTTON */}
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-sky-500 via-blue-600 to-blue-700 hover:from-sky-600 hover:to-blue-800 text-white font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(2,132,199,0.45)] hover:shadow-[0_16px_45px_rgba(2,132,199,0.6)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-[#0284c7] via-[#2563eb] to-[#1d4ed8] hover:from-[#0369a1] hover:via-[#1d4ed8] hover:to-[#1e40af] text-white font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(37,99,235,0.45)] hover:shadow-[0_16px_45px_rgba(37,99,235,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
-                    <span>SEARCH</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <span>SEARCH FLIGHTS</span>
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
 
@@ -648,95 +673,143 @@ export default function HeroSearch() {
 
             {/* ================= HOTELS TAB ================= */}
             {activeTab === 'hotels' && (
-              <form onSubmit={handleHotelSearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border border-slate-200 rounded-2xl overflow-visible bg-white shadow-xs divide-y md:divide-y-0 md:divide-x divide-slate-200">
+              <form onSubmit={handleHotelSearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-2.5 relative items-stretch">
                   
                   {/* CITY / PROPERTY */}
-                  <div className="md:col-span-4 p-4 hover:bg-rose-50/40 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      City, Property or Location
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <Building2 className="w-5 h-5 text-rose-500 shrink-0" />
-                      <input
-                        type="text"
-                        value={hotelCity}
-                        onChange={(e) => setHotelCity(e.target.value)}
-                        placeholder="e.g. Dubai, Mumbai, London"
-                        className="w-full bg-transparent font-black text-2xl sm:text-3xl text-slate-900 outline-none tracking-tight"
-                      />
+                  <div className="md:col-span-4 relative group">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-rose-200/90 bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-rose-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shadow-2xs">
+                            <Building2 className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>CITY, PROPERTY OR LOCATION</span>
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <input
+                          type="text"
+                          value={hotelCity}
+                          onChange={(e) => setHotelCity(e.target.value)}
+                          placeholder="e.g. Dubai, Mumbai, London"
+                          className="w-full bg-transparent font-black text-xl sm:text-2xl text-slate-900 group-hover:text-rose-950 outline-none tracking-tight leading-tight"
+                        />
+                        <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">India, UAE &amp; Worldwide Luxury Stays</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">India, UAE &amp; Worldwide Luxury Stays</p>
                   </div>
 
                   {/* CHECK-IN */}
-                  <div className="md:col-span-3 p-4 hover:bg-rose-50/40 transition relative cursor-pointer">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Check-In ▾
-                    </span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-2xl sm:text-3xl font-black text-slate-900 leading-none">{hotelInDisplay.day}</span>
-                      <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">{hotelInDisplay.monthYear}</span>
+                  <div className="md:col-span-3 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-rose-200/90 bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-rose-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shadow-2xs">
+                            <Calendar className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>CHECK-IN</span>
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 leading-none group-hover:text-rose-950">{hotelInDisplay.day}</span>
+                          <span className="text-xs sm:text-sm font-black text-slate-800">{hotelInDisplay.monthYear}</span>
+                        </div>
+                        <p className="text-[10.5px] text-rose-600 font-bold mt-0.5 truncate">{hotelInDisplay.weekday}</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">{hotelInDisplay.weekday}</p>
                     <input
                       type="date"
                       value={hotelCheckIn}
                       onChange={(e) => setHotelCheckIn(e.target.value)}
-                      className="opacity-0 absolute inset-0 cursor-pointer w-full h-full"
+                      onClick={(e) => {
+                        try {
+                          (e.target as HTMLInputElement).showPicker();
+                        } catch {}
+                      }}
+                      className="full-tile-date-input"
+                      title="Select check-in date"
                     />
                   </div>
 
                   {/* CHECK-OUT */}
-                  <div className="md:col-span-3 p-4 hover:bg-rose-50/40 transition relative cursor-pointer">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Check-Out ▾
-                    </span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-2xl sm:text-3xl font-black text-slate-900 leading-none">{hotelOutDisplay.day}</span>
-                      <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">{hotelOutDisplay.monthYear}</span>
+                  <div className="md:col-span-3 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-rose-200/90 bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-rose-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shadow-2xs">
+                            <Calendar className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>CHECK-OUT</span>
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 leading-none group-hover:text-rose-950">{hotelOutDisplay.day}</span>
+                          <span className="text-xs sm:text-sm font-black text-slate-800">{hotelOutDisplay.monthYear}</span>
+                        </div>
+                        <p className="text-[10.5px] text-rose-600 font-bold mt-0.5 truncate">{hotelOutDisplay.weekday}</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">{hotelOutDisplay.weekday}</p>
                     <input
                       type="date"
                       value={hotelCheckOut}
                       onChange={(e) => setHotelCheckOut(e.target.value)}
-                      className="opacity-0 absolute inset-0 cursor-pointer w-full h-full"
+                      onClick={(e) => {
+                        try {
+                          (e.target as HTMLInputElement).showPicker();
+                        } catch {}
+                      }}
+                      className="full-tile-date-input"
+                      title="Select check-out date"
                     />
                   </div>
 
                   {/* ROOMS & GUESTS */}
-                  <div className="md:col-span-2 p-4 hover:bg-rose-50/40 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Rooms &amp; Guests ▾
-                    </span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <select
-                        value={hotelGuests}
-                        onChange={(e) => setHotelGuests(Number(e.target.value))}
-                        className="bg-transparent text-2xl sm:text-3xl font-black text-slate-900 outline-none cursor-pointer"
-                      >
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                        <option value={3}>3</option>
-                        <option value={4}>4</option>
-                        <option value={6}>6+</option>
-                      </select>
-                      <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">Guests</span>
+                  <div className="md:col-span-2 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-rose-200/90 bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-rose-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shadow-2xs">
+                            <Users className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>ROOMS &amp; GUESTS</span>
+                        </span>
+                        <ChevronDown className="w-3.5 h-3.5 text-rose-400 group-hover:text-rose-600 transition-colors" />
+                      </div>
+                      <div className="my-0.5">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 leading-none group-hover:text-rose-950">{hotelGuests}</span>
+                          <span className="text-xs sm:text-sm font-black text-slate-800">Guests</span>
+                        </div>
+                        <p className="text-[10.5px] font-bold text-rose-700 mt-0.5 truncate">{hotelRooms} Room, Deluxe Stay</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">1 Room, Deluxe Stay</p>
+                    <select
+                      value={hotelGuests}
+                      onChange={(e) => setHotelGuests(Number(e.target.value))}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      title="Select guests"
+                    >
+                      <option value={1}>1 Guest</option>
+                      <option value={2}>2 Guests</option>
+                      <option value={3}>3 Guests</option>
+                      <option value={4}>4 Guests</option>
+                      <option value={6}>6+ Guests</option>
+                    </select>
                   </div>
 
                 </div>
 
                 {/* Floating Search Button */}
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-rose-500 via-red-600 to-red-700 hover:from-rose-600 hover:to-red-800 text-white font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(225,29,72,0.4)] hover:shadow-[0_16px_45px_rgba(225,29,72,0.55)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-rose-500 via-red-600 to-rose-700 hover:from-rose-600 hover:to-red-800 text-white font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(225,29,72,0.45)] hover:shadow-[0_16px_45px_rgba(225,29,72,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>SEARCH HOTELS</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
@@ -744,18 +817,37 @@ export default function HeroSearch() {
 
             {/* ================= TRAINS TAB ================= */}
             {activeTab === 'train' && (
-              <form onSubmit={handleTrainSearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border border-slate-200 rounded-2xl overflow-visible bg-white shadow-xs divide-y md:divide-y-0 md:divide-x divide-slate-200 relative">
+              <form onSubmit={handleTrainSearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-2.5 relative items-stretch">
                   
                   {/* FROM STATION */}
-                  <div className="md:col-span-3 p-4 hover:bg-emerald-50/40 transition relative">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      From Station
-                    </span>
+                  <div className="md:col-span-3 relative group">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-2xs">
+                            <Train className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>FROM STATION</span>
+                        </span>
+                        <span className="font-black text-emerald-700 bg-emerald-100/90 border border-emerald-300/80 px-2 py-0.5 rounded-md text-[10.5px] uppercase tracking-wider">
+                          {trainOrigin}
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-emerald-950 tracking-tight leading-tight block truncate">
+                          {TRAIN_STATION_INFO[trainOrigin]?.name || trainOrigin}
+                        </span>
+                        <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">
+                          {TRAIN_STATION_INFO[trainOrigin]?.desc || 'Indian Railways Station'}
+                        </p>
+                      </div>
+                    </div>
                     <select
                       value={trainOrigin}
                       onChange={(e) => setTrainOrigin(e.target.value)}
-                      className="w-full bg-transparent text-2xl sm:text-3xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      title="Select origin station"
                     >
                       <option value="CSMT">Mumbai CSMT</option>
                       <option value="NDLS">New Delhi (NDLS)</option>
@@ -764,28 +856,49 @@ export default function HeroSearch() {
                       <option value="SBC">Bengaluru City (SBC)</option>
                       <option value="MAS">Chennai Central (MAS)</option>
                     </select>
-                    <p className="text-xs text-slate-500 font-medium truncate mt-1">
-                      {TRAIN_STATION_INFO[trainOrigin]?.desc || 'Indian Railways Station'}
-                    </p>
 
+                    {/* Swap button */}
                     <button
                       type="button"
-                      onClick={handleTrainSwap}
-                      className="hidden md:flex absolute -right-4.5 top-1/2 -translate-y-1/2 z-30 w-9 h-9 bg-white text-emerald-600 hover:bg-emerald-50 rounded-full shadow-lg border border-slate-200 items-center justify-center transition hover:scale-110 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleTrainSwap();
+                      }}
+                      className="hidden md:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-30 w-7.5 h-7.5 bg-white text-emerald-600 hover:text-white hover:bg-gradient-to-r hover:from-emerald-500 hover:to-teal-600 border-2 border-emerald-300 hover:border-transparent rounded-full shadow-md hover:shadow-lg hover:shadow-emerald-500/30 items-center justify-center transition-all duration-200 hover:scale-115 active:scale-95 cursor-pointer"
+                      title="Swap Stations"
                     >
-                      <ArrowRightLeft className="w-4 h-4 stroke-[2.4]" />
+                      <ArrowRightLeft className="w-3.5 h-3.5 stroke-[2.4]" />
                     </button>
                   </div>
 
                   {/* TO STATION */}
-                  <div className="md:col-span-3 p-4 hover:bg-emerald-50/40 transition md:pl-6">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      To Station
-                    </span>
+                  <div className="md:col-span-3 relative group">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-teal-200/90 bg-gradient-to-br from-teal-50/70 via-white to-teal-50/30 hover:border-teal-500 hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-teal-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-teal-100 text-teal-600 flex items-center justify-center shadow-2xs">
+                            <Train className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>TO STATION</span>
+                        </span>
+                        <span className="font-black text-teal-700 bg-teal-100/90 border border-teal-300/80 px-2 py-0.5 rounded-md text-[10.5px] uppercase tracking-wider">
+                          {trainDestination}
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-teal-950 tracking-tight leading-tight block truncate">
+                          {TRAIN_STATION_INFO[trainDestination]?.name || trainDestination}
+                        </span>
+                        <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">
+                          {TRAIN_STATION_INFO[trainDestination]?.desc || 'Indian Railways Station'}
+                        </p>
+                      </div>
+                    </div>
                     <select
                       value={trainDestination}
                       onChange={(e) => setTrainDestination(e.target.value)}
-                      className="w-full bg-transparent text-2xl sm:text-3xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      title="Select destination station"
                     >
                       <option value="NDLS">New Delhi (NDLS)</option>
                       <option value="CSMT">Mumbai CSMT</option>
@@ -793,38 +906,65 @@ export default function HeroSearch() {
                       <option value="BSB">Varanasi Jn (BSB)</option>
                       <option value="PUNE">Pune Jn (PUNE)</option>
                     </select>
-                    <p className="text-xs text-slate-500 font-medium truncate mt-1">
-                      {TRAIN_STATION_INFO[trainDestination]?.desc || 'Indian Railways Station'}
-                    </p>
                   </div>
 
                   {/* DATE */}
-                  <div className="md:col-span-2 p-4 hover:bg-emerald-50/40 transition relative cursor-pointer">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Travel Date ▾
-                    </span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-2xl sm:text-3xl font-black text-slate-900 leading-none">{formatDateDisplay(trainDate).day}</span>
-                      <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">{formatDateDisplay(trainDate).monthYear}</span>
+                  <div className="md:col-span-2 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-2xs">
+                            <Calendar className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>TRAVEL DATE</span>
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 leading-none group-hover:text-emerald-950">{formatDateDisplay(trainDate).day}</span>
+                          <span className="text-xs sm:text-sm font-black text-slate-800">{formatDateDisplay(trainDate).monthYear}</span>
+                        </div>
+                        <p className="text-[10.5px] text-emerald-600 font-bold mt-0.5 truncate">{formatDateDisplay(trainDate).weekday}</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">{formatDateDisplay(trainDate).weekday}</p>
                     <input
                       type="date"
                       value={trainDate}
                       onChange={(e) => setTrainDate(e.target.value)}
-                      className="opacity-0 absolute inset-0 cursor-pointer w-full h-full"
+                      onClick={(e) => {
+                        try {
+                          (e.target as HTMLInputElement).showPicker();
+                        } catch {}
+                      }}
+                      className="full-tile-date-input"
+                      title="Select travel date"
                     />
                   </div>
 
                   {/* CLASS */}
-                  <div className="md:col-span-2 p-4 hover:bg-emerald-50/40 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Class ▾
-                    </span>
+                  <div className="md:col-span-2 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-[10px]">
+                            ₹
+                          </div>
+                          <span>CLASS</span>
+                        </span>
+                        <ChevronDown className="w-3.5 h-3.5 text-emerald-400 group-hover:text-emerald-600 transition-colors" />
+                      </div>
+                      <div className="my-0.5">
+                        <span className="text-base sm:text-lg font-black text-slate-900 group-hover:text-emerald-950 block truncate">
+                          {trainClass === 'ALL' ? 'All Classes' : trainClass}
+                        </span>
+                        <p className="text-[10.5px] text-emerald-700 font-bold mt-0.5 truncate">Free Cancellation</p>
+                      </div>
+                    </div>
                     <select
                       value={trainClass}
                       onChange={(e) => setTrainClass(e.target.value)}
-                      className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      title="Select class"
                     >
                       <option value="ALL">All Classes</option>
                       <option value="1A">AC First (1A)</option>
@@ -832,37 +972,50 @@ export default function HeroSearch() {
                       <option value="3A">AC 3 Tier (3A)</option>
                       <option value="SL">Sleeper (SL)</option>
                     </select>
-                    <p className="text-xs text-emerald-600 font-bold mt-1">Free Cancellation</p>
                   </div>
 
                   {/* QUOTA */}
-                  <div className="md:col-span-2 p-4 hover:bg-emerald-50/40 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Quota ▾
-                    </span>
+                  <div className="md:col-span-2 relative group cursor-pointer">
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-2xs">
+                            <ShieldCheck className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>QUOTA</span>
+                        </span>
+                        <ChevronDown className="w-3.5 h-3.5 text-emerald-400 group-hover:text-emerald-600 transition-colors" />
+                      </div>
+                      <div className="my-0.5">
+                        <span className="text-base sm:text-lg font-black text-slate-900 group-hover:text-emerald-950 block truncate">
+                          {trainQuota === 'GN' ? 'General' : trainQuota === 'TQ' ? 'Tatkal' : trainQuota === 'LD' ? 'Ladies' : 'Senior'}
+                        </span>
+                        <p className="text-[10.5px] text-slate-500 font-medium mt-0.5 truncate">IRCTC Authorized</p>
+                      </div>
+                    </div>
                     <select
                       value={trainQuota}
                       onChange={(e) => setTrainQuota(e.target.value)}
-                      className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      title="Select quota"
                     >
                       <option value="GN">General</option>
                       <option value="TQ">Tatkal</option>
                       <option value="LD">Ladies</option>
                       <option value="SS">Senior Citizen</option>
                     </select>
-                    <p className="text-xs text-slate-500 font-medium mt-1">IRCTC Authorized</p>
                   </div>
 
                 </div>
 
                 {/* Floating Search Button */}
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(5,150,105,0.45)] hover:shadow-[0_16px_45px_rgba(5,150,105,0.6)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(5,150,105,0.45)] hover:shadow-[0_16px_45px_rgba(5,150,105,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>SEARCH TRAINS</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
@@ -870,8 +1023,8 @@ export default function HeroSearch() {
 
             {/* ================= BUSES TAB ================= */}
             {activeTab === 'bus' && (
-              <form onSubmit={handleBusSearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+              <form onSubmit={handleBusSearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-2.5 items-stretch">
                   <div className="md:col-span-5">
                     <BusSearchAutocomplete
                       label="From (City or Boarding Point)"
@@ -890,32 +1043,59 @@ export default function HeroSearch() {
                       onChange={(val) => setBusDestination(val)}
                     />
                   </div>
-                  <div className="md:col-span-3 p-4 rounded-2xl border border-slate-200 bg-white hover:border-purple-500 transition relative cursor-pointer">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                      Journey Date ▾
-                    </span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-2xl sm:text-3xl font-black text-slate-900 leading-none">{formatDateDisplay(departDate).day}</span>
-                      <span className="text-base sm:text-lg font-extrabold text-slate-800 ml-1">{formatDateDisplay(departDate).monthYear}</span>
+                  <div
+                    className="md:col-span-3 relative group cursor-pointer"
+                    onClick={() => {
+                      try {
+                        const el = document.getElementById('hero-bus-date-input') as HTMLInputElement;
+                        el?.showPicker();
+                      } catch {}
+                    }}
+                  >
+                    <div className="h-full p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-purple-200/90 bg-gradient-to-br from-purple-50/70 via-white to-purple-50/30 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-200 flex flex-col justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-[10.5px] font-black text-purple-700 tracking-wider uppercase">
+                          <div className="w-5 h-5 rounded-md bg-purple-100 text-purple-600 flex items-center justify-center shadow-2xs">
+                            <Calendar className="w-3 h-3 stroke-[2.5]" />
+                          </div>
+                          <span>JOURNEY DATE</span>
+                        </span>
+                        <span className="text-[9px] font-black text-purple-700 bg-purple-100/90 border border-purple-300/80 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                          Select Date
+                        </span>
+                      </div>
+                      <div className="my-0.5">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-purple-950 leading-none">{formatDateDisplay(busDate).day}</span>
+                          <span className="text-xs sm:text-sm font-black text-slate-800">{formatDateDisplay(busDate).monthYear}</span>
+                        </div>
+                        <p className="text-[10.5px] text-purple-600 font-bold mt-0.5 truncate">{formatDateDisplay(busDate).weekday}</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">{formatDateDisplay(departDate).weekday}</p>
                     <input
+                      id="hero-bus-date-input"
                       type="date"
-                      value={departDate}
-                      onChange={(e) => setDepartDate(e.target.value)}
-                      className="opacity-0 absolute inset-0 cursor-pointer w-full h-full"
+                      value={busDate}
+                      onChange={(e) => setBusDate(e.target.value)}
+                      onClick={(e) => {
+                        try {
+                          (e.target as HTMLInputElement).showPicker();
+                        } catch {}
+                      }}
+                      className="full-tile-date-input"
+                      title="Select bus journey date"
                     />
                   </div>
                 </div>
 
                 {/* Floating Search Button */}
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-700 hover:to-indigo-800 text-white font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(147,51,234,0.45)] hover:shadow-[0_16px_45px_rgba(147,51,234,0.6)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-700 hover:to-indigo-800 text-white font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(147,51,234,0.45)] hover:shadow-[0_16px_45px_rgba(147,51,234,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>SEARCH BUSES</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
@@ -923,51 +1103,74 @@ export default function HeroSearch() {
 
             {/* ================= HOLIDAYS TAB ================= */}
             {activeTab === 'holidays' && (
-              <form onSubmit={handleHolidaySearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-amber-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Destination</span>
-                    <select
-                      value={holidayDest}
-                      onChange={(e) => setHolidayDest(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="Bali, Indonesia">Bali, Indonesia</option>
-                      <option value="Swiss Alps & Paris">Swiss Alps &amp; Paris</option>
-                      <option value="Dubai & Abu Dhabi">Dubai &amp; Abu Dhabi</option>
-                      <option value="Maldives Luxury Resort">Maldives Luxury Resort</option>
-                      <option value="Kashmir Paradise">Kashmir Paradise</option>
-                    </select>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Handcrafted Luxury Itineraries</p>
+              <form onSubmit={handleHolidaySearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-2.5 items-stretch">
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-amber-200/90 bg-gradient-to-br from-amber-50/70 via-white to-amber-50/30 hover:border-amber-500 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-amber-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center shadow-2xs">
+                        <Palmtree className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>DESTINATION</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={holidayDest}
+                        onChange={(e) => setHolidayDest(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="Bali, Indonesia">Bali, Indonesia</option>
+                        <option value="Swiss Alps & Paris">Swiss Alps &amp; Paris</option>
+                        <option value="Dubai & Abu Dhabi">Dubai &amp; Abu Dhabi</option>
+                        <option value="Maldives Luxury Resort">Maldives Luxury Resort</option>
+                        <option value="Kashmir Paradise">Kashmir Paradise</option>
+                      </select>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Handcrafted Luxury Itineraries</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-amber-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Departure Month</span>
-                    <select
-                      value={holidayMonth}
-                      onChange={(e) => setHolidayMonth(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="Sep 2026">September 2026</option>
-                      <option value="Oct 2026">October 2026 (Diwali)</option>
-                      <option value="Nov 2026">November 2026</option>
-                      <option value="Dec 2026">December 2026 (New Year)</option>
-                    </select>
-                    <p className="text-xs text-amber-600 font-bold mt-1">Guaranteed Early Bird Savings</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-amber-200/90 bg-gradient-to-br from-amber-50/70 via-white to-amber-50/30 hover:border-amber-500 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-amber-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center shadow-2xs">
+                        <Calendar className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>DEPARTURE MONTH</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={holidayMonth}
+                        onChange={(e) => setHolidayMonth(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="Sep 2026">September 2026</option>
+                        <option value="Oct 2026">October 2026 (Diwali)</option>
+                        <option value="Nov 2026">November 2026</option>
+                        <option value="Dec 2026">December 2026 (New Year)</option>
+                      </select>
+                      <p className="text-[10.5px] text-amber-700 font-bold truncate mt-0.5">Guaranteed Early Bird Savings</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-amber-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Package Category</span>
-                    <div className="text-2xl font-black text-slate-900">5-Star All-Inclusive</div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Flights, Stays, Transfers &amp; Meals</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-amber-200/90 bg-gradient-to-br from-amber-50/70 via-white to-amber-50/30 hover:border-amber-500 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-amber-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center shadow-2xs">
+                        <Sparkles className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>PACKAGE CATEGORY</span>
+                    </span>
+                    <div className="my-0.5">
+                      <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">5-Star All-Inclusive</div>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Flights, Stays, Transfers &amp; Meals</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(245,158,11,0.45)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-slate-950 font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(245,158,11,0.45)] hover:shadow-[0_16px_45px_rgba(245,158,11,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>EXPLORE HOLIDAYS</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
@@ -975,51 +1178,74 @@ export default function HeroSearch() {
 
             {/* ================= VISA TAB ================= */}
             {activeTab === 'visa' && (
-              <form onSubmit={handleVisaSearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-cyan-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Select Country</span>
-                    <select
-                      value={visaCountry}
-                      onChange={(e) => setVisaCountry(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="United Arab Emirates">United Arab Emirates</option>
-                      <option value="Schengen Visa (Europe)">Schengen Visa (Europe)</option>
-                      <option value="Singapore">Singapore</option>
-                      <option value="United States (B1/B2)">United States (B1/B2)</option>
-                      <option value="United Kingdom">United Kingdom</option>
-                      <option value="Saudi Arabia">Saudi Arabia</option>
-                    </select>
-                    <p className="text-xs text-slate-500 font-medium mt-1">99.4% Approval Guarantee</p>
+              <form onSubmit={handleVisaSearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-2.5 items-stretch">
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-cyan-200/90 bg-gradient-to-br from-cyan-50/70 via-white to-cyan-50/30 hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-cyan-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-cyan-100 text-cyan-600 flex items-center justify-center shadow-2xs">
+                        <FileCheck2 className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>SELECT COUNTRY</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={visaCountry}
+                        onChange={(e) => setVisaCountry(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="United Arab Emirates">United Arab Emirates</option>
+                        <option value="Schengen Visa (Europe)">Schengen Visa (Europe)</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="United States (B1/B2)">United States (B1/B2)</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Saudi Arabia">Saudi Arabia</option>
+                      </select>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">99.4% Approval Guarantee</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-cyan-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Visa Type</span>
-                    <select
-                      value={visaType}
-                      onChange={(e) => setVisaType(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="Tourist 30 Days">Tourist 30 Days Express</option>
-                      <option value="Tourist 60 Days">Tourist 60 Days Multiple</option>
-                      <option value="Business Transit">Business / Investor</option>
-                    </select>
-                    <p className="text-xs text-cyan-600 font-bold mt-1">Government Approved Processing</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-cyan-200/90 bg-gradient-to-br from-cyan-50/70 via-white to-cyan-50/30 hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-cyan-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-cyan-100 text-cyan-600 flex items-center justify-center shadow-2xs">
+                        <ShieldCheck className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>VISA TYPE</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={visaType}
+                        onChange={(e) => setVisaType(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="Tourist 30 Days">Tourist 30 Days Express</option>
+                        <option value="Tourist 60 Days">Tourist 60 Days Multiple</option>
+                        <option value="Business Transit">Business / Investor</option>
+                      </select>
+                      <p className="text-[10.5px] text-cyan-700 font-bold truncate mt-0.5">Government Approved Processing</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-cyan-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Applicant Nationality</span>
-                    <div className="text-2xl font-black text-slate-900">🇮🇳 Indian Passport</div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Doorstep Biometrics &amp; Docs Pickup</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-cyan-200/90 bg-gradient-to-br from-cyan-50/70 via-white to-cyan-50/30 hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-cyan-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-cyan-100 text-cyan-600 flex items-center justify-center shadow-2xs">
+                        <Globe2 className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>APPLICANT NATIONALITY</span>
+                    </span>
+                    <div className="my-0.5">
+                      <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">🇮🇳 Indian Passport</div>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Doorstep Biometrics &amp; Docs Pickup</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-cyan-600 to-sky-700 hover:from-cyan-700 hover:to-sky-800 text-white font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(8,145,178,0.45)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-cyan-600 via-sky-600 to-cyan-700 hover:from-cyan-700 hover:to-sky-800 text-white font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(8,145,178,0.45)] hover:shadow-[0_16px_45px_rgba(8,145,178,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>APPLY E-VISA</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
@@ -1027,49 +1253,72 @@ export default function HeroSearch() {
 
             {/* ================= UMRAH TAB ================= */}
             {activeTab === 'umrah' && (
-              <form onSubmit={handleUmrahSearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-emerald-600 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Departure City</span>
-                    <select
-                      value={umrahCity}
-                      onChange={(e) => setUmrahCity(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="Mumbai">Mumbai (BOM)</option>
-                      <option value="New Delhi">New Delhi (DEL)</option>
-                      <option value="Hyderabad">Hyderabad (HYD)</option>
-                      <option value="Bengaluru">Bengaluru (BLR)</option>
-                    </select>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Direct Flights to Jeddah / Madinah</p>
+              <form onSubmit={handleUmrahSearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-2.5 items-stretch">
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-800 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-2xs">
+                        <PlaneTakeoff className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>DEPARTURE CITY</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={umrahCity}
+                        onChange={(e) => setUmrahCity(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="Mumbai">Mumbai (BOM)</option>
+                        <option value="New Delhi">New Delhi (DEL)</option>
+                        <option value="Hyderabad">Hyderabad (HYD)</option>
+                        <option value="Bengaluru">Bengaluru (BLR)</option>
+                      </select>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Direct Flights to Jeddah / Madinah</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-emerald-600 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Package Tier</span>
-                    <select
-                      value={umrahPackage}
-                      onChange={(e) => setUmrahPackage(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="VIP 5-Star Kaaba View">VIP 5-Star Kaaba View (Fairmont)</option>
-                      <option value="Deluxe 15-Day Package">Deluxe 15-Day Package (Pullman)</option>
-                      <option value="Ramadan Mubarak Special">Ramadan Mubarak Special</option>
-                    </select>
-                    <p className="text-xs text-emerald-700 font-bold mt-1">Ministry of Hajj &amp; Umrah Authorized</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-800 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-2xs">
+                        <Sparkles className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>PACKAGE TIER</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={umrahPackage}
+                        onChange={(e) => setUmrahPackage(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="VIP 5-Star Kaaba View">VIP 5-Star Kaaba View (Fairmont)</option>
+                        <option value="Deluxe 15-Day Package">Deluxe 15-Day Package (Pullman)</option>
+                        <option value="Ramadan Mubarak Special">Ramadan Mubarak Special</option>
+                      </select>
+                      <p className="text-[10.5px] text-emerald-700 font-bold truncate mt-0.5">Ministry of Hajj &amp; Umrah Authorized</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-emerald-600 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Services Included</span>
-                    <div className="text-2xl font-black text-slate-900">Visa + Flights + Haram Hotel</div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Ziyarat Tours &amp; Buffet Catering</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-emerald-200/90 bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/30 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-emerald-800 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-2xs">
+                        <Moon className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>SERVICES INCLUDED</span>
+                    </span>
+                    <div className="my-0.5">
+                      <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Visa + Flights + Haram Hotel</div>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Ziyarat Tours &amp; Buffet Catering</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-emerald-700 to-teal-900 hover:from-emerald-800 hover:to-teal-950 text-amber-300 font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(4,120,87,0.5)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-emerald-700 via-teal-800 to-emerald-900 hover:from-emerald-800 hover:to-teal-950 text-amber-300 font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(4,120,87,0.5)] hover:shadow-[0_16px_45px_rgba(4,120,87,0.7)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>VIEW UMRAH PACKAGES</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
@@ -1077,50 +1326,73 @@ export default function HeroSearch() {
 
             {/* ================= INSURANCE TAB ================= */}
             {activeTab === 'insurance' && (
-              <form onSubmit={handleInsuranceSearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Destination</span>
-                    <select
-                      value={insuranceDest}
-                      onChange={(e) => setInsuranceDest(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="Worldwide (incl. USA/Canada)">Worldwide (incl. USA/Canada)</option>
-                      <option value="Worldwide (excl. USA/Canada)">Worldwide (excl. USA/Canada)</option>
-                      <option value="Schengen Countries">Schengen Countries (Europe)</option>
-                      <option value="Asia & Middle East">Asia &amp; Middle East</option>
-                    </select>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Cashless Hospitalization Worldwide</p>
+              <form onSubmit={handleInsuranceSearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-2.5 items-stretch">
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-blue-200/90 bg-gradient-to-br from-blue-50/70 via-white to-blue-50/30 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-blue-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center shadow-2xs">
+                        <Globe2 className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>DESTINATION</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={insuranceDest}
+                        onChange={(e) => setInsuranceDest(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="Worldwide (incl. USA/Canada)">Worldwide (incl. USA/Canada)</option>
+                        <option value="Worldwide (excl. USA/Canada)">Worldwide (excl. USA/Canada)</option>
+                        <option value="Schengen Countries">Schengen Countries (Europe)</option>
+                        <option value="Asia & Middle East">Asia &amp; Middle East</option>
+                      </select>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Cashless Hospitalization Worldwide</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Travellers</span>
-                    <select
-                      value={insuranceTravellers}
-                      onChange={(e) => setInsuranceTravellers(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="1 Adult">1 Adult (18-40 yrs)</option>
-                      <option value="2 Adults">2 Adults (Family Plan)</option>
-                      <option value="Family + Kids">Family with Children</option>
-                      <option value="Senior Citizen">Senior Citizen (60+ yrs)</option>
-                    </select>
-                    <p className="text-xs text-blue-600 font-bold mt-1">Up to $500,000 Medical Sum Insured</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-blue-200/90 bg-gradient-to-br from-blue-50/70 via-white to-blue-50/30 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-blue-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center shadow-2xs">
+                        <Users className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>TRAVELLERS</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={insuranceTravellers}
+                        onChange={(e) => setInsuranceTravellers(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="1 Adult">1 Adult (18-40 yrs)</option>
+                        <option value="2 Adults">2 Adults (Family Plan)</option>
+                        <option value="Family + Kids">Family with Children</option>
+                        <option value="Senior Citizen">Senior Citizen (60+ yrs)</option>
+                      </select>
+                      <p className="text-[10.5px] text-blue-700 font-bold truncate mt-0.5">Up to $500,000 Medical Sum Insured</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Instant Coverage</span>
-                    <div className="text-2xl font-black text-slate-900">Baggage &amp; Delay Protection</div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Embassy &amp; Visa Compliant Policy</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-blue-200/90 bg-gradient-to-br from-blue-50/70 via-white to-blue-50/30 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-blue-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center shadow-2xs">
+                        <ShieldCheck className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>INSTANT COVERAGE</span>
+                    </span>
+                    <div className="my-0.5">
+                      <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Baggage &amp; Delay Protection</div>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Embassy &amp; Visa Compliant Policy</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(37,99,235,0.45)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 text-white font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(37,99,235,0.45)] hover:shadow-[0_16px_45px_rgba(37,99,235,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>GET INSTANT QUOTE</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
@@ -1128,72 +1400,95 @@ export default function HeroSearch() {
 
             {/* ================= MEDICAL TAB ================= */}
             {activeTab === 'medical' && (
-              <form onSubmit={handleMedicalSearch} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-rose-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Specialty Treatment</span>
-                    <select
-                      value={medicalSpecialty}
-                      onChange={(e) => setMedicalSpecialty(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="Cardiology & Heart Care">Cardiology &amp; Heart Care</option>
-                      <option value="Orthopedic & Joint Replacement">Orthopedic &amp; Joint Replacement</option>
-                      <option value="Oncology & Cancer Care">Oncology &amp; Cancer Care</option>
-                      <option value="IVF & Fertility Treatments">IVF &amp; Fertility Treatments</option>
-                      <option value="Cosmetic & Reconstructive">Cosmetic &amp; Reconstructive</option>
-                    </select>
-                    <p className="text-xs text-slate-500 font-medium mt-1">JCI Accredited Hospital Partners</p>
+              <form onSubmit={handleMedicalSearch} className="space-y-3.5">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-2.5 items-stretch">
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-rose-200/90 bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-rose-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shadow-2xs">
+                        <HeartPulse className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>SPECIALTY TREATMENT</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={medicalSpecialty}
+                        onChange={(e) => setMedicalSpecialty(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="Cardiology & Heart Care">Cardiology &amp; Heart Care</option>
+                        <option value="Orthopedic & Joint Replacement">Orthopedic &amp; Joint Replacement</option>
+                        <option value="Oncology & Cancer Care">Oncology &amp; Cancer Care</option>
+                        <option value="IVF & Fertility Treatments">IVF &amp; Fertility Treatments</option>
+                        <option value="Cosmetic & Reconstructive">Cosmetic &amp; Reconstructive</option>
+                      </select>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">JCI Accredited Hospital Partners</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-rose-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Partner Network</span>
-                    <select
-                      value={medicalCity}
-                      onChange={(e) => setMedicalCity(e.target.value)}
-                      className="w-full bg-transparent text-2xl font-black text-slate-900 outline-none cursor-pointer"
-                    >
-                      <option value="Apollo Hospitals, Mumbai">Apollo Hospitals, Mumbai</option>
-                      <option value="Fortis Healthcare, Delhi NCR">Fortis Healthcare, Delhi NCR</option>
-                      <option value="Max Super Speciality, New Delhi">Max Super Speciality, New Delhi</option>
-                      <option value="Manipal Hospitals, Bengaluru">Manipal Hospitals, Bengaluru</option>
-                    </select>
-                    <p className="text-xs text-rose-600 font-bold mt-1">Zero Consultation Waiting Time</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-rose-200/90 bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-rose-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shadow-2xs">
+                        <Building2 className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>PARTNER NETWORK</span>
+                    </span>
+                    <div className="my-0.5">
+                      <select
+                        value={medicalCity}
+                        onChange={(e) => setMedicalCity(e.target.value)}
+                        className="w-full bg-transparent text-xl sm:text-2xl font-black text-slate-900 outline-none cursor-pointer tracking-tight"
+                      >
+                        <option value="Apollo Hospitals, Mumbai">Apollo Hospitals, Mumbai</option>
+                        <option value="Fortis Healthcare, Delhi NCR">Fortis Healthcare, Delhi NCR</option>
+                        <option value="Max Super Speciality, New Delhi">Max Super Speciality, New Delhi</option>
+                        <option value="Manipal Hospitals, Bengaluru">Manipal Hospitals, Bengaluru</option>
+                      </select>
+                      <p className="text-[10.5px] text-rose-700 font-bold truncate mt-0.5">Zero Consultation Waiting Time</p>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-rose-500 transition">
-                    <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Concierge Inclusions</span>
-                    <div className="text-2xl font-black text-slate-900">Medical Visa + Airport Transfer</div>
-                    <p className="text-xs text-slate-500 font-medium mt-1">Dedicated Patient Liaison Officer</p>
+
+                  <div className="p-2.5 sm:py-3 px-3.5 rounded-2xl border-2 border-rose-200/90 bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-200 flex flex-col justify-between">
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-black text-rose-700 tracking-wider uppercase">
+                      <div className="w-5 h-5 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shadow-2xs">
+                        <Stethoscope className="w-3 h-3 stroke-[2.5]" />
+                      </div>
+                      <span>CONCIERGE INCLUSIONS</span>
+                    </span>
+                    <div className="my-0.5">
+                      <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Medical Visa + Airport Transfer</div>
+                      <p className="text-[10.5px] text-slate-500 font-medium truncate mt-0.5">Dedicated Patient Liaison Officer</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <div className="absolute -bottom-5 sm:-bottom-5.5 left-1/2 -translate-x-1/2 z-30">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-black text-lg sm:text-xl px-14 sm:px-24 py-3.5 sm:py-4 rounded-full shadow-[0_12px_35px_rgba(244,63,94,0.45)] transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-wider"
+                    className="bg-gradient-to-r from-rose-500 via-pink-600 to-rose-600 hover:from-rose-600 hover:to-pink-700 text-white font-black text-base sm:text-lg px-16 sm:px-24 py-3 sm:py-3.5 rounded-full shadow-[0_12px_36px_rgba(244,63,94,0.45)] hover:shadow-[0_16px_45px_rgba(244,63,94,0.65)] ring-4 ring-white transition-all duration-200 transform hover:scale-105 active:scale-98 cursor-pointer flex items-center gap-3 uppercase tracking-widest group"
                   >
                     <span>CONSULT DOCTOR</span>
-                    <Search className="w-5 h-5 stroke-[3]" />
+                    <Search className="w-5 h-5 stroke-[2.8] group-hover:rotate-12 transition-transform" />
                   </button>
                 </div>
               </form>
             )}
 
           </div>
-
         </div>
       </div>
+    </div>
 
       {/* 4. LUXURY FLOATING SERVICES RIBBON BAR (MakeMyTrip / Corporate Style) */}
-      <div className="max-w-7xl mx-auto px-4 mt-3 sm:mt-4 relative z-20">
+      <div className="max-w-[1200px] mx-auto px-4 mt-6 sm:mt-7 relative z-20">
         <div className="bg-white rounded-2xl shadow-[0_12px_40px_rgba(15,23,42,0.12)] border border-slate-200/90 py-3.5 px-6 sm:px-8 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           {[
             { label: 'Academy', icon: GraduationCap, href: '/utilities', color: 'text-indigo-600 bg-indigo-50' },
-            { label: 'Study Abroad', icon: Globe2, href: '/holidays', color: 'text-cyan-600 bg-cyan-50' },
-            { label: 'Umrah Packages', icon: Moon, href: '/umrah', color: 'text-emerald-700 bg-emerald-50' },
-            { label: 'Passport & Visa', icon: FileCheck2, href: '/visa', color: 'text-amber-600 bg-amber-50' },
-            { label: 'Air Charters', icon: Plane, href: '/flights', color: 'text-sky-600 bg-sky-50' },
+            { label: 'Study Abroad', icon: Globe2, href: '/holidays', tab: 'holidays' as SearchTabType, color: 'text-cyan-600 bg-cyan-50' },
+            { label: 'Umrah Packages', icon: Moon, href: '/umrah', tab: 'umrah' as SearchTabType, color: 'text-emerald-700 bg-emerald-50' },
+            { label: 'Passport & Visa', icon: FileCheck2, href: '/visa', tab: 'visa' as SearchTabType, color: 'text-amber-600 bg-amber-50' },
+            { label: 'Air Charters', icon: Plane, href: '/flights', tab: 'flights' as SearchTabType, color: 'text-sky-600 bg-sky-50' },
             { label: 'Cargo & Courier', icon: Package, href: '/utilities', color: 'text-orange-600 bg-orange-50' },
-            { label: 'IRCTC Agent', icon: Train, href: '/utilities', color: 'text-emerald-600 bg-emerald-50' },
+            { label: 'IRCTC Agent', icon: Train, href: '/utilities', tab: 'train' as SearchTabType, color: 'text-emerald-600 bg-emerald-50' },
             { label: 'MICE & Corporate', icon: Briefcase, href: '/utilities', color: 'text-purple-600 bg-purple-50' },
             { label: 'Forex & Currency', icon: Coins, href: '/utilities', color: 'text-yellow-600 bg-yellow-50' },
           ].map((item) => {
@@ -1202,6 +1497,12 @@ export default function HeroSearch() {
               <a
                 key={item.label}
                 href={item.href}
+                onClick={(e) => {
+                  if (item.tab) {
+                    e.preventDefault();
+                    selectTab(item.tab);
+                  }
+                }}
                 className="group flex items-center gap-2 text-xs sm:text-[13px] font-extrabold text-slate-700 hover:text-sky-600 whitespace-nowrap transition-all duration-150 py-1 px-2.5 rounded-xl hover:bg-slate-50 cursor-pointer"
               >
                 <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${item.color}`}>

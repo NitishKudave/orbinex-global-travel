@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
+import { SearchTabProvider } from '@/context/SearchTabContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
@@ -21,16 +22,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
-      <body className="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-white">
+      <body className="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-white overflow-x-hidden">
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <main className="flex-1">
-              {children}
-            </main>
-            <CartDrawer />
-            <ScrollToTop />
-            <Footer />
+            <SearchTabProvider>
+              <Navbar />
+              <main className="flex-1 w-full max-w-full overflow-x-hidden">
+                {children}
+              </main>
+              <CartDrawer />
+              <ScrollToTop />
+              <Footer />
+            </SearchTabProvider>
           </CartProvider>
         </AuthProvider>
       </body>
