@@ -8,7 +8,7 @@ interface TravelSceneAnimationProps {
 
 export default function TravelSceneAnimation({ activeTab = 'flights' }: TravelSceneAnimationProps) {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-20">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-10">
       
       {/* ========================================================================= */}
       {/* 1. PROPER FLYING FLIGHTS ANIMATION (OPEN SKY CORRIDOR)                     */}
@@ -87,7 +87,7 @@ export default function TravelSceneAnimation({ activeTab = 'flights' }: TravelSc
       {/* ========================================================================= */}
       
       {/* Framed Infrastructure Corridor Container at Bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col justify-end shadow-[0_-6px_25px_rgba(0,0,0,0.5)]">
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col justify-end shadow-[0_-6px_25px_rgba(0,0,0,0.5)]">
         
         {/* ========================================================================= */}
         {/* A. DUAL-TRACK RAILWAY ROUTE (TOP-VIEW HIGH-SPEED TRAINS CROSSING)         */}

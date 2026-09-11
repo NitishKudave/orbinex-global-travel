@@ -300,7 +300,7 @@ export default function HeroSearch() {
       
       {/* 1. IMPRESSIVE LUXURY GLOBAL TRAVEL PANORAMA & LIVE TRANSIT ANIMATIONS */}
       <div
-        className="relative min-h-[580px] sm:min-h-[640px] pt-4 sm:pt-6 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden transition-all duration-500"
+        className="relative min-h-[640px] sm:min-h-[690px] pt-4 sm:pt-6 pb-28 sm:pb-32 px-3 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden transition-all duration-500"
         style={{
           backgroundImage: "linear-gradient(to bottom, rgba(10, 32, 64, 0.08), rgba(6, 20, 42, 0.25)), url('/scenic_travel_horizon_panorama.jpg')"
         }}
@@ -308,7 +308,7 @@ export default function HeroSearch() {
         {/* Dynamic Flying Flights, Realistic Railway Track & Highway Bus Animations */}
         <TravelSceneAnimation activeTab={activeTab} />
 
-        <div className="max-w-7xl mx-auto relative z-10 space-y-4">
+        <div className="max-w-7xl mx-auto relative z-30 space-y-4">
           
           {/* Top Title Strip inside Hero */}
           <div className="flex flex-wrap items-center justify-between text-white pb-1 gap-2">
