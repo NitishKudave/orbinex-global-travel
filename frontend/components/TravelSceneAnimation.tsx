@@ -14,17 +14,17 @@ export default function TravelSceneAnimation({ activeTab = 'flights' }: TravelSc
       {/* 1. PROPER FLYING FLIGHTS ANIMATION (OPEN SKY CORRIDOR)                     */}
       {/* ========================================================================= */}
       
-      {/* Flight 1: Commercial Boeing 787 Dreamliner (Eastbound - Soaring Across the Sky) */}
+      {/* Flight 1: Commercial Boeing 787 Dreamliner (Eastbound - Soaring Across Sky) */}
       <div className="absolute top-[4%] sm:top-[6%] left-0 w-full animate-flight-east pointer-events-auto">
         <div className="relative flex items-center">
-          {/* Dual White Jet Engine Vapor Contrail (Expanding Smoke Trail) */}
+          {/* Dual White Jet Engine Vapor Contrails (Expanding Smoke Trail) */}
           <div className="relative flex flex-col gap-1 mr-[-8px]">
-            <div className="h-[3px] w-64 sm:w-96 bg-gradient-to-l from-white via-white/60 to-transparent rounded-full blur-[0.4px] opacity-95 shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-            <div className="h-[3px] w-56 sm:w-80 bg-gradient-to-l from-white via-white/50 to-transparent rounded-full blur-[0.4px] opacity-85" />
+            <div className="h-[3px] w-64 sm:w-96 bg-gradient-to-l from-white via-white/70 to-transparent rounded-full blur-[0.4px] opacity-95 shadow-[0_0_10px_rgba(255,255,255,0.9)]" />
+            <div className="h-[3px] w-56 sm:w-80 bg-gradient-to-l from-white via-white/55 to-transparent rounded-full blur-[0.4px] opacity-85" />
           </div>
 
           {/* Large, Detailed Commercial Airliner Vector Graphic */}
-          <div className="relative group/plane cursor-pointer transform rotate-[4deg]">
+          <div className="relative group/plane cursor-pointer transform rotate-[3deg]">
             <svg
               className="w-20 sm:w-26 h-9 sm:h-12 filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)] transition-transform duration-300 hover:scale-115"
               viewBox="0 0 130 52"
@@ -67,14 +67,14 @@ export default function TravelSceneAnimation({ activeTab = 'flights' }: TravelSc
 
             {/* Hover Flight Status Card */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/plane:opacity-100 transition-opacity duration-200 pointer-events-none border border-sky-500/40 backdrop-blur-md">
-              <span className="text-sky-400">✈️ Air India B787</span> • Mumbai (BOM) ➔ London (LHR) • 38,000 ft
+              <span className="text-sky-400">✈️ Air India B787 Dreamliner</span> • Mumbai (BOM) ➔ London (LHR) • 38,000 ft
             </div>
           </div>
         </div>
       </div>
 
       {/* Flight 2: High-Altitude Airbus A350 (Westbound - Stratosphere Cruiser) */}
-      <div className="absolute top-[1%] sm:top-[2%] right-0 w-full animate-flight-west pointer-events-auto">
+      <div className="absolute top-[1.5%] sm:top-[2%] right-0 w-full animate-flight-west pointer-events-auto">
         <div className="relative flex items-center justify-end">
           {/* Airplane Vector Graphic (Facing Left) */}
           <div className="scale-x-[-1] scale-80 opacity-90 group/plane2 cursor-pointer relative">
@@ -100,166 +100,282 @@ export default function TravelSceneAnimation({ activeTab = 'flights' }: TravelSc
 
 
       {/* ========================================================================= */}
-      {/* 2. PROPER RAILWAY TRACK & HIGHWAY ROAD TRANSIT HORIZON                     */}
+      {/* 2. REALISTIC DUAL-TRACK RAILWAY CORRIDOR & HIGHWAY TRANSIT CORRIDOR        */}
       {/* ========================================================================= */}
       
-      {/* Dedicated Dual Transit Corridor (Rail Road + Highway Road) */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-20 z-20 flex flex-col justify-end">
+      {/* Framed Infrastructure Corridor Container at Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col justify-end shadow-[0_-6px_25px_rgba(0,0,0,0.4)]">
         
-        {/* ================== A. PROPER RAILWAY ROUTE (TRAIN ROAD) ================== */}
-        <div className="relative w-full h-8 sm:h-9.5 bg-gradient-to-b from-[#334155] via-[#1e293b] to-[#0f172a] border-t-2 border-slate-500 shadow-2xl flex items-center overflow-hidden">
+        {/* ========================================================================= */}
+        {/* A. DUAL-TRACK RAILWAY ROUTE (UP LINE + DOWN LINE WITH CROSSING TRAINS)    */}
+        {/* ========================================================================= */}
+        <div className="relative w-full bg-gradient-to-b from-[#1e293b] via-[#0f172a] to-[#090d16] border-t-2 border-slate-600/80 shadow-2xl py-1 overflow-hidden">
           
           {/* 1. Ballast Stone Gravel Texture Layer */}
-          <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:5px_5px]" />
+          <div className="absolute inset-0 opacity-45 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:4px_4px]" />
+          
+          {/* Overhead Catenary Electric Wire Indicator */}
+          <div className="absolute top-0.5 left-0 right-0 h-[1px] bg-sky-400/30 shadow-[0_0_6px_rgba(56,189,248,0.4)]" />
 
-          {/* 2. Real Railway Sleepers / Wooden Ties (Ties placed perpendicular across track) */}
-          <div className="absolute inset-0 flex justify-between items-center px-1 opacity-70 pointer-events-none">
-            {Array.from({ length: 90 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-1.5 sm:w-2 h-7 sm:h-8.5 bg-gradient-to-b from-[#475569] via-[#334155] to-[#1e293b] border-x border-[#0f172a] shadow-xs shrink-0 mx-[3px]"
-              />
-            ))}
-          </div>
-
-          {/* 3. Dual Gleaming Metallic Steel Rails (Top & Bottom Rails with Silver Light Gleam) */}
-          <div className="absolute top-1.5 sm:top-2 left-0 right-0 h-1 sm:h-1.5 bg-gradient-to-r from-slate-200 via-white to-slate-300 shadow-[0_1px_3px_rgba(0,0,0,0.9)] border-b border-slate-500/80" />
-          <div className="absolute bottom-1.5 sm:bottom-2 left-0 right-0 h-1 sm:h-1.5 bg-gradient-to-r from-slate-200 via-white to-slate-300 shadow-[0_1px_3px_rgba(0,0,0,0.9)] border-b border-slate-500/80" />
-
-          {/* 4. HIGH-SPEED BULLET TRAIN (Running directly on the steel rails from Left to Right) */}
-          <div className="absolute bottom-0.5 sm:bottom-1 left-0 animate-bullet-train pointer-events-auto">
-            <div className="relative group/train cursor-pointer flex items-center">
-              
-              {/* Full Multi-Car Aerodynamic Bullet Train (Vande Bharat Express) */}
-              <svg className="h-6 sm:h-8 w-72 sm:w-88 filter drop-shadow-[0_4px_14px_rgba(2,132,199,0.7)]" viewBox="0 0 320 32" fill="none">
-                <defs>
-                  <linearGradient id="vb-headlight" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Powerful High-Beam Forward Light Cone on the Rails */}
-                <polygon points="320,22 380,16 380,28 320,24" fill="url(#vb-headlight)" />
-
-                {/* Locomotive Aerodynamic Nose Engine */}
-                <path
-                  d="M320 23 C314 21 292 13 258 13 L190 13 L190 27 L300 27 C314 27 318 25 320 23 Z"
-                  fill="#ffffff"
-                  stroke="#0284c7"
-                  strokeWidth="1.4"
+          {/* ----------------- TRACK 1: UP LINE (EASTBOUND: LEFT TO RIGHT) ----------------- */}
+          <div className="relative w-full h-6 sm:h-7 flex items-center overflow-hidden border-b border-slate-800/80">
+            {/* Perpendicular Sleepers / Concrete Ties */}
+            <div className="absolute inset-0 flex justify-between items-center px-0.5 opacity-65 pointer-events-none">
+              {Array.from({ length: 95 }).map((_, i) => (
+                <div
+                  key={`t1-${i}`}
+                  className="w-1.5 sm:w-2 h-5 sm:h-6 bg-gradient-to-b from-[#475569] via-[#334155] to-[#1e293b] border-x border-[#0f172a] shadow-xs shrink-0 mx-[2.5px]"
                 />
-                {/* Windshield Cockpit Visor */}
-                <path d="M308 21 C302 17 290 15 270 15 L260 15 L260 21 Z" fill="#0f172a" />
-                {/* Vande Bharat Cobalt Blue Speed Livery */}
-                <path d="M316 23 C300 23 265 19 190 19 L190 22 L300 25 Z" fill="#0284c7" />
-                <path d="M260 26 L190 26 L190 27 L265 27 Z" fill="#f59e0b" />
+              ))}
+            </div>
 
-                {/* Passenger Coach 1 (Executive Chair Car) */}
-                <rect x="98" y="13" width="90" height="14" rx="1.5" fill="#ffffff" stroke="#0284c7" strokeWidth="1.2" />
-                <rect x="98" y="19" width="90" height="3" fill="#0284c7" />
-                {/* Coach 1 Illuminated Passenger Windows */}
-                {[104, 118, 132, 146, 160, 174].map((x) => (
-                  <rect key={x} x={x} y="15" width="10" height="3.5" rx="0.5" fill="#38bdf8" className="animate-pulse" />
-                ))}
-                <rect x="98" y="26" width="90" height="1" fill="#f59e0b" />
+            {/* Gleaming Steel Rails for Track 1 */}
+            <div className="absolute top-1 left-0 right-0 h-[2px] bg-gradient-to-r from-slate-200 via-white to-slate-300 shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+            <div className="absolute bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-slate-200 via-white to-slate-300 shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
 
-                {/* Passenger Coach 2 (AC 3-Tier) */}
-                <rect x="4" y="13" width="92" height="14" rx="1.5" fill="#ffffff" stroke="#0284c7" strokeWidth="1.2" />
-                <rect x="4" y="19" width="92" height="3" fill="#0284c7" />
-                {/* Coach 2 Illuminated Windows */}
-                {[10, 24, 38, 52, 66, 80].map((x) => (
-                  <rect key={x} x={x} y="15" width="10" height="3.5" rx="0.5" fill="#38bdf8" />
-                ))}
-                <rect x="4" y="26" width="92" height="1" fill="#f59e0b" />
+            {/* TRAIN 1: Vande Bharat Express (Gliding Left to Right) */}
+            <div className="absolute bottom-0 left-0 animate-train-east pointer-events-auto z-10">
+              <div className="relative group/train1 cursor-pointer flex items-center">
+                {/* Full Aerodynamic Train Vector */}
+                <svg className="h-5.5 sm:h-6.5 w-68 sm:w-80 filter drop-shadow-[0_3px_10px_rgba(2,132,199,0.8)]" viewBox="0 0 300 28" fill="none">
+                  <defs>
+                    <linearGradient id="t1-light" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
 
-                {/* Heavy Steel Bogie Wheels Rolling on Rails */}
-                {[20, 32, 72, 84, 114, 126, 166, 178, 206, 218].map((cx) => (
-                  <g key={cx}>
-                    <circle cx={cx} cy="27.5" r="2.8" fill="#1e293b" />
-                    <circle cx={cx} cy="27.5" r="1.6" fill="#94a3b8" />
-                  </g>
-                ))}
-              </svg>
+                  {/* Powerful Front Headlight Beam */}
+                  <polygon points="300,19 360,13 360,25 300,21" fill="url(#t1-light)" />
 
-              {/* Hover Tooltip */}
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/train:opacity-100 transition-opacity duration-200 pointer-events-none border border-emerald-500/40 backdrop-blur-md">
-                <span className="text-emerald-400">🚆 Vande Bharat Express</span> • Mumbai Central ➔ New Delhi (160 km/h) • On Time
+                  {/* Vande Bharat Aerodynamic Locomotive Engine */}
+                  <path
+                    d="M300 20 C294 18 274 11 242 11 L180 11 L180 24 L282 24 C294 24 298 22 300 20 Z"
+                    fill="#ffffff"
+                    stroke="#0284c7"
+                    strokeWidth="1.2"
+                  />
+                  {/* Cockpit Visor */}
+                  <path d="M288 18 C282 14 272 13 254 13 L246 13 L246 18 Z" fill="#0f172a" />
+                  {/* Blue Speed Stripe */}
+                  <path d="M296 20 C282 20 250 17 180 17 L180 19 L282 22 Z" fill="#0284c7" />
+                  <path d="M246 23 L180 23 L180 24 L250 24 Z" fill="#f59e0b" />
+
+                  {/* Passenger Coach 1 */}
+                  <rect x="92" y="11" width="84" height="13" rx="1.5" fill="#ffffff" stroke="#0284c7" strokeWidth="1" />
+                  <rect x="92" y="16" width="84" height="2.5" fill="#0284c7" />
+                  {[98, 110, 122, 134, 146, 158].map((x) => (
+                    <rect key={x} x={x} y="13" width="9" height="3" rx="0.5" fill="#38bdf8" className="animate-pulse" />
+                  ))}
+
+                  {/* Passenger Coach 2 */}
+                  <rect x="4" y="11" width="84" height="13" rx="1.5" fill="#ffffff" stroke="#0284c7" strokeWidth="1" />
+                  <rect x="4" y="16" width="84" height="2.5" fill="#0284c7" />
+                  {[10, 22, 34, 46, 58, 70].map((x) => (
+                    <rect key={x} x={x} y="13" width="9" height="3" rx="0.5" fill="#38bdf8" />
+                  ))}
+
+                  {/* Rolling Steel Bogie Wheels */}
+                  {[16, 26, 62, 72, 104, 114, 150, 160, 194, 204].map((cx) => (
+                    <g key={cx}>
+                      <circle cx={cx} cy="24.5" r="2.5" fill="#1e293b" />
+                      <circle cx={cx} cy="24.5" r="1.4" fill="#cbd5e1" />
+                    </g>
+                  ))}
+                </svg>
+
+                {/* Hover Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/train1:opacity-100 transition-opacity duration-200 pointer-events-none border border-sky-500/40 backdrop-blur-md">
+                  <span className="text-sky-400">🚆 Vande Bharat Express 20608</span> • Mumbai ➔ New Delhi (160 km/h) • Up Line
+                </div>
               </div>
             </div>
           </div>
+
+          {/* ----------------- TRACK 2: DOWN LINE (WESTBOUND: RIGHT TO LEFT) ----------------- */}
+          <div className="relative w-full h-6 sm:h-7 flex items-center overflow-hidden">
+            {/* Perpendicular Sleepers for Track 2 */}
+            <div className="absolute inset-0 flex justify-between items-center px-0.5 opacity-65 pointer-events-none">
+              {Array.from({ length: 95 }).map((_, i) => (
+                <div
+                  key={`t2-${i}`}
+                  className="w-1.5 sm:w-2 h-5 sm:h-6 bg-gradient-to-b from-[#334155] via-[#1e293b] to-[#0f172a] border-x border-[#0f172a] shadow-xs shrink-0 mx-[2.5px]"
+                />
+              ))}
+            </div>
+
+            {/* Gleaming Steel Rails for Track 2 */}
+            <div className="absolute top-1 left-0 right-0 h-[2px] bg-gradient-to-r from-slate-200 via-white to-slate-300 shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+            <div className="absolute bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-slate-200 via-white to-slate-300 shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+
+            {/* TRAIN 2: Tejas / Orange Express (Gliding Right to Left, CROSSING Train 1!) */}
+            <div className="absolute bottom-0 left-0 animate-train-west pointer-events-auto z-20">
+              <div className="relative group/train2 cursor-pointer flex items-center scale-x-[-1]">
+                {/* Full Aerodynamic Train Vector Facing Left (flipped) */}
+                <svg className="h-5.5 sm:h-6.5 w-68 sm:w-80 filter drop-shadow-[0_3px_12px_rgba(245,158,11,0.85)]" viewBox="0 0 300 28" fill="none">
+                  <defs>
+                    <linearGradient id="t2-light" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#fef08a" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#fef08a" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Front Golden Headlight Beam */}
+                  <polygon points="300,19 360,13 360,25 300,21" fill="url(#t2-light)" />
+
+                  {/* Saffron & Charcoal Modern Bullet Train Livery */}
+                  <path
+                    d="M300 20 C294 18 274 11 242 11 L180 11 L180 24 L282 24 C294 24 298 22 300 20 Z"
+                    fill="#1e293b"
+                    stroke="#f59e0b"
+                    strokeWidth="1.2"
+                  />
+                  {/* Cockpit Visor */}
+                  <path d="M288 18 C282 14 272 13 254 13 L246 13 L246 18 Z" fill="#0284c7" />
+                  {/* Saffron Speed Stripe */}
+                  <path d="M296 20 C282 20 250 17 180 17 L180 19 L282 22 Z" fill="#f59e0b" />
+                  <path d="M246 23 L180 23 L180 24 L250 24 Z" fill="#ef4444" />
+
+                  {/* Passenger Coach 1 */}
+                  <rect x="92" y="11" width="84" height="13" rx="1.5" fill="#1e293b" stroke="#f59e0b" strokeWidth="1" />
+                  <rect x="92" y="16" width="84" height="2.5" fill="#f59e0b" />
+                  {[98, 110, 122, 134, 146, 158].map((x) => (
+                    <rect key={x} x={x} y="13" width="9" height="3" rx="0.5" fill="#fef08a" className="animate-pulse" />
+                  ))}
+
+                  {/* Passenger Coach 2 */}
+                  <rect x="4" y="11" width="84" height="13" rx="1.5" fill="#1e293b" stroke="#f59e0b" strokeWidth="1" />
+                  <rect x="4" y="16" width="84" height="2.5" fill="#f59e0b" />
+                  {[10, 22, 34, 46, 58, 70].map((x) => (
+                    <rect key={x} x={x} y="13" width="9" height="3" rx="0.5" fill="#fef08a" />
+                  ))}
+
+                  {/* Rolling Steel Bogie Wheels */}
+                  {[16, 26, 62, 72, 104, 114, 150, 160, 194, 204].map((cx) => (
+                    <g key={cx}>
+                      <circle cx={cx} cy="24.5" r="2.5" fill="#0f172a" />
+                      <circle cx={cx} cy="24.5" r="1.4" fill="#f59e0b" />
+                    </g>
+                  ))}
+                </svg>
+
+                {/* Hover Tooltip (Unflipped) */}
+                <div className="scale-x-[-1] absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/train2:opacity-100 transition-opacity duration-200 pointer-events-none border border-amber-500/40 backdrop-blur-md">
+                  <span className="text-amber-400">🚄 Tejas Superfast Express 82902</span> • Ahmedabad ➔ Mumbai (160 km/h) • Down Line
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
 
-        {/* ================== B. PROPER HIGHWAY ROUTE (BUS ROAD) ================== */}
-        <div className="relative w-full h-8 sm:h-9.5 bg-gradient-to-b from-[#1e293b] via-[#0f172a] to-[#1e293b] border-t-2 border-slate-700 shadow-xl flex items-center overflow-hidden">
+        {/* ========================================================================= */}
+        {/* B. PROPER DUAL-LANE HIGHWAY CORRIDOR (CRUISING BUSES BOTH DIRECTIONS)     */}
+        {/* ========================================================================= */}
+        <div className="relative w-full h-8 sm:h-9 bg-gradient-to-b from-[#111827] via-[#0b0f19] to-[#111827] border-t-2 border-slate-700 shadow-2xl flex items-center overflow-hidden">
           
-          {/* 1. Asphalt Road Surface Texture */}
-          <div className="absolute inset-0 opacity-25 bg-[radial-gradient(#64748b_1px,transparent_1px)] [background-size:4px_4px]" />
+          {/* 1. Asphalt Road Bitumen Texture */}
+          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(#64748b_1px,transparent_1px)] [background-size:4px_4px]" />
 
-          {/* 2. Crisp White Shoulder Lines */}
+          {/* 2. Crisp White Shoulder Boundary Lines */}
           <div className="absolute top-0.5 left-0 right-0 h-[2px] bg-white/90 shadow-xs" />
           <div className="absolute bottom-0.5 left-0 right-0 h-[2px] bg-white/90 shadow-xs" />
 
-          {/* 3. Highway Dashed Yellow Lane Divider */}
-          <div className="w-full h-0.5 border-b-2 border-dashed border-amber-400/90" />
+          {/* 3. Highway Dashed Yellow Center Divider */}
+          <div className="w-full h-0.5 border-b-2 border-dashed border-amber-400/90 shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
 
-          {/* 4. LUXURY COACH BUS (Cruising in the Highway Lane from Right to Left) */}
-          <div className="absolute bottom-0.5 sm:bottom-1 right-0 animate-coach-bus pointer-events-auto">
-            <div className="relative group/bus cursor-pointer flex items-center scale-x-[-1]">
-              
-              {/* Detailed Volvo 9600 Multi-Axle Sleeper Coach */}
-              <svg className="h-6 sm:h-8 w-32 sm:w-40 filter drop-shadow-[0_6px_14px_rgba(0,0,0,0.5)]" viewBox="0 0 130 34" fill="none">
+          {/* 4. BUS 1: VOLVO 9600 MULTI-AXLE (Westbound: Right to Left in Upper Lane) */}
+          <div className="absolute top-0.5 left-0 animate-bus-west pointer-events-auto z-10">
+            <div className="relative group/bus1 cursor-pointer flex items-center scale-x-[-1]">
+              <svg className="h-5 sm:h-6 w-28 sm:w-34 filter drop-shadow-[0_4px_12px_rgba(109,40,217,0.7)]" viewBox="0 0 130 30" fill="none">
                 <defs>
-                  <linearGradient id="bus-light" x1="0" y1="0" x2="1" y2="0">
+                  <linearGradient id="b1-beam" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%" stopColor="#fef08a" stopOpacity="0.9" />
                     <stop offset="100%" stopColor="#fef08a" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
-                {/* Forward Glowing Headlight Beams Casting Light on Highway */}
-                <polygon points="126,24 175,18 175,30 126,27" fill="url(#bus-light)" />
+                {/* Headlight Forward Beam */}
+                <polygon points="126,20 170,14 170,26 126,23" fill="url(#b1-beam)" />
 
-                {/* Aerodynamic Luxury Bus Coach Body */}
+                {/* Aerodynamic Body */}
                 <path
-                  d="M4 8 C12 8 116 8 120 10 C125 12 126 16 126 27 L2 27 C2 16 2.5 10 4 8 Z"
+                  d="M4 6 C12 6 116 6 120 8 C125 10 126 14 126 24 L2 24 C2 14 2.5 8 4 6 Z"
                   fill="#6d28d9"
                   stroke="#5b21b6"
-                  strokeWidth="1.2"
+                  strokeWidth="1"
                 />
-
-                {/* Roof Climate Control Unit */}
-                <rect x="46" y="6" width="42" height="2.5" rx="1" fill="#4c1d95" />
-
-                {/* Driver Cockpit Windshield */}
-                <path d="M112 11 L124 14 L124 21 L112 21 Z" fill="#0f172a" />
-
-                {/* Tinted Panoramic Passenger Sleeper Windows */}
+                {/* AC Roof */}
+                <rect x="46" y="4" width="40" height="2" rx="1" fill="#4c1d95" />
+                {/* Windshield */}
+                <path d="M112 9 L124 12 L124 18 L112 18 Z" fill="#0f172a" />
+                {/* Tinted Sleeper Windows */}
                 {[8, 26, 44, 62, 80].map((x) => (
-                  <rect key={x} x={x} y="11" width="15" height="8" rx="1" fill="#38bdf8" opacity="0.95" />
+                  <rect key={x} x={x} y="9" width="15" height="7" rx="1" fill="#38bdf8" opacity="0.95" />
                 ))}
-                <rect x="98" y="11" width="11" height="8" rx="1" fill="#38bdf8" opacity="0.95" />
-
-                {/* Luxury Golden Livery Wave Accent */}
-                <path d="M4 23 Q48 19 124 24 L124 26 Q48 21 4 25 Z" fill="#f59e0b" />
-
-                {/* Chrome Alloy Wheels Rolling on Asphalt */}
-                <g>
-                  <circle cx="26" cy="27" r="4.5" fill="#0f172a" />
-                  <circle cx="26" cy="27" r="2.5" fill="#e2e8f0" />
-                  <circle cx="96" cy="27" r="4.5" fill="#0f172a" />
-                  <circle cx="96" cy="27" r="2.5" fill="#e2e8f0" />
-                  <circle cx="108" cy="27" r="4.5" fill="#0f172a" />
-                  <circle cx="108" cy="27" r="2.5" fill="#e2e8f0" />
-                </g>
+                <rect x="98" y="9" width="11" height="7" rx="1" fill="#38bdf8" opacity="0.95" />
+                {/* Gold Livery Wave */}
+                <path d="M4 20 Q48 16 124 21 L124 23 Q48 18 4 22 Z" fill="#f59e0b" />
+                {/* Wheels */}
+                <circle cx="26" cy="24" r="3.8" fill="#0f172a" />
+                <circle cx="26" cy="24" r="2" fill="#e2e8f0" />
+                <circle cx="96" cy="24" r="3.8" fill="#0f172a" />
+                <circle cx="96" cy="24" r="2" fill="#e2e8f0" />
+                <circle cx="108" cy="24" r="3.8" fill="#0f172a" />
+                <circle cx="108" cy="24" r="2" fill="#e2e8f0" />
               </svg>
 
-              {/* Hover Tooltip (Unflipped) */}
-              <div className="scale-x-[-1] absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/bus:opacity-100 transition-opacity duration-200 pointer-events-none border border-purple-500/40 backdrop-blur-md">
-                <span className="text-purple-400">🚌 IntrCity SmartBus</span> • Mumbai ➔ Pune Express • Volvo Multi-Axle
+              {/* Hover Tooltip */}
+              <div className="scale-x-[-1] absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/bus1:opacity-100 transition-opacity duration-200 pointer-events-none border border-purple-500/40 backdrop-blur-md">
+                <span className="text-purple-400">🚌 IntrCity SmartBus</span> • Mumbai ➔ Pune Express • Volvo 9600
               </div>
             </div>
           </div>
+
+          {/* 5. BUS 2: MERCEDES TOURIST COACH (Eastbound: Left to Right in Lower Lane) */}
+          <div className="absolute bottom-0.5 left-0 animate-bus-east pointer-events-auto z-10">
+            <div className="relative group/bus2 cursor-pointer flex items-center">
+              <svg className="h-5 sm:h-6 w-28 sm:w-34 filter drop-shadow-[0_4px_12px_rgba(16,185,129,0.7)]" viewBox="0 0 130 30" fill="none">
+                <defs>
+                  <linearGradient id="b2-beam" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#fef08a" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#fef08a" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+
+                {/* Headlight Forward Beam */}
+                <polygon points="126,20 170,14 170,26 126,23" fill="url(#b2-beam)" />
+
+                {/* Emerald & Silver Luxury Coach Body */}
+                <path
+                  d="M4 6 C12 6 116 6 120 8 C125 10 126 14 126 24 L2 24 C2 14 2.5 8 4 6 Z"
+                  fill="#059669"
+                  stroke="#047857"
+                  strokeWidth="1"
+                />
+                <rect x="46" y="4" width="40" height="2" rx="1" fill="#065f46" />
+                <path d="M112 9 L124 12 L124 18 L112 18 Z" fill="#0f172a" />
+                {[8, 26, 44, 62, 80].map((x) => (
+                  <rect key={x} x={x} y="9" width="15" height="7" rx="1" fill="#6ee7b7" opacity="0.9" />
+                ))}
+                <rect x="98" y="9" width="11" height="7" rx="1" fill="#6ee7b7" opacity="0.9" />
+                <path d="M4 20 Q48 16 124 21 L124 23 Q48 18 4 22 Z" fill="#ffffff" />
+                <circle cx="26" cy="24" r="3.8" fill="#0f172a" />
+                <circle cx="26" cy="24" r="2" fill="#e2e8f0" />
+                <circle cx="96" cy="24" r="3.8" fill="#0f172a" />
+                <circle cx="96" cy="24" r="2" fill="#e2e8f0" />
+                <circle cx="108" cy="24" r="3.8" fill="#0f172a" />
+                <circle cx="108" cy="24" r="2" fill="#e2e8f0" />
+              </svg>
+
+              {/* Hover Tooltip */}
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-slate-950/95 text-white text-[11px] font-bold rounded-xl shadow-2xl whitespace-nowrap opacity-0 group-hover/bus2:opacity-100 transition-opacity duration-200 pointer-events-none border border-emerald-500/40 backdrop-blur-md">
+                <span className="text-emerald-400">🚌 Zingbus Luxury Lounge</span> • Delhi ➔ Manali • Mercedes Coach
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>

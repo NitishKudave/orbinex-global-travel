@@ -300,9 +300,9 @@ export default function HeroSearch() {
       
       {/* 1. IMPRESSIVE LUXURY GLOBAL TRAVEL PANORAMA & LIVE TRANSIT ANIMATIONS */}
       <div
-        className="relative min-h-[640px] sm:min-h-[700px] pt-6 pb-26 px-3 sm:px-6 lg:px-8 bg-cover bg-top overflow-hidden transition-all duration-500"
+        className="relative min-h-[720px] sm:min-h-[780px] pt-6 pb-36 sm:pb-44 px-3 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden transition-all duration-500"
         style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(10, 32, 64, 0.12), rgba(6, 20, 42, 0.30)), url('/luxury_global_travel_panorama.jpg')"
+          backgroundImage: "linear-gradient(to bottom, rgba(10, 32, 64, 0.08), rgba(6, 20, 42, 0.25)), url('/scenic_travel_horizon_panorama.jpg')"
         }}
       >
         {/* Dynamic Flying Flights, Realistic Railway Track & Highway Bus Animations */}

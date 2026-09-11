@@ -327,69 +327,73 @@ html {
 /* Travel Vehicle Motion Keyframes */
 @keyframes flyAcrossEast {
   0% {
-    transform: translate3d(-180px, 0, 0) scale(0.95);
+    transform: translate3d(-200px, 0, 0) scale(0.95);
     opacity: 0;
   }
-  5% {
+  3% {
     opacity: 1;
   }
-  92% {
+  96% {
     opacity: 1;
   }
   100% {
-    transform: translate3d(calc(100vw + 180px), -35px, 0) scale(1.05);
+    transform: translate3d(calc(100vw + 200px), -35px, 0) scale(1.05);
     opacity: 0;
   }
 }
 
 @keyframes flyAcrossWest {
   0% {
-    transform: translate3d(calc(100vw + 120px), 0, 0) scale(0.75);
-    opacity: 0;
-  }
-  6% {
-    opacity: 0.9;
-  }
-  94% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate3d(-150px, 15px, 0) scale(0.75);
-    opacity: 0;
-  }
-}
-
-@keyframes bulletTrainRun {
-  0% {
-    transform: translate3d(-320px, 0, 0);
+    transform: translate3d(calc(100vw + 160px), 0, 0) scale(0.75);
     opacity: 0;
   }
   4% {
-    opacity: 1;
+    opacity: 0.95;
   }
-  95% {
-    opacity: 1;
+  96% {
+    opacity: 0.95;
   }
   100% {
-    transform: translate3d(calc(100vw + 320px), 0, 0);
+    transform: translate3d(-180px, 15px, 0) scale(0.75);
     opacity: 0;
   }
 }
 
-@keyframes coachBusCruise {
+/* Double Track Crossing Trains */
+@keyframes trainEastRun {
   0% {
-    transform: translate3d(calc(100vw + 200px), 0, 0);
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  94% {
-    opacity: 1;
+    transform: translate3d(-380px, 0, 0);
   }
   100% {
-    transform: translate3d(-220px, 0, 0);
-    opacity: 0;
+    transform: translate3d(calc(100vw + 380px), 0, 0);
+  }
+}
+
+@keyframes trainWestRun {
+  0% {
+    transform: translate3d(calc(100vw + 380px), 0, 0);
+  }
+  100% {
+    transform: translate3d(-380px, 0, 0);
+  }
+}
+
+/* Highway Buses (Continuous smooth cruising with full offscreen start and exit) */
+@keyframes busWestRun {
+  0% {
+    transform: translate3d(calc(100vw + 240px), 0, 0);
+  }
+  100% {
+    transform: translate3d(-260px, 0, 0);
+  }
+}
+
+@keyframes busEastRun {
+  0% {
+    transform: translate3d(-260px, 0, 0);
+  }
+  100% {
+    transform: translate3d(calc(100vw + 240px), 0, 0);
   }
 }
 
@@ -408,20 +412,29 @@ html {
 }
 
 .animate-flight-west {
-  animation: flyAcrossWest 32s linear infinite;
+  animation: flyAcrossWest 30s linear infinite;
+  animation-delay: 3s;
+  will-change: transform;
+}
+
+.animate-train-east {
+  animation: trainEastRun 14s linear infinite;
+  will-change: transform;
+}
+
+.animate-train-west {
+  animation: trainWestRun 14s linear infinite;
+  will-change: transform;
+}
+
+.animate-bus-west {
+  animation: busWestRun 20s linear infinite;
+  will-change: transform;
+}
+
+.animate-bus-east {
+  animation: busEastRun 22s linear infinite;
   animation-delay: 5s;
-  will-change: transform;
-}
-
-.animate-bullet-train {
-  animation: bulletTrainRun 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  animation-delay: 2s;
-  will-change: transform;
-}
-
-.animate-coach-bus {
-  animation: coachBusCruise 24s linear infinite;
-  animation-delay: 7s;
   will-change: transform;
 }
 
