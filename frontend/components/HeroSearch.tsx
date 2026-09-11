@@ -31,6 +31,7 @@ import {
   Stethoscope
 } from 'lucide-react';
 import BusSearchAutocomplete from '@/components/BusSearchAutocomplete';
+import TravelSceneAnimation from '@/components/TravelSceneAnimation';
 
 type TabType = 'flights' | 'hotels' | 'train' | 'bus' | 'holidays' | 'umrah' | 'visa' | 'insurance' | 'medical';
 
@@ -206,13 +207,16 @@ export default function HeroSearch() {
   return (
     <div className="relative">
       
-      {/* 1. FRESH, VIBRANT & ATTRACTIVE TRAVEL SKY HERO CANVAS */}
+      {/* 1. IMPRESSIVE WORLD LANDMARKS TRAVEL HERO CANVAS & LIVE TRANSIT ANIMATIONS */}
       <div
-        className="relative min-h-[580px] sm:min-h-[620px] pt-6 pb-24 px-3 sm:px-6 lg:px-8 bg-cover bg-top overflow-hidden transition-all duration-500"
+        className="relative min-h-[620px] sm:min-h-[670px] pt-6 pb-28 px-3 sm:px-6 lg:px-8 bg-cover bg-top overflow-hidden transition-all duration-500"
         style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(12, 38, 72, 0.18), rgba(8, 25, 48, 0.38)), url('/fresh_travel_sky_hero.jpg')"
+          backgroundImage: "linear-gradient(to bottom, rgba(10, 32, 64, 0.14), rgba(6, 20, 42, 0.36)), url('/world_landmarks_travel_hero.jpg')"
         }}
       >
+        {/* Dynamic Flying Flights, High-Speed Train & Cruising Coach Bus Animations */}
+        <TravelSceneAnimation activeTab={activeTab} />
+
         <div className="max-w-7xl mx-auto relative z-10 space-y-4">
           
           {/* Top Title Strip inside Hero */}
@@ -1087,7 +1091,7 @@ export default function HeroSearch() {
       </div>
 
       {/* 4. LUXURY FLOATING SERVICES RIBBON BAR (MakeMyTrip / Corporate Style) */}
-      <div className="max-w-7xl mx-auto px-4 -mt-8 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 mt-3 sm:mt-4 relative z-20">
         <div className="bg-white rounded-2xl shadow-[0_12px_40px_rgba(15,23,42,0.12)] border border-slate-200/90 py-3.5 px-6 sm:px-8 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           {[
             { label: 'Academy', icon: GraduationCap, href: '/utilities', color: 'text-indigo-600 bg-indigo-50' },

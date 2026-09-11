@@ -324,6 +324,111 @@ html {
   scrollbar-width: none;  /* Firefox */
 }
 
+/* Travel Vehicle Motion Keyframes */
+@keyframes flyAcrossEast {
+  0% {
+    transform: translate3d(-180px, 0, 0) scale(0.95);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(calc(100vw + 180px), -35px, 0) scale(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes flyAcrossWest {
+  0% {
+    transform: translate3d(calc(100vw + 120px), 0, 0) scale(0.75);
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.9;
+  }
+  94% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(-150px, 15px, 0) scale(0.75);
+    opacity: 0;
+  }
+}
+
+@keyframes bulletTrainRun {
+  0% {
+    transform: translate3d(-320px, 0, 0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(calc(100vw + 320px), 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes coachBusCruise {
+  0% {
+    transform: translate3d(calc(100vw + 200px), 0, 0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-220px, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-flight-east {
+  animation: flyAcrossEast 22s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  will-change: transform;
+}
+
+.animate-flight-west {
+  animation: flyAcrossWest 32s linear infinite;
+  animation-delay: 5s;
+  will-change: transform;
+}
+
+.animate-bullet-train {
+  animation: bulletTrainRun 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: 2s;
+  will-change: transform;
+}
+
+.animate-coach-bus {
+  animation: coachBusCruise 24s linear infinite;
+  animation-delay: 7s;
+  will-change: transform;
+}
+
+.animate-balloon-float {
+  animation: floatGentle 6s ease-in-out infinite;
+}
+
 /* Flight & Booking Card Luxury Styles */
 .flight-card-luxury {
   background: #ffffff;
