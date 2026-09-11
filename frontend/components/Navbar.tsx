@@ -65,20 +65,20 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { label: 'Flights', href: '/flights', icon: Plane },
-    { label: 'Hotel', href: '/hotels', icon: Building2, badge: 'Flat 25% Off', badgeColor: 'bg-[#eb2026] text-white' },
-    { label: 'Trains', href: '/utilities?type=trains', icon: Train, badge: 'IRCTC', badgeColor: 'bg-emerald-600 text-white' },
-    { label: 'Visa', href: '/visa', icon: FileCheck2 },
-    { label: 'Holidays', href: '/holidays', icon: Palmtree },
-    { label: 'Bus', href: '/bus', icon: Bus, badge: 'New', badgeColor: 'bg-purple-600 text-white' },
-    { label: 'Cruise', href: '/holidays', icon: Ship },
-    { label: 'Cabs', href: '/utilities', icon: Car },
-    { label: 'Umrah', href: '/umrah', icon: Sparkles },
-    { label: 'Insurance', href: '/insurance', icon: ShieldCheck },
-    { label: 'Medical', href: '/medical-tourism', icon: HeartPulse },
-    { label: 'Europamundo', href: '/europamundo', icon: Compass },
-    { label: 'Utilities', href: '/utilities', icon: Sparkles },
-    { label: 'Offers', href: '/offers', icon: Tag },
+    { label: 'Flights', href: '/flights', icon: Plane, iconColor: 'text-sky-500' },
+    { label: 'Hotel', href: '/hotels', icon: Building2, badge: 'Flat 25% Off', badgeColor: 'bg-[#eb2026] text-white', iconColor: 'text-rose-500' },
+    { label: 'Trains', href: '/utilities?type=trains', icon: Train, badge: 'IRCTC', badgeColor: 'bg-emerald-600 text-white', iconColor: 'text-emerald-500' },
+    { label: 'Visa', href: '/visa', icon: FileCheck2, iconColor: 'text-cyan-500' },
+    { label: 'Holidays', href: '/holidays', icon: Palmtree, iconColor: 'text-amber-500' },
+    { label: 'Bus', href: '/bus', icon: Bus, badge: 'New', badgeColor: 'bg-purple-600 text-white', iconColor: 'text-purple-500' },
+    { label: 'Cruise', href: '/holidays', icon: Ship, iconColor: 'text-sky-600' },
+    { label: 'Cabs', href: '/utilities', icon: Car, iconColor: 'text-amber-500' },
+    { label: 'Umrah', href: '/umrah', icon: Sparkles, iconColor: 'text-emerald-600' },
+    { label: 'Insurance', href: '/insurance', icon: ShieldCheck, iconColor: 'text-blue-600' },
+    { label: 'Medical', href: '/medical-tourism', icon: HeartPulse, iconColor: 'text-rose-500' },
+    { label: 'Europamundo', href: '/europamundo', icon: Compass, iconColor: 'text-purple-600' },
+    { label: 'Utilities', href: '/utilities', icon: Sparkles, iconColor: 'text-teal-500' },
+    { label: 'Offers', href: '/offers', icon: Tag, iconColor: 'text-red-500' },
   ];
 
   return (
@@ -109,7 +109,7 @@ export default function Navbar() {
                 </div>
               </Link>
 
-              {/* Desktop Navigation Links (Bigger, Clear, with Trains) */}
+              {/* Desktop Navigation Links (Bigger, Clear, Colorful Icons) */}
               <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
                 {navLinks.slice(0, 6).map((link) => {
                   const Icon = link.icon;
@@ -118,10 +118,10 @@ export default function Navbar() {
                     <Link
                       key={link.label}
                       href={link.href}
-                      className={`relative flex items-center gap-1.5 px-3 xl:px-3.5 py-2 rounded-xl text-[14.5px] xl:text-[15.5px] font-extrabold transition-all duration-180 ${
+                      className={`relative flex items-center gap-1.5 xl:gap-2 px-3 xl:px-3.5 py-2 rounded-xl text-[14.5px] xl:text-[15.5px] font-extrabold transition-all duration-180 group ${
                         isActive
                           ? 'text-[#0284c7] font-black bg-sky-50'
-                          : 'text-slate-700 hover:text-[#0284c7] hover:bg-slate-50'
+                          : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50'
                       }`}
                     >
                       {link.badge && (
@@ -129,7 +129,7 @@ export default function Navbar() {
                           {link.badge}
                         </span>
                       )}
-                      <Icon className={`w-4 h-4 xl:w-4.5 xl:h-4.5 transition-colors ${isActive ? 'text-[#0284c7] stroke-[2.5]' : 'text-slate-500 stroke-[2]'}`} />
+                      <Icon className={`w-4.5 h-4.5 xl:w-5 xl:h-5 transition-transform duration-200 group-hover:scale-115 stroke-[2.3] ${link.iconColor}`} />
                       <span>{link.label}</span>
                       {isActive && (
                         <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#0284c7] rounded-full" />
@@ -140,7 +140,7 @@ export default function Navbar() {
 
                 {/* More Dropdown */}
                 <div className="relative group">
-                  <button className="flex items-center gap-1 px-3 py-2 rounded-xl text-[14.5px] xl:text-[15.5px] font-extrabold text-slate-700 hover:text-[#0284c7] hover:bg-slate-50 transition cursor-pointer">
+                  <button className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[14.5px] xl:text-[15.5px] font-extrabold text-slate-700 hover:text-[#0284c7] hover:bg-slate-50 transition cursor-pointer">
                     <span>More</span>
                     <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-[#0284c7] transition" />
                   </button>
@@ -152,10 +152,10 @@ export default function Navbar() {
                           <Link
                             key={link.label}
                             href={link.href}
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-sky-50/60 hover:text-[#0284c7] transition"
+                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-sky-50/60 hover:text-[#0284c7] transition group"
                           >
-                            <Icon className="w-4 h-4 text-cyan-500" />
-                            {link.label}
+                            <Icon className={`w-4 h-4 stroke-[2.2] ${link.iconColor} group-hover:scale-110 transition-transform`} />
+                            <span>{link.label}</span>
                           </Link>
                         );
                       })}
@@ -194,10 +194,10 @@ export default function Navbar() {
                 {/* Unified Cart Button */}
                 <button
                   onClick={() => setIsDrawerOpen(true)}
-                  className="relative flex items-center gap-1.5 bg-slate-100/90 hover:bg-slate-200/80 text-slate-800 px-3.5 py-2.5 rounded-xl text-[13px] font-bold transition cursor-pointer"
+                  className="relative flex items-center gap-1.5 bg-slate-100/90 hover:bg-slate-200/80 text-slate-800 px-3.5 py-2.5 rounded-xl text-[13px] font-bold transition cursor-pointer group"
                   title="View Unified Booking Cart"
                 >
-                  <ShoppingBag className="w-4 h-4 text-slate-700" />
+                  <ShoppingBag className="w-4.5 h-4.5 text-amber-500 stroke-[2.3] group-hover:scale-110 transition-transform" />
                   <span className="hidden sm:inline">Cart</span>
                   {totalItems > 0 && (
                     <span className="bg-[#0284c7] text-white text-[11px] font-black px-1.5 py-0.5 rounded-full min-w-5 text-center shadow-xs">
@@ -337,13 +337,13 @@ export default function Navbar() {
                       key={link.label}
                       href={link.href}
                       onClick={() => setIsMobileNavOpen(false)}
-                      className={`flex items-center gap-2 p-2.5 rounded-xl text-xs font-semibold transition ${
+                      className={`flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-semibold transition ${
                         isActive
-                          ? 'bg-sky-50 text-[#0284c7] border border-sky-200'
+                          ? 'bg-sky-50 text-[#0284c7] border border-sky-200 font-bold'
                           : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 ${isActive ? 'text-[#0284c7]' : 'text-slate-500'}`} />
+                      <Icon className={`w-4.5 h-4.5 stroke-[2.2] ${link.iconColor}`} />
                       <span>{link.label}</span>
                     </Link>
                   );
