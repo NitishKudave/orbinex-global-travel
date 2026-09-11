@@ -359,22 +359,22 @@ html {
   }
 }
 
-/* Double Track Crossing Trains */
+/* Double Track Crossing Trains (Top View Long Multi-Car Trains) */
 @keyframes trainEastRun {
   0% {
-    transform: translate3d(-380px, 0, 0);
+    transform: translate3d(-540px, 0, 0);
   }
   100% {
-    transform: translate3d(calc(100vw + 380px), 0, 0);
+    transform: translate3d(calc(100vw + 540px), 0, 0);
   }
 }
 
 @keyframes trainWestRun {
   0% {
-    transform: translate3d(calc(100vw + 380px), 0, 0);
+    transform: translate3d(calc(100vw + 540px), 0, 0);
   }
   100% {
-    transform: translate3d(-380px, 0, 0);
+    transform: translate3d(-540px, 0, 0);
   }
 }
 
